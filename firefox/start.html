@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Terminal Start Page</title>
+<style>
+html, body {
+  height: 100%;
+  min-width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: monospace;
+  background: #1e1e1e;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* вертикальный центр */
+  align-items: center;     /* горизонтальный центр */
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  color: #ffffff;
+  margin: 0 0 10px 0;
+}
+
+#clock {
+  color: #888888;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+form {
+  width: 85%;
+  max-width: 600px; /* можно оставить, чтобы не растягивалось на больших экранах */
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box; /* учитываем padding и border в ширину */
+}           
+
+input[type="text"] {
+  width: 100%;  /* теперь реально 85% от окна/формы */
+  box-sizing: border-box;
+  padding: 12px 20px;
+  font-family: monospace;
+  font-size: 18px;
+  border-radius: 12px;
+  border: 1px solid #888888;
+  background: #2e2e2e;
+  color: #ffffff;
+  caret-color: #ffffff;
+  outline: none;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+input[type="text"]::placeholder {
+  color: #aaaaaa;
+}
+
+#links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+#links a {
+  color: #4db5ff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#links a.arch { color: #32cd32; }
+#links a.youtube { color: #ff4b5c; }
+#links a.github { color: #f0a500; }
+#links a.docs { color: #1e90ff; }
+
+#history {
+  margin-top: 30px;
+  color: #aaaaaa;
+  font-size: 14px;
+  width: 400px;
+  text-align: left;
+}
+#history span {
+  cursor: pointer;
+  color: #4db5ff;
+  display: block;
+  margin: 2px 0;
+}
+#history span:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Terminal Start Page</h1>
+<div id="clock"></div>
+</header>
+
+<form onsubmit="handleSearch(event)">
+<input type="text" placeholder="Введите команду или запрос и нажмите Enter" id="searchInput" autofocus>
+</form>
+
+<div id="links">
+  <a href="https://archlinux.org/" class="arch">arch</a>
+  <a href="https://www.youtube.com/" class="youtube">youtube</a>
+  <a href="https://github.com/" class="github">github</a>
+  <a href="https://www.wikipedia.org/" class="docs">wikipedia</a>
+</div>
+
+
+<!-- Подключение Font Awesome -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<div id="history">
+<!-- История запросов будет появляться здесь -->
+</div>
+
+<script>
+// дата и время
+function updateClock() {
+  const now = new Date();
+  const clock = document.getElementById('clock');
+  clock.textContent = now.toLocaleString();
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// обработка поиска/команд
+function handleSearch(e) {
+  e.preventDefault();
+  const input = document.getElementById('searchInput');
+  const query = input.value.trim();
+  if(!query) return;
+
+  // проверка команд
+  const commands = {
+    'arch': 'https://archlinux.org/',
+    'google': 'https://www.google.com/',
+    'gh': 'https://github.com/',
+    'docs': 'https://docs.google.com/'
+  };
+
+  if(commands[query.toLowerCase()]) {
+    window.location.href = commands[query.toLowerCase()];
+  } else {
+    window.location.href = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+  }
+
+  // сохраняем историю в localStorage
+  let history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+  if(!history.includes(query)) {
+    history.unshift(query);
+    if(history.length > 10) history.pop();
+    localStorage.setItem('searchHistory', JSON.stringify(history));
+  }
+
+  renderHistory();
+  input.value = '';
+}
+
+// вывод истории
+function renderHistory() {
+  const historyDiv = document.getElementById('history');
+  const history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+  historyDiv.innerHTML = '';
+  history.forEach(q => {
+    const span = document.createElement('span');
+    span.textContent = '> ' + q;
+    span.onclick = () => {
+      document.getElementById('searchInput').value = q;
+      handleSearch({preventDefault: ()=>{}});
+    };
+    historyDiv.appendChild(span);
+  });
+}
+renderHistory();
+</script>
+
+</body>
+</html>

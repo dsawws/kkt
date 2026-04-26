@@ -1,0 +1,628 @@
+/* ====== Стили для страниц организации ====== */
+.organization-section {
+    padding: 60px 0;
+    background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 100%);
+    min-height: 100vh;
+}
+
+/* Боковое меню */
+.sidebar {
+    background: #fff;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.sidebar h3 {
+    color: var(--primary-dark);
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid var(--primary-light);
+    font-size: 1.3rem;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li {
+    margin-bottom: 8px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px 15px;
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: var(--transition);
+    font-size: 0.95rem;
+    border-left: 3px solid transparent;
+}
+
+.sidebar a:hover, .sidebar a.active {
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+    border-left-color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+/* Основной контент */
+.page-content {
+    background: #fff;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: var(--shadow);
+}
+
+.page-title {
+    color: var(--primary-dark);
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid var(--primary-light);
+    font-size: 2.2rem;
+}
+
+.content-block {
+    margin-bottom: 50px;
+}
+
+.content-block h2 {
+    color: var(--primary-dark);
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--primary-light);
+    font-size: 1.8rem;
+}
+
+.content-block h3 {
+    color: var(--primary-dark);
+    margin: 25px 0 15px;
+    font-size: 1.4rem;
+}
+
+/* Таблицы */
+.content-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.content-table th {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    width: 30%;
+}
+
+.content-table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+}
+
+.content-table tr:nth-child(even) td {
+    background-color: var(--bg-light);
+}
+
+.content-table tr:hover td {
+    background-color: var(--primary-light);
+}
+
+/* Структура организации */
+.structure-diagram {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.structure-item {
+    background: #fff;
+    border: 2px solid var(--primary-light);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+}
+
+.structure-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border-color: var(--primary-color);
+}
+
+.structure-item h3 {
+    color: var(--primary-dark);
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.structure-item p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.structure-arrow {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin: 15px 0;
+    font-weight: bold;
+}
+
+.structure-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Документы */
+.documents-list {
+    margin: 25px 0;
+}
+
+.document-item {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+    border-left: 4px solid var(--primary-color);
+}
+
+.document-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.document-item i {
+    font-size: 2rem;
+    color: #e74c3c;
+    margin-right: 20px;
+}
+
+.document-info {
+    flex: 1;
+}
+
+.document-info h3 {
+    margin: 0 0 5px 0;
+    color: var(--primary-dark);
+    font-size: 1.1rem;
+}
+
+.document-info p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Карточки контактов */
+.contact-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+}
+
+.contact-card {
+    background: #fff;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border-top: 4px solid var(--primary-color);
+}
+
+.contact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.contact-card .contact-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--primary-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+.contact-card h4 {
+    color: var(--primary-dark);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.contact-card p {
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+/* Дополнительная информация */
+.additional-info {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 2px solid var(--primary-light);
+}
+
+.additional-info h3 {
+    color: var(--primary-dark);
+    margin: 25px 0 15px;
+    font-size: 1.4rem;
+}
+
+.additional-info p {
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    font-size: 1.05rem;
+}
+
+/* Адаптивность */
+@media (max-width: 992px) {
+    .content-with-sidebar {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        margin-bottom: 30px;
+        position: static;
+    }
+
+    .page-content {
+        padding: 25px;
+    }
+
+    .page-title {
+        font-size: 1.8rem;
+    }
+
+    .structure-row {
+        flex-direction: column;
+    }
+
+    .contact-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .organization-section {
+        padding: 40px 0;
+    }
+
+    .page-content {
+        padding: 20px;
+    }
+
+    .content-table {
+        font-size: 0.9rem;
+    }
+
+    .content-table th,
+    .content-table td {
+        padding: 10px;
+    }
+
+    .document-item {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .document-item i {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .content-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .page-title {
+        font-size: 1.6rem;
+    }
+
+    .content-block h2 {
+        font-size: 1.5rem;
+    }
+}
+
+
+/* Стили для динамической загрузки */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.no-document {
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.error-message {
+    margin-bottom: 20px;
+}
+
+.alert {
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert i {
+    margin-right: 10px;
+}
+
+/* Исправляем стили для таблицы с документами */
+.info-table {
+    max-height: none;
+    overflow-y: visible;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.info-table table {
+    margin-bottom: 0;
+    width: 100%;
+}
+
+/* Убедитесь, что контент может растягиваться */
+.page-content {
+    background: #fff;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: var(--shadow);
+    min-height: auto;
+    overflow: visible;
+}
+
+/* Улучшаем отображение больших таблиц */
+.content-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.content-table th {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.content-table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+    vertical-align: top;
+}
+
+.content-table tr:nth-child(even) td {
+    background-color: var(--bg-light);
+}
+
+.content-table tr:hover td {
+    background-color: var(--primary-light);
+}
+
+/* Стили для страницы платных образовательных услуг */
+.payment-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin: 30px 0;
+}
+
+.payment-method {
+    background: #fff;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-color);
+}
+
+.payment-method h4 {
+    color: var(--primary-dark);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.payment-method p {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.payment-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 15px 25px;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+}
+
+.payment-btn:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.payment-btn i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.info-card {
+    background: var(--primary-light);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    border-left: 4px solid var(--primary-color);
+}
+
+.info-card ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.info-card li {
+    padding: 5px 0;
+    position: relative;
+    padding-left: 20px;
+}
+
+.info-card li:before {
+    content: "•";
+    color: var(--primary-color);
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+.document-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 15px 0;
+}
+
+.document-list li {
+    margin-bottom: 10px;
+}
+
+/* Стили для кнопок документов */
+.file-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: var(--transition);
+    white-space: nowrap;
+    font-size: 0.95rem;
+}
+
+.file-link:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    color: var(--text-light);
+}
+
+.file-link i {
+    font-size: 1rem;
+}
+
+.download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: var(--transition);
+    white-space: nowrap;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.download-btn:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    color: var(--text-light);
+}
+
+.download-btn i {
+    font-size: 1rem;
+}
+
+/* Исправление отображения кнопок в таблицах документов */
+.content-table .file-link {
+    display: inline-flex;
+    margin: 0;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+}
+
+.content-table td {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .payment-methods {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .payment-method {
+        padding: 20px;
+    }
+
+    .payment-btn {
+        padding: 12px 20px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .file-link,
+    .download-btn {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+    }
+
+    .content-table .file-link {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+}

@@ -1,0 +1,109 @@
+{% extends 'cms/base.html' %}
+{% load static %}
+
+{% block title %}{{ page.meta_title|default:page.title }} - ККТ Белореченск{% endblock %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <nav class="breadcrumbs">
+            <a href="{% url 'cms:index' %}">Главная</a>
+            <i class="fas fa-chevron-right"></i>
+            {% if page.parent %}
+            <a href="{% url 'cms:page_detail' page.parent.slug %}">{{ page.parent.title }}</a>
+            <i class="fas fa-chevron-right"></i>
+            {% endif %}
+            <span>{{ page.title }}</span>
+        </nav>
+
+        <div class="page-layout">
+            {# Боковая навигация #}
+            {% if page.parent %}
+                {% with siblings=page.parent.subpages.all %}
+                {% if siblings %}
+                <aside class="page-sidebar">
+                    <ul class="sidebar-nav">
+                        {% for sub in siblings %}
+                        {% if sub.is_published %}
+                        <li class="{% if sub.slug == page.slug %}active{% endif %}">
+                            <a href="{% url 'cms:page_detail' sub.slug %}">{{ sub.title }}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </aside>
+                {% endif %}
+                {% endwith %}
+            {% elif page.subpages.all %}
+                <aside class="page-sidebar">
+                    <ul class="sidebar-nav">
+                        {% for sub in page.subpages.all %}
+                        {% if sub.is_published %}
+                        <li><a href="{% url 'cms:page_detail' sub.slug %}">{{ sub.title }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </aside>
+            {% endif %}
+
+            <div class="page-content">
+                <h1 class="page-title">{{ page.title }}</h1>
+                {% if page.description %}
+                <p class="page-description">{{ page.description }}</p>
+                {% endif %}
+
+                {% if page.content %}
+                <div class="content-block">{{ page.content|safe }}</div>
+                {% endif %}
+
+                {% for block in content_blocks %}
+                <div class="content-block">
+                    {% if block.title %}<h2>{{ block.title }}</h2>{% endif %}
+                    {% if block.block_type == 'text' or block.block_type == 'html' %}
+                        {{ block.content|safe }}
+                {% elif block.block_type == 'image' %}
+                    <img src="{{ block.content|striptags }}" 
+                        alt="{{ block.title }}" 
+                        style="max-width:100%;border-radius:8px;">                    {% elif block.block_type == 'video' %}
+                                        <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;">
+                            {{ block.content|safe }}
+                        </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                {% if documents_by_category %}
+                <section class="documents-section">
+                    {% for category, docs in documents_by_category.items %}
+                    <div class="documents-category">
+                        <h2>{{ docs.0.get_category_display }}</h2>
+                        <div class="documents-list">
+                            {% for doc in docs %}
+                            <div class="document-item">
+                                <div class="document-icon"><i class="fas fa-file-pdf"></i></div>
+                                <div class="document-info">
+                                    <h3>{{ doc.title }}</h3>
+                                    {% if doc.description %}<p>{{ doc.description }}</p>{% endif %}
+                                    {% if doc.file_size %}<p>{{ doc.file_size }}</p>{% endif %}
+                                </div>
+                                {% if doc.file and doc.file.name %}
+                                <a href="{{ doc.file.url }}" class="download-btn" download>
+                                    <i class="fas fa-download"></i> Скачать
+                                </a>
+                                {% else %}
+                                <span class="download-btn" style="background:#9e9e9e;cursor:default;">
+                                    <i class="fas fa-clock"></i> Скоро
+                                </span>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </section>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,587 @@
+{
+  "documents": {
+    "basic": [
+      {
+        "id": 1,
+        "name": "Устав образовательной организации",
+        "file": "УставККТ.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/УставККТ.pdf"
+      },
+      {
+        "id": 2,
+        "name": "Лицензия на осуществление образовательной деятельности",
+        "file": "license.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Лицензия.pdf"
+      },
+      {
+        "id": 3,
+        "name": "Выписка из реестра лицензий",
+        "file": "license_extract.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Выписка-из-реестра-лицензий-№-Л035-01218-23-00244706.pdf"
+      },
+      {
+        "id": 4,
+        "name": "Свидетельство о государственной аккредитации",
+        "file": "accreditation.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Свидетельство.pdf"
+      },
+      {
+        "id": 5,
+        "name": "Выписка из государственной информационной системы «Реестр организаций, осуществляющих образовательную деятельность по имеющим государственную аккредитацию образовательным программам»",
+        "file": "accreditation_extract.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Аккредитация-Реестровая-выписка.pdf"
+      },
+      {
+        "id": 6,
+        "name": "Правила внутреннего распорядка обучающихся",
+        "file": "student_rules.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Аккредитация-Реестровая-выписка.pdf"
+      },
+      {
+        "id": 7,
+        "name": "Правила внутреннего трудового распорядка",
+        "file": "work_rules.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Прил-1-Правила-внутреннего-трудового-распорядка.pdf"
+      },
+      {
+        "id": 8,
+        "name": "Коллективный договор",
+        "file": "Kollektivniy_dogovor.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Коллективный-договор.pdf"
+      },
+      {
+        "id": 9,
+        "name": "Отчет о результатах самообследования организации",
+        "file": "self_examination_2024.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Отчет-о-самообследовании-2024.pdf"
+      },
+      {
+        "id": 10,
+        "name": "Предписания органов, осуществляющих государственный контроль (надзор) в сфере образования",
+        "file": null,
+        "link": null,
+        "note": "Предписаний нет"
+      },
+      {
+        "id": 11,
+        "name": "Отчеты об исполнении предписаний органов, осуществляющих государственный контроль (надзор) в сфере образования",
+        "file": null,
+        "link": null,
+        "note": "Нет"
+      }
+    ],
+    "local": [
+      {
+        "id": 12,
+        "name": "Правила приёма обучающихся",
+        "file": "admission_rules.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПРАВИЛА-ПРИЕМА-ОБУЧАЮЩИХСЯ-.pdf"
+      },
+      {
+        "id": 13,
+        "name": "Правила приёма граждан на обучение по дополнительным профессиональным программам и программам профессионального обучения",
+        "file": "additional_admission_rules.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Правила-приема-граждан-на-обучение-по-доп-проф-программам.pdf"
+      },
+      {
+        "id": 14,
+        "name": "Режим занятий обучающихся",
+        "file": "class_schedule.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Режим-занятий-обучающихся.pdf"
+      },
+      {
+        "id": 15,
+        "name": "Формы, периодичность и порядок текущего контроля успеваемости и промежуточной аттестации обучающихся",
+        "file": "assessment_rules.pdf",
+        "link": "/documents/assessment_rules.pdf"
+      },
+      {
+        "id": 16,
+        "name": "Положение о порядке и основании перевода, отчисления и восстановления обучающихся",
+        "file": "transfer_expulsion_reinstatement.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-О-ПОРЯДКЕ-И-ОСНОВАНИИ-ПЕРЕВОДА-ОТЧИСЛЕНИЯ-И-ВОССТАНОВЛЕНИЯ-ОБУЧАЮЩИХСЯ.pdf"
+      },
+      {
+        "id": 17,
+        "name": "Порядок оформления возникновения, приостановления и прекращения отношений между образовательной организацией и обучающимися и (или) родителями (законными представителями) несовершеннолетних обучающихся",
+        "file": "relationship_procedure.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Порядок-оформления-возникновения-приостановления-и-прекращения-отношений.pdf"
+      },
+      {
+        "id": 18,
+        "name": "Положение о практической подготовке обучающихся осваивающих основные профессиональные образовательные программы среднего профессионального образования",
+        "file": "practical_training.pdf",
+        "link": "/documents/practical_training.pdf"
+      },
+      {
+        "id": 19,
+        "name": "Приказ о стоимости обучения",
+        "file": "tuition_cost.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Приказ-о-стоимости-обучения.pdf"
+      },
+      {
+        "id": 20,
+        "name": "Положение о педагогическом совете",
+        "file": "pedagogical_council.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-О-ПЕДАГОГИЧЕСКОМ-СОВЕТЕ.pdf"
+      },
+      {
+        "id": 21,
+        "name": "Программа воспитания",
+        "file": "education_program.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Рабочая-программа-воспитания-ККТ__.pdf"
+      },
+      {
+        "id": 22,
+        "name": "Программа развития техникума",
+        "file": "development_program.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Программа-Развития_2019-24_ОВЗ.pdf"
+      },
+      {
+        "id": 23,
+        "name": "Положение о порядке и условиях предоставления педагогическим работникам длительного отпуска сроком до одного года",
+        "file": "long_leave.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/2025_20_О_порядке_предоставления_длите.pdf"
+      },
+      {
+        "id": 24,
+        "name": "Положение о премировании работников",
+        "file": "bonus_regulations.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-О-ПРЕМИРОВАНИИ-РАБОТНИКОВ.pdf"
+      },
+      {
+        "id": 25,
+        "name": "Положение об оказании материальной помощи работникам",
+        "file": "material_assistance.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-об-оказании-материальной-помощи-работникам.pdf"
+      },
+      {
+        "id": 26,
+        "name": "Положение об оплате труда",
+        "file": "payment_regulations.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Прил-2-положение-об-оплате-труда.pdf"
+      },
+      {
+        "id": 27,
+        "name": "Положение об охране труда",
+        "file": "labor_protection.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-об-охране-труда.pdf"
+      },
+      {
+        "id": 28,
+        "name": "Положение о Комиссии по урегулированию споров между участниками образовательных отношений в учебном заведении",
+        "file": "dispute_commission.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положенире-комис.-споры.pdf"
+      },
+      {
+        "id": 29,
+        "name": "Положение о порядке организации и осуществлении образовательной деятельности по образовательным программам среднего профессионального образования в учебном заведении",
+        "file": "educational_activity.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-о-порядке-организации-и-осуществления-образов-деятельности.pdf"
+      },
+      {
+        "id": 30,
+        "name": "Положение о порядке организации и осуществления образовательной деятельности по дополнительным профессиональным программам",
+        "file": "additional_education.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-о-порядке-организации-и-осуществления-образов-деятельности.pdf"
+      },
+      {
+        "id": 31,
+        "name": "Положение о предоставлении академического отпуска обучающимся",
+        "file": "academic_leave.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/2025_28_Положение_об_академическом_отпуске-2.pdf"
+      },
+      {
+        "id": 32,
+        "name": "Кодекс профессиональной этики педагогических работников",
+        "file": "ethics_code.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/kodex_etiki.pdf"
+      },
+      {
+        "id": 33,
+        "name": "Положение о расписании учебных занятий",
+        "file": "schedule_regulations.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/2025-30-Положение-о-расписании-учебных-занятий.pdf"
+      },
+      {
+        "id": 34,
+        "name": "Положение об организации образовательного процесса для обучения инвалидов и лиц с ограниченными возможностями здоровья",
+        "file": "inclusive_education.pdf",
+        "link": "frontend/pages/basic-info/main_pages/pdf/Положение-об-организации-образовательного-процесса-для-обучения-инвалидов-и-лиц-с-ограниченными-возможностями-здоровья.pdf"
+      },
+      {
+        "id": 35,
+        "name": "Положение о посещении учебных занятий участниками образовательного процесса",
+        "file": "class_attendance.pdf",
+        "link": "/documents/class_attendance.pdf"
+      },
+      {
+        "id": 36,
+        "name": "Положение о порядке организации выполнения и защиты дипломного проекта (работы)",
+        "file": "diploma_project.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-о-посещении-учебных-занятий-участниками-образовательного-процесса.pdf"
+      },
+      {
+        "id": 37,
+        "name": "Положение о порядке проведения государственной итоговой аттестации по образовательным программам среднего профессионального образования",
+        "file": "state_certification.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/34_2023_Положение_о_порядке_проведения_ГИА.pdf"
+      },
+      {
+        "id": 38,
+        "name": "Положение о стажировке преподавателей",
+        "file": "internship.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Polog-Stajirovka-Prep.pdf"
+      },
+      {
+        "id": 39,
+        "name": "Положение о библиотеке",
+        "file": "library.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/2025-36-Положение-о-библиотеке.pdf"
+      },
+      {
+        "id": 40,
+        "name": "Положение о выполнении индивидуального проекта",
+        "file": "individual_project.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-о-выполнении-индивидуального-проекта.pdf"
+      },
+      {
+        "id": 41,
+        "name": "Положение об оплате за образовательные услуги обучающимися",
+        "file": "tuition_payment.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-об-оплате-за-образовательные-услуги-обучающимися.pdf"
+      },
+      {
+        "id": 42,
+        "name": "Положение о порядке зачета результатов освоения обучающимися учебных дисциплин, профессиональных модулей, междисциплинарных курсов, практики, дополнительных образовательных программ в других организациях, осуществляющих образовательную деятельность",
+        "file": "credit_transfer.pdf",
+        "link": "frontend/pages/basic-info/main_pages/pdf/BRWD812650633FB_038822.pdf"
+      },
+      {
+        "id": 43,
+        "name": "Положение о выдаче дубликата диплома (дубликата приложения к диплому) о среднем профессиональном образовании",
+        "file": "diploma_duplicate.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-О-ПОРЯДКЕ-ВЫДАЧИ-ДУБЛИКАТА-ДИПЛОМА-ДУБЛИКАТА-ПРИЛОЖЕНИЯ-К-ДИПЛОМУ-О-СРЕДНЕМ-ПРОФЕССИОНАЛЬНОМ-ОБРАЗОВАНИИ-1.pdf"
+      },
+      {
+        "id": 44,
+        "name": "Концепция воспитательной работы",
+        "file": "educational_concept.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/КОНЦЕПЦИЯ-ККТ-2021.pdf"
+      },
+      {
+        "id": 45,
+        "name": "Положение об организации, учебно-методическом обеспечении и контроле внеаудиторной самостоятельной работы обучающихся",
+        "file": "independent_work.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-об-организации-учебно-методическом-обеспечении-и-контроле-внеаудиторной-самостоятельной-работы-обучающихся.pdf"
+      },
+      {
+        "id": 46,
+        "name": "Положение об организации и выполнении курсовой работы (курсового проекта)",
+        "file": "course_work.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-об-организации-и-выполнении-курсовой-работы.pdf"
+      },
+      {
+        "id": 47,
+        "name": "Положение о планировании, организации и проведении лабораторных работ и практических занятий",
+        "file": "lab_practical_classes.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/44-2025-Положение-о-практических-и-лабораторных-занятиях-2025.pdf"
+      },
+      {
+        "id": 48,
+        "name": "Положение о студенческом самоуправлении",
+        "file": "student_self_government.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-О-СТУДЕНЧЕСКОМ-САМОУПРАВЛЕНИИ.pdf"
+      },
+      {
+        "id": 49,
+        "name": "Положение о студенческом совете",
+        "file": "student_council.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-О-СТУДЕНЧЕСКОМ-СОВЕТЕ.pdf"
+      },
+      {
+        "id": 50,
+        "name": "Положение о формировании фонда оценочных средств",
+        "file": "assessment_fund.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-о-формировании-фонда-оценочных-средств.pdf"
+      },
+      {
+        "id": 51,
+        "name": "Положение о студенческом общежитии",
+        "file": "student_dormitory.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-О-СТУДЕНЧЕСКОМ-ОБЩЕЖИТИИ.pdf"
+      },
+      {
+        "id": 52,
+        "name": "Положение о разработке и формировании основной профессиональной образовательной программы",
+        "file": "educational_program_development.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/49-Положение-о-разработке-и-формировании-основной-профессиональной-образовательной-программы.pdf"
+      },
+      {
+        "id": 53,
+        "name": "Положение о порядке проведения административных контрольных работ",
+        "file": "administrative_tests.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-о-порядке-проведения-административных-контрольных-работ.pdff"
+      },
+      {
+        "id": 54,
+        "name": "Положение о проведении недели специальности",
+        "file": "specialty_week.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-о-проведении-недели-специальности.pdf"
+      },
+      {
+        "id": 55,
+        "name": "Положение о входном контроле",
+        "file": "entrance_control.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/2025-55-Положение-о-входном-контроле.pdf"
+      },
+      {
+        "id": 56,
+        "name": "Положение о применении к обучающимся и снятия с обучающихся мер дисциплинарного взыскания",
+        "file": "disciplinary_measures.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/2025-5_1.pdf"
+      },
+      {
+        "id": 57,
+        "name": "Положение о постановке обучающихся на внутритехникумовский учет и снятии с учета",
+        "file": "internal_registration.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-О-ПОСТАНОВКЕ-ОБУЧАЮЩИХСЯ-НА-ВНУТРИТЕХНИКУМОВСКИЙ-УЧЁТ-И-СНЯТИИ-С-УЧЁТА.pdf"
+      },
+      {
+        "id": 58,
+        "name": "Положение о штабе воспитательной работы",
+        "file": "educational_headquarters.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-О-ШТАБЕ-ВОСПИТАТЕЛЬНОЙ-РАБОТЫ.pdf"
+      },
+      {
+        "id": 59,
+        "name": "Положение о Совете профилактики",
+        "file": "prevention_council.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-о-Совете-профилактики.pdf"
+      },
+      {
+        "id": 60,
+        "name": "Положение о физическом воспитании студентов",
+        "file": "physical_education.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-О-ФИЗИЧЕСКОМ-ВОСПИТАНИИ-СТУДЕНТОВ.pdf"
+      },
+      {
+        "id": 61,
+        "name": "Положение о порядке оформления, учета и выдачи документов по программам дополнительного образования и профессионального обучения",
+        "file": "additional_education_documents.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/58-Положение-о-порядке-оформления-учета-и-выдачи-документов-по-программам-дополнительного-образования-и-профессионального-обучения.pdf.pdf"
+      },
+      {
+        "id": 62,
+        "name": "Положение об организации занятий по физической культуре с обучающимися, отнесенными по состоянию здоровья к специально медицинской группе",
+        "file": "special_medical_group.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-ОБ-ОРГАНИЗАЦИИ-ЗАНЯТИЙ-ПО-ФИЗИЧЕСКОЙ-КУЛЬТУРЕ-С-ОБУЧАЮЩИМИСЯ.pdf"
+      },
+      {
+        "id": 63,
+        "name": "Положение о предметно-цикловой комиссии в АНЧ ПОО \"Краснодарский кооперативный техникум крайпотребсоюза\"",
+        "file": "subject_commission.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-о-предметно-цикловой-комиссии.pdf"
+      },
+      {
+        "id": 64,
+        "name": "Порядок выдачи справки об обучении или периоде обучения",
+        "file": "study_certificate.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Порядок-выдачи-справки-об-обучении.pdf"
+      },
+      {
+        "id": 65,
+        "name": "Положение об аттестации педагогических работников в целях подтверждения соответствия занимаемой должности",
+        "file": "teacher_certification.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/2025_62_Положение_об_атестации_педагогических_работников_в_целях.pdf"
+      },
+      {
+        "id": 66,
+        "name": "Положение о наставничестве",
+        "file": "mentoring.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-О-НАСТАВНИЧЕСТВЕ.pdf"
+      },
+      {
+        "id": 67,
+        "name": "Положение о школе начинающего преподавателя",
+        "file": "beginning_teacher_school.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-О-ШКОЛЕ-НАЧИНАЮЩЕГО-ПРЕПОДАВАТЕЛЯ.pdf"
+      },
+      {
+        "id": 68,
+        "name": "Положение об учебном кабинете, лаборатории",
+        "file": "classroom_laboratory.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-ОБ-УЧЕБНОМ-КАБИНЕТЕ-ЛАБОРАТОРИИ.pdf"
+      },
+      {
+        "id": 69,
+        "name": "Положение о дежурстве",
+        "file": "duty.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-О-ДЕЖУРСТВЕ.pdf"
+      },
+      {
+        "id": 70,
+        "name": "Положение о ведении журнала учебных занятий",
+        "file": "journal_keeping.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/2025_67_Положение_о_ведении_журнала_учебных_занятий.pdf"
+      },
+      {
+        "id": 71,
+        "name": "Положение о формировании личного дела",
+        "file": "personal_file.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-о-личном-деле-2019.pdf"
+      },
+      {
+        "id": 72,
+        "name": "Положение о Центре карьеры и содействия трудоустройству выпускников",
+        "file": "career_center.pdf",
+        "link": "/documents/career_center.pdf"
+      },
+      {
+        "id": 73,
+        "name": "Положение о порядке организации и осуществления образовательной деятельности по дополнительным профессиональным программам",
+        "file": "additional_education_2.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/2025_69_Положение_о_Центре_Карьеры_и_содействия_трудоустройству.pdf"
+      },
+      {
+        "id": 74,
+        "name": "Положение о об организации допуска",
+        "file": "admission_organization.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-ОБ-ОРГАНИЗАЦИИ-ДОПУСКА.pdf"
+      },
+      {
+        "id": 75,
+        "name": "Положение о правилах выдачи и заполнения студенческого билета и зачетной книжки студента",
+        "file": "student_id_gradebook.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-о-правилах-выдачи-и-заполнения-студенческого-билета-и-зачетной-книжки-студента.pdf"
+      },
+      {
+        "id": 76,
+        "name": "Положение о профориентационной работе",
+        "file": "career_guidance.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-о-профориентационной-работе.pdf"
+      },
+      {
+        "id": 77,
+        "name": "Положение о об антитеррористической защищенности",
+        "file": "anti_terrorism.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/2025_74_Положение_об_антитеррористической_защищённости.pdf"
+      },
+      {
+        "id": 78,
+        "name": "Положение о об обучении по индивидуальному учебному плану, в том числе ускоренное обучение, в пределах осваиваемой образовательной программы",
+        "file": "individual_curriculum.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-ОБ-ОБУЧЕНИИ-ПО-ИНДИВИДУАЛЬНОМУ-УЧЕБНОМУ-ПЛАНУ-В-ТОМ-ЧИСЛЕ-УСКОРЕННОЕ-ОБУЧЕНИЕ.pdf"
+      },
+      {
+        "id": 79,
+        "name": "Положение о об учете и контроле посещаемости занятий, о правилах отработки пропущенных занятий студентами",
+        "file": "attendance_control.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-о-об-учете-и-контроле-посещаемости-занятий-о-правилах-отработки-пропущенных-занятий-студентами.pdf"
+      },
+      {
+        "id": 80,
+        "name": "Положение о внутренней системе оценки качества образования и внутреннем контроле",
+        "file": "quality_assessment.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-о-внутренней-системе-оценки-качества-образования-и-внутреннем-контроле.pdf"
+      },
+      {
+        "id": 81,
+        "name": "Правила внутреннего распорядка студенческого общежития",
+        "file": "dormitory_rules.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-студ_общежитии.pdf"
+      },
+      {
+        "id": 82,
+        "name": "Положение о языке (языках) образования организации, осуществляющей образовательную деятельность по реализуемым ею образовательным программам в АНЧ ПОО «Краснодарский кооперативный техникум крайпотребсоюза»",
+        "file": "language_education.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/2025_79_Положение_о_преподавании_на_русском_языке-2.pdf"
+      },
+      {
+        "id": 83,
+        "name": "Положение о порядке применения электронного обучения, дистанционных образовательных технологий при реализации образовательных программ",
+        "file": "e_learning.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-об-электронном-обучении_.pdf"
+      },
+      {
+        "id": 84,
+        "name": "Положение о кураторе студенческой группы",
+        "file": "group_curator.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-о-кураторе-студенческой-группы.pdf"
+      },
+      {
+        "id": 85,
+        "name": "Положение об учете и расследовании микроповреждений (микротравм) работников",
+        "file": "micro_injuries.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-ОБ-УЧЕТЕ-И-РАССЛЕДОВАНИИ-МИКРОПОВРЕЖДЕНИЙ-МИКРОТРАВМ-РАБОТНИКОВ.pdf"
+      },
+      {
+        "id": 86,
+        "name": "Положение о системе управления охраной труда",
+        "file": "labor_protection_system.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-О-СИСТЕМЕ-УПРАВЛЕНИЯ-ОХРАНОЙ-ТРУДА.pdf"
+      },
+      {
+        "id": 87,
+        "name": "Положение об электронной информационно-образовательной среде",
+        "file": "digital_environment.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-об-электронной-информационно-образовательной-среде.pdf"
+      },
+      {
+        "id": 88,
+        "name": "Положение о комитете (комиссии) по охране труда",
+        "file": "labor_protection_committee.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/ПОЛОЖЕНИЕ-О-КОМИТЕТЕ-КОМИССИИ-ПО-ОХРАНЕ-ТРУДА.pdf"
+      },
+      {
+        "id": 89,
+        "name": "Положение о структурных подразделениях",
+        "file": "structural_units.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/2025_86_Положение_о_структурных_подразделениях-1.pdf"
+      },
+      {
+        "id": 90,
+        "name": "Положение о методическом совете АНЧ ПОО «Краснодарский кооперативный техникум крайпотребсоюза»",
+        "file": "methodological_council.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-о-методическом-совете.pdf"
+      },
+      {
+        "id": 91,
+        "name": "Положение о молодежном медиацентре профессиональной образовательной организации",
+        "file": "youth_media_center.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-ММЦ-ККТ.pdf"
+      },
+      {
+        "id": 92,
+        "name": "Положение о порядке предоставления обучающимся, прошедшим государственную итоговую аттестацию, каникул",
+        "file": "post_exam_vacation.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-о-порядке-предоставления-обучающимся-прошедшим-государственную-иготовую-аттестацию-каникул.pdf"
+      },
+      {
+        "id": 93,
+        "name": "Положение о центре профориентации",
+        "file": "career_guidance_center.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/Положение-о-Центре-профориентации-1.pdf"
+      },
+      {
+        "id": 94,
+        "name": "Положение об органах управления",
+        "file": "management_bodies.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/2025_91_Положение_об_органах_управления_docx-2.pdf"
+      },
+      {
+        "id": 95,
+        "name": "Положение о порядке работы с персональными данными",
+        "file": "personal_data.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/2025_93_Положение_о_порядке_работы_с_персональными_данными-2.pdf"
+      },
+      {
+        "id": 96,
+        "name": "Положение о проведении учебных занятий по физической культуре",
+        "file": "physical_education_classes.pdf",
+        "link": "/frontend/pages/basic-info/main_pages/pdf/2025_96_Положение_о_проведении_учебных_занятий_по_физической_культуре-2.pdf"
+      }
+
+    ]
+  }
+}

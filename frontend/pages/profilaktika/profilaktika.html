@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{page_title}} - Техникум</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/frontend/media-styles.css">
+    <script type="text/javascript" src="https://vk.com/js/api/openapi.js?168"></script>
+    <script src="/frontend/vk-widget.js"></script>
+</head>
+<body>
+
+    <div class="accessibility-bar">
+        <div class="container">
+            <button id="accessibilityToggle" class="accessibility-btn">
+                <i class="fas fa-eye"></i> Версия для слабовидящих
+            </button>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">
+                    <h1>Техникум</h1>
+                    <p>Качество + Креатив + Творчество</p>
+                </div>
+
+                <div class="search-box">
+                    <input type="text" placeholder="Поиск по сайту...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+
+                <div class="header-contacts">
+                    <p><i class="fas fa-phone"></i> +7 (86155)2-27-83</p>
+                    <p><i class="fas fa-envelope"></i> kktbel@mail.ru</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+<nav class="main-nav">
+    <div class="container">
+        <div class="nav-logo-mobile">КК<span>Т</span></div>
+        <button class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <ul class="nav-list">
+            <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
+            <li class="nav-item"><a href="/frontend/pages/basic-info/basic-info.html" class="nav-link">Сведения об организации</a></li>
+            <li class="nav-item"><a href="/frontend/pages/abiturient/abiturient.html" class="nav-link">Поступающим</a></li>
+            <li class="nav-item"><a href="/frontend/pages/student/student.html" class="nav-link">Студентам</a></li>
+            <li class="nav-item"><a href="/frontend/pages/teacher/teacher.html" class="nav-link">Преподавателям</a></li>
+            <li class="nav-item"><a href="/frontend/pages/professions/professions.html" class="nav-link active">Специальности</a></li>
+            <li class="nav-item"><a href="/frontend/pages/news/news.html" class="nav-link">Новости</a></li>
+            <li class="nav-item"><a href="/frontend/pages/kredit/kredit.html" class="nav-link">Обркредит в СПО</a></li>
+            <li class="nav-item"><a href="/frontend/pages/ssk/ssk.html" class="nav-link">ССК</a></li>
+            <li class="nav-item"><a href="/frontend/pages/antinarko/antinarko.html" class="nav-link">Антинарко</a></li>
+            <li class="nav-item"><a href="/frontend/pages/profilaktika/profilaktika.html" class="nav-link">Профилактика</a></li>
+        </ul>
+    </div>
+</nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Хлебные крошки -->
+            <nav class="breadcrumbs">
+                <a href="/">Главная</a>
+                <i class="fas fa-chevron-right"></i>
+                <span id="current-page-title">{{page_title}}</span>
+            </nav>
+
+            <!-- Основной контент -->
+            <div class="page-content">
+                <!-- Заголовок и описание страницы -->
+                <header class="page-header">
+                    <h1 class="page-title" id="page-title">{{page_title}}</h1>
+                    <p class="page-description" id="page-description">{{page_description}}</p>
+                </header>
+
+                <!-- Галерея изображений -->
+                <div id="images-section" class="media-section" style="display: none;">
+                    <h2>Галерея</h2>
+                    <div class="gallery-grid" id="gallery-container"></div>
+                </div>
+
+                <!-- Видео материалы -->
+                <div id="videos-section" class="media-section" style="display: none;">
+                    <h2>Видео материалы</h2>
+                    <div class="video-grid" id="videos-container"></div>
+                </div>
+
+                <!-- Основной текстовый контент -->
+                <section class="text-content" id="text-content">
+                    {{page_content}}
+                </section>
+
+                <!-- Документы для скачивания -->
+                <div id="documents-section" class="media-section" style="display: none;">
+                    <h2>Документы для скачивания</h2>
+                    <div class="documents-list" id="documents-container"></div>
+                </div>
+
+                <!-- Дополнительные материалы -->
+                <div id="additional-section" class="media-section" style="display: none;">
+                    {{additional_content}}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Техникум</h3>
+                    <p>Качество образование - наша главная цель</p>
+                    <div class="social-links">
+                        <a href="https://vk.com/belkkt"><i class="fab fa-vk"></i></a>
+                        <a href="https://t.me/belkkt"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Разделы сайта</h3>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/frontend/basic-info.html">Сведения об организации</a></li>
+                        <li><a href="/frontend/abiturient/abiturient.html">Поступающим</a></li>
+                        <li><a href="/frontend/student/student.html">Студентам</a></li>
+                        <li><a href="/frontend/teacher/teacher.html">Преподавателям</a></li>
+                        <li><a href="/frontend/professions/professions.html">Специальности</a></li>
+                        <li><a href="/frontend/news/news.html">Новости</a></li>
+                        <li><a href="/frontend/kredit/news.html">Обркредит в СПО</a></li>
+                        <li><a href="/frontend/ssk/news.html">ССК</a></li>
+                        <li><a href="/frontend/antinarko/news.html">Антинарко</a></li>
+                        <li><a href="/frontend/profilakika/news.html">Профилактика</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Полезные ссылки</h3>
+                    <ul>
+                        <li><a href="#">Расписание</a></li>
+                        <li><a href="#">Электронная библиотека</a></li>
+                        <li><a href="http://e-learn.kktbel.ru/login/index.php">Дистанционное обучение</a></li>
+                        <li><a href="#">Трудоустройство</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Краснодарский край, 352630, г.Белореченск, улица Кирова, здание 4</li>
+                        <li><i class="fas fa-phone"></i> 8(86155) 2-27-83</li>
+                        <li><i class="fas fa-envelope"></i> kktbel@mail.ru</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Техникум. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/script.js"></script>
+    <script src="/frontend/mobile-menu.js"></script>
+    <script>
+        // Тестовые данные для разных страниц
+        const pageData = {
+            'abiturient': {
+                title: 'Поступающим',
+                description: 'Всё для абитуриентов: правила приема, документы, расписание вступительных испытаний',
+                content: '<p>Мы рады приветствовать будущих студентов нашего техникума! Здесь вы найдете всю необходимую информацию для поступления.</p>',
+                images: [
+                    {
+                        url: "https://placehold.co/600x400/4CAF50/FFFFFF?text=Аудитории+техникума",
+                        alt: "Аудитории техникума",
+                        caption: "Современные аудитории для комфортного обучения"
+                    }
+                ],
+                videos: [
+                    {
+                        url: "#",
+                        poster: "https://placehold.co/600x400/2196F3/FFFFFF?text=Видео+экскурсия",
+                        title: "Видеоэкскурсия по техникуму",
+                        description: "Познакомьтесь с нашим учебным заведением"
+                    }
+                ],
+                documents: [
+                    {
+                        title: "Правила приема 2025",
+                        description: "Полные правила приема на 2025 учебный год",
+                        size: "1.2 МБ",
+                        url: "#"
+                    }
+                ]
+            },
+            'student': {
+                title: 'Студентам',
+                description: 'Расписание, учебные материалы, информация о стипендиях и общежитии',
+                content: '<p>Уважаемые студенты! На этой странице собрана вся актуальная информация для вашего успешного обучения.</p>',
+                images: [
+                    {
+                        url: "https://placehold.co/600x400/FF9800/FFFFFF?text=Студенческая+жизнь",
+                        alt: "Студенческая жизнь",
+                        caption: "Активная студенческая жизнь в техникуме"
+                    }
+                ],
+                documents: [
+                    {
+                        title: "Расписание занятий",
+                        description: "Актуальное расписание на текущий семестр",
+                        size: "0.8 МБ",
+                        url: "#"
+                    }
+                ]
+            },
+            'teacher': {
+                title: 'Преподавателям',
+                description: 'Методические материалы, расписание, нормативные документы',
+                content: '<p>Уважаемые коллеги! Здесь вы найдете методические материалы и документы для работы.</p>',
+                documents: [
+                    {
+                        title: "Методические рекомендации",
+                        description: "Рекомендации по ведению учебного процесса",
+                        size: "2.1 МБ",
+                        url: "#"
+                    }
+                ]
+            },
+            'ssk': {
+                title: 'Система независимой оценки качества',
+                description: 'Информация о системе независимой оценки качества образования',
+                content: '<p>ССК - система, обеспечивающая объективную оценку качества образовательного процесса.</p>'
+            },
+            'kredit': {
+                title: 'Обркредит в СПО',
+                description: 'Информация об образовательном кредитовании в системе СПО',
+                content: '<p>Образовательный кредит - возможность получить качественное образование сегодня.</p>',
+                documents: [
+                    {
+                        title: "Условия образовательного кредита",
+                        description: "Подробные условия получения образовательного кредита",
+                        size: "1.5 МБ",
+                        url: "#"
+                    }
+                ]
+            },
+            'antinarko': {
+                title: 'Антинарко',
+                description: 'Профилактика наркомании и пропаганда здорового образа жизни',
+                content: '<p>Мы выступаем за здоровый образ жизни и против распространения наркотиков.</p>',
+                images: [
+                    {
+                        url: "https://placehold.co/600x400/F44336/FFFFFF?text=Здоровый+образ+жизни",
+                        alt: "Здоровый образ жизни",
+                        caption: "Присоединяйтесь к здоровому образу жизни!"
+                    }
+                ]
+            },
+            'profilaktika': {
+                title: 'Профилактика',
+                description: 'Профилактические мероприятия и программы',
+                content: '<p>Профилактические мероприятия - важная часть образовательного процесса.</p>',
+                documents: [
+                    {
+                        title: "Простые правила",
+                        description: "",
+                        size: "",
+                        url: "pdf/ПРОСТЫЕ ПРАВИЛА.pdf"
+                    },
+                    {
+                        title: "Последствия участия в несогласованных митингах и протестных акциях",
+                        description: "",
+                        size: "",
+                        url: "pdf/ПОСЛЕДСТВИЯ-УЧАСТИЯ-В-НЕСОГЛАСОВАННЫХ-МИТИНГАХ-И-ПРОТЕСТНЫХ-АКЦИЯХ.pdf"
+                    },
+                    {
+                        title: "Правила безопасности при угрозе террористического акта",
+                        description: "",
+                        size: "",
+                        url: "pdf/ПРАВИЛА-БЕЗОПАСНОСТИ-ПРИ-УГРОЗЕ-ТЕРРОРИСТИЧЕСКОГО-АКТА.pdf"
+                    },
+                    {
+                        title: "Телефонный терроризм — это не шутка!",
+                        description: "",
+                        size: "",
+                        url: "pdf/ТЕЛЕФОННЫЙ ТЕРРОРИЗМ — ЭТО НЕ ШУТКА!.pdf"
+                    },
+                    {
+                        title: "Уголовная ответственность за совершение преступлений экстремистского и террористического характера",
+                        description: "",
+                        size: "",
+                        url: "pdf/УГОЛОВНАЯ-ОТВЕТСТВЕННОСТЬ-ЗА-СОВЕРШЕНИЕ-ПРЕСТУПЛЕНИЙ-ЭКСТРЕМИСТСКОГО-И-ТЕРРОРИСТИЧЕСКОГО-ХАРАКТЕРА.pdf"
+                    },
+                    {
+                        title: "Что необходимо сделать, если начался пожар",
+                        description: "",
+                        size: "",
+                        url: "pdf/ЧТО-НЕОБХОДИМО-СДЕЛАТЬ-ЕСЛИ-НАЧАЛСЯ-ПОЖАР.pdf"
+                    },
+                    {
+                        title: "Памятка по предупреждению межнациональных конфликтов",
+                        description: "",
+                        size: "",
+                        url: "pdf/Памятка по предупреждению межнациональных конфликтов в образовательной среде.pdf"
+                    },
+                    {
+                        title: "Буллинг. Что это такое, и как себя вести",
+                        description: "",
+                        size: "",
+                        url: "pdf/БУЛЛИНГ.-ЧТО-ЭТО-ТАКОЕ-И-КАК-СЕБЯ-ВЕСТИ..pdf"
+                    },
+                    {
+                        title: "Об ответственности за совершение правонарушений на железнодорожных объектах",
+                        description: "",
+                        size: "",
+                        url: "pdf/ОБ-ОТВЕТСТВЕННОСТИ-ЗА-СОВЕРШЕНИЕ-ПРАВОНАРУШЕНИЙ-НА-ЖЕЛЕЗНОДОРОЖНЫХ-ОБЪЕКТАХ.pdf"
+                    },
+                    {
+                        title: "Опасность суицидального поведения",
+                        description: "",
+                        size: "",
+                        url: "pdf/Опасность-суицидального-поведения.pdf"
+                    },
+                    {
+                        title: "Памятка действий населения и руководителей предприятий (организаций), учебных заведений белореченского района в условиях угрозы применения артиллерии и беспилотных воздушных судов",
+                        description: "",
+                        size: "",
+                        url: "pdf/ПАМЯТКА-ДЕЙСТВИЙ-НАСЕЛЕНИЯ-И-РУКОВОДИТЕЛЕЙ-ПРЕДПРИЯТИЙ-ОРГАНИЗАЦИЙ-УЧЕБНЫХ-ЗАВЕДЕНИЙ-БЕЛОРЕЧЕНСКОГО-РАЙОНА-В-УСЛОВИЯХ-УГРОЗЫ.pdf"
+                    },
+                    {
+                        title: "Закон Краснодарского края о мерах по профилактике безнадзорности и правонарушений несовершеннолетних в краснодарском крае № 1539-КЗ от 21 июля 2008 года",
+                        description: "",
+                        size: "",
+                        url: "pdf/Закон Краснодарского края о мерах по профилактике безнадзорности и правонарушений несовершеннолетних в краснодарском крае № 1539-КЗ от 21 июля 2008 года.pdf"
+                    }
+                ]
+            }
+        };
+
+        function initializePage() {
+            const path = window.location.pathname;
+            let pageKey = '';
+
+            // Определяем ключ страницы из URL
+            if (path.includes('abiturient')) pageKey = 'abiturient';
+            else if (path.includes('student')) pageKey = 'student';
+            else if (path.includes('teacher')) pageKey = 'teacher';
+            else if (path.includes('ssk')) pageKey = 'ssk';
+            else if (path.includes('kredit')) pageKey = 'kredit';
+            else if (path.includes('antinarko')) pageKey = 'antinarko';
+            else if (path.includes('profilaktika')) pageKey = 'profilaktika';
+
+            const data = pageData[pageKey];
+
+            if (data) {
+                // Заполняем основную информацию
+                document.getElementById('page-title').textContent = data.title;
+                document.getElementById('page-description').textContent = data.description;
+                document.getElementById('current-page-title').textContent = data.title;
+                document.getElementById('text-content').innerHTML = data.content;
+
+                // Заполняем изображения
+                if (data.images && data.images.length > 0) {
+                    document.getElementById('images-section').style.display = 'block';
+                    const galleryContainer = document.getElementById('gallery-container');
+
+                    data.images.forEach(image => {
+                        const galleryItem = document.createElement('div');
+                        galleryItem.className = 'gallery-item';
+                        galleryItem.innerHTML = `
+                            <img src="${image.url}" alt="${image.alt}" class="gallery-image">
+                            <p class="gallery-caption">${image.caption}</p>
+                        `;
+                        galleryContainer.appendChild(galleryItem);
+                    });
+                }
+
+                // Заполняем видео
+                if (data.videos && data.videos.length > 0) {
+                    document.getElementById('videos-section').style.display = 'block';
+                    const videosContainer = document.getElementById('videos-container');
+
+                    data.videos.forEach(video => {
+                        const videoItem = document.createElement('div');
+                        videoItem.className = 'video-item';
+                        videoItem.innerHTML = `
+                            <div class="video-wrapper">
+                                <div class="video-placeholder">
+                                    <i class="fas fa-video"></i>
+                                    <p>Здесь будет видео</p>
+                                    <p>${video.title}</p>
+                                </div>
+                            </div>
+                            <h3>${video.title}</h3>
+                            <p>${video.description}</p>
+                        `;
+                        videosContainer.appendChild(videoItem);
+                    });
+                }
+
+                // Заполняем документы
+                if (data.documents && data.documents.length > 0) {
+                    document.getElementById('documents-section').style.display = 'block';
+                    const documentsContainer = document.getElementById('documents-container');
+
+                    data.documents.forEach(doc => {
+                        const docItem = document.createElement('div');
+                        docItem.className = 'document-item';
+                        docItem.innerHTML = `
+                            <div class="document-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <div class="document-info">
+                                <h3>${doc.title}</h3>
+                                <p>${doc.description}</p>
+                                <span class="document-size">${doc.size}</span>
+                            </div>
+                            <a href="${doc.url}" class="download-btn" download>
+                                <i class="fas fa-download"></i> Скачать
+                            </a>
+                        `;
+                        documentsContainer.appendChild(docItem);
+                    });
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>

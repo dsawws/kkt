@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Документы — Наш техникум</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/frontend/style.css">
+    <link rel="stylesheet" href="/frontend/organization.css">
+</head>
+<body>
+
+    <!-- Версия для слабовидящих -->
+    <div class="accessibility-bar">
+        <div class="container">
+            <button id="accessibilityToggle" class="accessibility-btn">
+                <i class="fas fa-eye"></i> Версия для слабовидящих
+            </button>
+        </div>
+    </div>
+
+    <!-- Шапка -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">
+                    <h1>Техникум</h1>
+                    <p>Качество + Креатив + Творчество</p>
+                </div>
+
+                <div class="search-box">
+                    <input type="text" placeholder="Поиск по сайту...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+
+                <div class="header-contacts">
+                    <p><i class="fas fa-phone"></i> +7 (86155)2-27-83</p>
+                    <p><i class="fas fa-envelope"></i> kktbel@mail.ru</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Навигация -->
+<nav class="main-nav">
+    <div class="container">
+        <div class="nav-logo-mobile">КК<span>Т</span></div>
+        <button class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <ul class="nav-list">
+            <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
+            <li class="nav-item"><a href="/frontend/pages/basic-info/basic-info.html" class="nav-link active">Сведения об организации</a></li>
+            <li class="nav-item"><a href="/frontend/pages/abiturient/abiturient.html" class="nav-link">Поступающим</a></li>
+            <li class="nav-item"><a href="/frontend/pages/student/student.html" class="nav-link">Студентам</a></li>
+            <li class="nav-item"><a href="/frontend/pages/teacher/teacher.html" class="nav-link">Преподавателям</a></li>
+            <li class="nav-item"><a href="/frontend/pages/professions/professions.html" class="nav-link">Специальности</a></li>
+            <li class="nav-item"><a href="/frontend/pages/news/news.html" class="nav-link">Новости</a></li>
+            <li class="nav-item"><a href="/frontend/pages/kredit/kredit.html" class="nav-link">Обркредит в СПО</a></li>
+            <li class="nav-item"><a href="/frontend/pages/ssk/ssk.html" class="nav-link">ССК</a></li>
+            <li class="nav-item"><a href="/frontend/pages/antinarko/antinarko.html" class="nav-link">Антинарко</a></li>
+            <li class="nav-item"><a href="/frontend/pages/profilaktika/profilaktika.html" class="nav-link">Профилактика</a></li>
+        </ul>
+    </div>
+</nav>
+
+    <!-- Основной контент -->
+    <section class="organization-section">
+        <div class="container">
+            <div class="content-with-sidebar">
+                <!-- Боковое меню -->
+                <aside class="sidebar">
+                    <h3>Сведения об организации</h3>
+                    <ul>
+                        <li><a href="/frontend/pages/basic-info/basic-info.html" class="sidebar-link">Основные сведения</a></li>
+                        <li><a href="/frontend/pages/basic-info/main_pages/structpage.html" class="sidebar-link">Структура и органы управления</a></li>
+                        <li><a href="/frontend/pages/basic-info/main_pages/documentpage.html" class="sidebar-link active">Документы</a></li>
+                        <li><a href="/frontend/pages/basic-info/main_pages/foodpage.html" class="sidebar-link">Организация питания в образовательной организации</a></li>
+                        <li><a href="/frontend/pages/basic-info/main_pages/paymentpage.html" class="sidebar-link">Платные образовательные услуги</a></li>
+                        <li><a href="/frontend/pages/basic-info/main_pages/pedsostav.html" class="sidebar-link">Педагогический состав</a></li>
+                        <li><a href="/frontend/pages/basic-info/main_pages/finhozpage.html" class="sidebar-link">Финансово-хозяйственная деятельность</a></li>
+                    </ul>
+                </aside>
+
+                <!-- Основной контент -->
+                <div class="page-content">
+                    <h1 class="page-title">Документы</h1>
+
+                    <div class="content-block">
+                        <h2>Основные документы техникума</h2>
+                        <p>На этой странице представлены основные документы, регламентирующие деятельность Краснодарского кооперативного техникума крайпотребсоюза.</p>
+
+                        <div class="info-table">
+                            <table class="content-table">
+                                <thead>
+                                    <tr>
+                                        <th>№</th>
+                                        <th>Наименование документа</th>
+                                        <th>Ссылка на документ</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="basic-documents-body">
+                                    <tr>
+                                        <td colspan="3" class="loading">Загрузка документов...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <h2>Локальные нормативные акты</h2>
+
+                        <div class="info-table">
+                            <table class="content-table">
+                                <thead>
+                                    <tr>
+                                        <th>№</th>
+                                        <th>Наименование документа</th>
+                                        <th>Ссылка на документ</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="local-documents-body">
+                                    <tr>
+                                        <td colspan="3" class="loading">Загрузка документов...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Техникум</h3>
+                    <p>Качество образования — наша главная цель</p>
+                    <div class="social-links">
+                        <a href="https://vk.com/belkkt"><i class="fab fa-vk"></i></a>
+                        <a href="https://t.me/belkkt"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Разделы сайта</h3>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/frontend/pages/basic-info/basic-info.html">Сведения об организации</a></li>
+                        <li><a href="/frontend/pages/abiturient/abiturient.html">Поступающим</a></li>
+                        <li><a href="/frontend/pages/student/student.html">Студентам</a></li>
+                        <li><a href="/frontend/pages/teacher/teacher.html">Преподавателям</a></li>
+                        <li><a href="/frontend/pages/professions/professions.html">Специальности</a></li>
+                        <li><a href="/frontend/pages/news/news.html">Новости</a></li>
+                        <li><a href="/frontend/pages/kredit/kredit.html">Обркредит в СПО</a></li>
+                        <li><a href="/frontend/pages/ssk/ssk.html">ССК</a></li>
+                        <li><a href="/frontend/pages/antinarko/antinarko.html">Антинарко</a></li>
+                        <li><a href="/frontend/pages/profilaktika/profilaktika.html">Профилактика</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Полезные ссылки</h3>
+                    <ul>
+                        <li><a href="#">Расписание</a></li>
+                        <li><a href="#">Электронная библиотека</a></li>
+                        <li><a href="http://e-learn.kktbel.ru/login/index.php">Дистанционное обучение</a></li>
+                        <li><a href="#">Трудоустройство</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Краснодарский край, 352630, г.Белореченск, улица Кирова, здание 4</li>
+                        <li><i class="fas fa-phone"></i> 8(86155) 2-27-83</li>
+                        <li><i class="fas fa-envelope"></i> kktbel@mail.ru</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Техникум. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/frontend/script.js"></script>
+    <script src="/frontend/mobile-menu.js"></script>
+    <script src="/frontend/pages/basic-info/main_pages/documents.js"></script>
+</body>
+</html>

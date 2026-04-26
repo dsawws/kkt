@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{page_title}} - Техникум</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <script type="text/javascript" src="https://vk.com/js/api/openapi.js?168"></script>
+    <script src="/frontend/vk-widget.js"></script>
+</head>
+<body>
+
+    <div class="accessibility-bar">
+        <div class="container">
+            <button id="accessibilityToggle" class="accessibility-btn">
+                <i class="fas fa-eye"></i> Версия для слабовидящих
+            </button>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">
+                    <h1>Техникум</h1>
+                    <p>Качество + Креатив + Творчество</p>
+                </div>
+
+                <div class="search-box">
+                    <input type="text" placeholder="Поиск по сайту...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+
+                <div class="header-contacts">
+                    <p><i class="fas fa-phone"></i> +7 (86155)2-27-83</p>
+                    <p><i class="fas fa-envelope"></i> kktbel@mail.ru</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+<nav class="main-nav">
+    <div class="container">
+        <div class="nav-logo-mobile">КК<span>Т</span></div>
+
+        </button>
+
+        <ul class="nav-list">
+            <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
+            <li class="nav-item"><a href="/frontend/pages/basic-info.html" class="nav-link">Сведения об организации</a></li>
+            <li class="nav-item"><a href="/frontend/pages/abiturient/abiturient.html" class="nav-link">Поступающим</a></li>
+            <li class="nav-item"><a href="/frontend/pages/student/student.html" class="nav-link">Студентам</a></li>
+            <li class="nav-item"><a href="/frontend/pages/teacher/teacher.html" class="nav-link">Преподавателям</a></li>
+            <li class="nav-item"><a href="/frontend/pages/professions/professions.html" class="nav-link active">Специальности</a></li>
+            <li class="nav-item"><a href="/frontend/pages/news/news.html" class="nav-link">Новости</a></li>
+            <li class="nav-item"><a href="/frontend/pages/kredit/kredit.html" class="nav-link">Обркредит в СПО</a></li>
+            <li class="nav-item"><a href="/frontend/pages/ssk/ssk.html" class="nav-link">ССК</a></li>
+            <li class="nav-item"><a href="/frontend/pages/antinarko/antinarko.html" class="nav-link">Антинарко</a></li>
+            <li class="nav-item"><a href="/frontend/pages/profilaktika/profilaktika.html" class="nav-link">Профилактика</a></li>
+        </ul>
+    </div>
+</nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Хлебные крошки -->
+            <nav class="breadcrumbs">
+                <a href="/">Главная</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>{{page_title}}</span>
+            </nav>
+
+            <div class="content-with-sidebar">
+                <!-- Боковая панель -->
+                <aside class="sidebar">
+                    {{sidebar_content}}
+
+                    <!-- Блок с быстрыми ссылками -->
+                    <div class="sidebar-widget">
+                        <h3>Быстрые ссылки</h3>
+                        <ul class="sidebar-links">
+                            <li><a href="/page/3"><i class="fas fa-user-graduate"></i> Абитуриенту</a></li>
+                            <li><a href="/page/4"><i class="fas fa-book"></i> Студенту</a></li>
+                            <li><a href="/page/5"><i class="fas fa-chalkboard-teacher"></i> Преподавателю</a></li>
+                            <li><a href="http://e-learn.kktbel.ru/login/index.php"><i class="fas fa-laptop"></i> Электронное обучение</a></li>
+                        </ul>
+                    </div>
+                </aside>
+
+                <!-- Основной контент -->
+                <div class="page-content">
+                    <!-- Заголовок и описание страницы -->
+                    <header class="page-header">
+                        <h1 class="page-title">{{page_title}}</h1>
+                        <p class="page-description">{{page_description}}</p>
+                    </header>
+
+                    <!-- Галерея изображений -->
+                    {{#if images}}
+                    <section class="media-gallery">
+                        <h2>Галерея</h2>
+                        <div class="gallery-grid">
+                            {{#each images}}
+                            <div class="gallery-item">
+                                <img src="{{this.url}}" alt="{{this.alt}}" class="gallery-image">
+                                <p class="gallery-caption">{{this.caption}}</p>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </section>
+                    {{/if}}
+
+                    <!-- Видео материалы -->
+                    {{#if videos}}
+                    <section class="video-section">
+                        <h2>Видео материалы</h2>
+                        <div class="video-grid">
+                            {{#each videos}}
+                            <div class="video-item">
+                                <div class="video-wrapper">
+                                    <video controls poster="{{this.poster}}">
+                                        <source src="{{this.url}}" type="video/mp4">
+                                        Ваш браузер не поддерживает видео тег.
+                                    </video>
+                                </div>
+                                <h3>{{this.title}}</h3>
+                                <p>{{this.description}}</p>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </section>
+                    {{/if}}
+
+                    <!-- Основной текстовый контент -->
+                    <section class="text-content">
+                        {{page_content}}
+                    </section>
+
+                    <!-- Документы для скачивания -->
+                    {{#if documents}}
+                    <section class="documents-section">
+                        <h2>Документы для скачивания</h2>
+                        <div class="documents-list">
+                            {{#each documents}}
+                            <div class="document-item">
+                                <div class="document-icon">
+                                    <i class="fas fa-file-pdf"></i>
+                                </div>
+                                <div class="document-info">
+                                    <h3>{{this.title}}</h3>
+                                    <p>{{this.description}}</p>
+                                    <span class="document-size">{{this.size}}</span>
+                                </div>
+                                <a href="{{this.url}}" class="download-btn" download>
+                                    <i class="fas fa-download"></i> Скачать
+                                </a>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </section>
+                    {{/if}}
+
+                    <!-- Дополнительные материалы -->
+                    {{#if additional_content}}
+                    <section class="additional-content">
+                        {{additional_content}}
+                    </section>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Техникум</h3>
+                    <p>Качество образование - наша главная цель</p>
+                    <div class="social-links">
+                        <a href="https://vk.com/belkkt"><i class="fab fa-vk"></i></a>
+                        <a href="https://t.me/belkkt"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Разделы сайта</h3>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/frontend/basic-info.html">Сведения об организации</a></li>
+                        <li><a href="/frontend/abiturient/abiturient.html">Поступающим</a></li>
+                        <li><a href="/frontend/student/student.html">Студентам</a></li>
+                        <li><a href="/frontend/teacher/teacher.html">Преподавателям</a></li>
+                        <li><a href="/frontend/professions/professions.html">Специальности</a></li>
+                        <li><a href="/frontend/news/news.html">Новости</a></li>
+                        <li><a href="/frontend/kredit/news.html">Обркредит в СПО</a></li>
+                        <li><a href="/frontend/ssk/news.html">ССК</a></li>
+                        <li><a href="/frontend/antinarko/news.html">Антинарко</a></li>
+                        <li><a href="/frontend/profilakika/news.html">Профилактика</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Полезные ссылки</h3>
+                    <ul>
+                        <li><a href="#">Расписание</a></li>
+                        <li><a href="#">Электронная библиотека</a></li>
+                        <li><a href="http://e-learn.kktbel.ru/login/index.php">Дистанционное обучение</a></li>
+                        <li><a href="#">Трудоустройство</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Краснодарский край, 352630, г.Белореченск, улица Кирова, здание 4</li>
+                        <li><i class="fas fa-phone"></i> 8(86155) 2-27-83</li>
+                        <li><i class="fas fa-envelope"></i> kktbel@mail.ru</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Техникум. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/script.js"></script>
+    <script src="/frontend/mobile-menu.js"></script>
+    <script>
+        // Заглушки для медиа-контента (временные данные)
+        const placeholderImages = [
+            {
+                url: "https://placehold.co/600x400/8BC34A/FFFFFF?text=Изображение+1",
+                alt: "Заглушка изображения 1",
+                caption: "Пример изображения для страницы"
+            },
+            {
+                url: "https://placehold.co/600x400/2196F3/FFFFFF?text=Изображение+2",
+                alt: "Заглушка изображения 2",
+                caption: "Еще одно примерное изображение"
+            }
+        ];
+
+        const placeholderVideos = [
+            {
+                url: "#",
+                poster: "https://placehold.co/600x400/FF5722/FFFFFF?text=Видео+заглушка",
+                title: "Пример видео",
+                description: "Описание видео материала"
+            }
+        ];
+
+        const placeholderDocuments = [
+            {
+                title: "Пример документа PDF",
+                description: "Описание документа для скачивания",
+                size: "2.5 МБ",
+                url: "#"
+            }
+        ];
+
+        function initializeMediaContent() {
+            // Здесь будет логика загрузки реальных данных с бекенда
+            console.log("Инициализация медиа-контента");
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeMediaContent);
+    </script>
+</body>
+</html>

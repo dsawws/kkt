@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Педагогический состав — Наш техникум</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/organization.css">
+</head>
+<body>
+
+    <!-- Версия для слабовидящих -->
+    <div class="accessibility-bar">
+        <div class="container">
+            <button id="accessibilityToggle" class="accessibility-btn">
+                <i class="fas fa-eye"></i> Версия для слабовидящих
+            </button>
+        </div>
+    </div>
+
+    <!-- Шапка -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">
+                    <h1>Краснодарский кооперативный техникум</h1>
+                    <p>Крайпотребсоюз</p>
+                </div>
+
+                <div class="search-box">
+                    <input type="text" placeholder="Поиск по сайту...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+
+                <div class="header-contacts">
+                    <p><i class="fas fa-phone"></i> +7 (86155) 2-27-83</p>
+                    <p><i class="fas fa-envelope"></i> kktbel@mail.ru</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Навигация -->
+<nav class="main-nav">
+    <div class="container">
+        <div class="nav-logo-mobile">КК<span>Т</span></div>
+        <button class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <ul class="nav-list">
+            <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
+            <li class="nav-item"><a href="/frontend/pages/basic-info/basic-info.html" class="nav-link active">Сведения об организации</a></li>
+            <li class="nav-item"><a href="/frontend/pages/abiturient/abiturient.html" class="nav-link">Поступающим</a></li>
+            <li class="nav-item"><a href="/frontend/pages/student/student.html" class="nav-link">Студентам</a></li>
+            <li class="nav-item"><a href="/frontend/pages/teacher/teacher.html" class="nav-link">Преподавателям</a></li>
+            <li class="nav-item"><a href="/frontend/pages/professions/professions.html" class="nav-link">Специальности</a></li>
+            <li class="nav-item"><a href="/frontend/pages/news/news.html" class="nav-link">Новости</a></li>
+            <li class="nav-item"><a href="/frontend/pages/kredit/kredit.html" class="nav-link">Обркредит в СПО</a></li>
+            <li class="nav-item"><a href="/frontend/pages/ssk/ssk.html" class="nav-link">ССК</a></li>
+            <li class="nav-item"><a href="/frontend/pages/antinarko/antinarko.html" class="nav-link">Антинарко</a></li>
+            <li class="nav-item"><a href="/frontend/pages/profilaktika/profilaktika.html" class="nav-link">Профилактика</a></li>
+        </ul>
+    </div>
+</nav>
+
+    <!-- Основной контент -->
+    <section class="organization-section">
+        <div class="container">
+            <div class="content-with-sidebar">
+                <!-- Боковое меню -->
+                <aside class="sidebar">
+                    <h3>Сведения об организации</h3>
+                    <ul>
+                        <li><a href="/frontend/basic-info.html" class="sidebar-link">Основные сведения</a></li>
+                        <li><a href="/frontend/structure.html" class="sidebar-link">Структура и органы управления</a></li>
+                        <li><a href="/frontend/documents.html" class="sidebar-link">Документы</a></li>
+                        <li><a href="/frontend/education.html" class="sidebar-link">Образование</a></li>
+                        <li><a href="/frontend/leadership.html" class="sidebar-link">Руководство</a></li>
+                        <li><a href="/frontend/pedagogical-staff.html" class="sidebar-link active">Педагогический состав</a></li>
+                        <li><a href="/frontend/material-base.html" class="sidebar-link">Материально-техническое обеспечение</a></li>
+                        <li><a href="/frontend/paid-services.html" class="sidebar-link">Платные образовательные услуги</a></li>
+                        <li><a href="/frontend/vacancies.html" class="sidebar-link">Вакантные места для приема</a></li>
+                        <li><a href="/frontend/financial.html" class="sidebar-link">Финансово-хозяйственная деятельность</a></li>
+                        <li><a href="/frontend/accessible-environment.html" class="sidebar-link">Доступная среда</a></li>
+                        <li><a href="/frontend/scholarships.html" class="sidebar-link">Стипендии и меры поддержки</a></li>
+                        <li><a href="/frontend/international.html" class="sidebar-link">Международное сотрудничество</a></li>
+                        <li><a href="/frontend/standards.html" class="sidebar-link">Образовательные стандарты</a></li>
+                        <li><a href="/frontend/nutrition.html" class="sidebar-link">Организация питания</a></li>
+                    </ul>
+                </aside>
+
+                <!-- Основной контент -->
+                <div class="page-content">
+                    <!--<h1 class="page-title">Педагогический состав</h1>
+
+                    <div class="content-block">
+                        <p>В Краснодарском кооперативном техникуме крайпотребсоюза работает высококвалифицированный педагогический коллектив, состоящий из опытных преподавателей и мастеров производственного обучения. Наши педагоги постоянно совершенствуют свой профессиональный уровень и используют современные образовательные технологии.</p>
+
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3>Общая численность</h3>
+                                    <p class="stat-number">Информация уточняется</p>
+                                    <p class="stat-desc">педагогических работников</p>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3>Высшая категория</h3>
+                                    <p class="stat-number">Информация уточняется</p>
+                                    <p class="stat-desc">преподавателей</p>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-award"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3>Кандидаты наук</h3>
+                                    <p class="stat-number">Информация уточняется</p>
+                                    <p class="stat-desc">в составе коллектива</p>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3>Опыт работы</h3>
+                                    <p class="stat-number">Информация уточняется</p>
+                                    <p class="stat-desc">средний стаж работы</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="content-block">
+                        <h2>Документы педагогического состава</h2>
+
+                        <div class="documents-section">
+                            <div class="document-cards">
+                                <div class="document-card">
+                                    <div class="document-icon">
+                                        <i class="fas fa-chalkboard-teacher"></i>
+                                    </div>
+                                    <div class="document-info">
+                                        <h3>Персональный состав педагогических работников</h3>
+                                        <p>Полный перечень педагогического состава с информацией о квалификации, образовании и стаже работы</p>
+                                        <a href="../main_pages/pdf/Преподаватели-на-сайт-на-01.09.2024-г.-без-РУК.pdf" class="file-link" target="_blank">
+                                            <i class="fas fa-file-pdf"></i> Скачать PDF
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <h2>Квалификационные характеристики</h2>
+
+                        <div class="info-table">
+                            <table class="content-table">
+                                <thead>
+                                    <tr>
+                                        <th>Категория</th>
+                                        <th>Количество</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Высшая квалификационная категория</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Первая квалификационная категория</td>
+                                        <td>7</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="content-block">
+                        <h2>Образовательный уровень</h2>
+
+                        <div class="info-table">
+                            <table class="content-table">
+                                <thead>
+                                    <tr>
+                                        <th>Уровень образования</th>
+                                        <th>Количество</th>
+                                        <th>Процент от общего состава</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Высшее образование</td>
+                                        <td>Информация уточняется</td>
+                                        <td>Информация уточняется</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Среднее профессиональное образование</td>
+                                        <td>Информация уточняется</td>
+                                        <td>Информация уточняется</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ученая степень</td>
+                                        <td>Информация уточняется</td>
+                                        <td>Информация уточняется</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Проходят профессиональную переподготовку</td>
+                                        <td>Информация уточняется</td>
+                                        <td>Информация уточняется</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="additional-info">
+                        <h3>Повышение квалификации</h3>
+                        <div class="info-card">
+                            <p>Педагогический состав техникума регулярно проходит курсы повышения квалификации и профессиональной переподготовки в соответствии с требованиями профессиональных стандартов и федеральных государственных образовательных стандартов.</p>
+                            <ul>
+                                <li>Ежегодное повышение квалификации не менее 1 раза в 3 года</li>
+                                <li>Участие в профессиональных конкурсах и конференциях</li>
+                                <li>Внедрение современных образовательных технологий</li>
+                                <li>Стажировки на предприятиях-партнерах</li>
+                            </ul>
+                        </div>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Техникум</h3>
+                    <p>Качество образования — наша главная цель</p>
+                    <div class="social-links">
+                        <a href="https://vk.com/belkkt"><i class="fab fa-vk"></i></a>
+                        <a href="https://t.me/belkkt"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Разделы сайта</h3>
+                    <ul>
+                        <li><a href="/static">Главная</a></li>
+                        <li><a href="/frontend/organization.html">Сведения об организации</a></li>
+                        <li><a href="/page/3">Поступающим</a></li>
+                        <li><a href="/page/4">Студентам</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Полезные ссылки</h3>
+                    <ul>
+                        <li><a href="#">Расписание</a></li>
+                        <li><a href="#">Электронная библиотека</a></li>
+                        <li><a href="#">Дистанционное обучение</a></li>
+                        <li><a href="#">Трудоустройство</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Краснодарский край, г. Белореченск, ул. Кирова, д. 4</li>
+                        <li><i class="fas fa-phone"></i> 8 (86155) 2-27-83</li>
+                        <li><i class="fas fa-envelope"></i> kktbel@mail.ru</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Краснодарский кооперативный техникум крайпотребсоюза. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/script.js"></script>
+    <script src="/frontend/organization.js"></script>
+</body>
+</html>

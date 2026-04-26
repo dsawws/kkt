@@ -1,0 +1,586 @@
+{
+  "documents": {
+    "basic": [
+      {
+        "id": 1,
+        "name": "Устав образовательной организации",
+        "file": "UstavKKT_.pdf",
+        "link": "/documents/UstavKKT_.pdf"
+      },
+      {
+        "id": 2,
+        "name": "Лицензия на осуществление образовательной деятельности",
+        "file": "license.pdf",
+        "link": "/documents/license.pdf"
+      },
+      {
+        "id": 3,
+        "name": "Выписка из реестра лицензий",
+        "file": "license_extract.pdf",
+        "link": "/documents/license_extract.pdf"
+      },
+      {
+        "id": 4,
+        "name": "Свидетельство о государственной аккредитации",
+        "file": "accreditation.pdf",
+        "link": "/documents/accreditation.pdf"
+      },
+      {
+        "id": 5,
+        "name": "Выписка из государственной информационной системы «Реестр организаций, осуществляющих образовательную деятельность по имеющим государственную аккредитацию образовательным программам»",
+        "file": "accreditation_extract.pdf",
+        "link": "/documents/accreditation_extract.pdf"
+      },
+      {
+        "id": 6,
+        "name": "Правила внутреннего распорядка обучающихся",
+        "file": "student_rules.pdf",
+        "link": "/documents/student_rules.pdf"
+      },
+      {
+        "id": 7,
+        "name": "Правила внутреннего трудового распорядка",
+        "file": "work_rules.pdf",
+        "link": "/documents/work_rules.pdf"
+      },
+      {
+        "id": 8,
+        "name": "Коллективный договор",
+        "file": "Kollektivniy_dogovor.pdf",
+        "link": "/documents/Kollektivniy_dogovor.pdf"
+      },
+      {
+        "id": 9,
+        "name": "Отчет о результатах самообследования организации",
+        "file": "self_examination_2024.pdf",
+        "link": "/documents/self_examination_2024.pdf"
+      },
+      {
+        "id": 10,
+        "name": "Предписания органов, осуществляющих государственный контроль (надзор) в сфере образования",
+        "file": null,
+        "link": null,
+        "note": "Предписаний нет"
+      },
+      {
+        "id": 11,
+        "name": "Отчеты об исполнении предписаний органов, осуществляющих государственный контроль (надзор) в сфере образования",
+        "file": null,
+        "link": null,
+        "note": "Нет"
+      }
+    ],
+    "local": [
+      {
+        "id": 12,
+        "name": "Правила приёма обучающихся",
+        "file": "admission_rules.pdf",
+        "link": "/documents/admission_rules.pdf"
+      },
+      {
+        "id": 13,
+        "name": "Правила приёма граждан на обучение по дополнительным профессиональным программам и программам профессионального обучения",
+        "file": "additional_admission_rules.pdf",
+        "link": "/documents/additional_admission_rules.pdf"
+      },
+      {
+        "id": 14,
+        "name": "Режим занятий обучающихся",
+        "file": "class_schedule.pdf",
+        "link": "/documents/class_schedule.pdf"
+      },
+      {
+        "id": 15,
+        "name": "Формы, периодичность и порядок текущего контроля успеваемости и промежуточной аттестации обучающихся",
+        "file": "assessment_rules.pdf",
+        "link": "/documents/assessment_rules.pdf"
+      },
+      {
+        "id": 16,
+        "name": "Положение о порядке и основании перевода, отчисления и восстановления обучающихся",
+        "file": "transfer_expulsion_reinstatement.pdf",
+        "link": "/documents/transfer_expulsion_reinstatement.pdf"
+      },
+      {
+        "id": 17,
+        "name": "Порядок оформления возникновения, приостановления и прекращения отношений между образовательной организацией и обучающимися и (или) родителями (законными представителями) несовершеннолетних обучающихся",
+        "file": "relationship_procedure.pdf",
+        "link": "/documents/relationship_procedure.pdf"
+      },
+      {
+        "id": 18,
+        "name": "Положение о практической подготовке обучающихся осваивающих основные профессиональные образовательные программы среднего профессионального образования",
+        "file": "practical_training.pdf",
+        "link": "/documents/practical_training.pdf"
+      },
+      {
+        "id": 19,
+        "name": "Приказ о стоимости обучения",
+        "file": "tuition_cost.pdf",
+        "link": "/documents/tuition_cost.pdf"
+      },
+      {
+        "id": 20,
+        "name": "Положение о педагогическом совете",
+        "file": "pedagogical_council.pdf",
+        "link": "/documents/pedagogical_council.pdf"
+      },
+      {
+        "id": 21,
+        "name": "Программа воспитания",
+        "file": "education_program.pdf",
+        "link": "/documents/education_program.pdf"
+      },
+      {
+        "id": 22,
+        "name": "Программа развития техникума",
+        "file": "development_program.pdf",
+        "link": "/documents/development_program.pdf"
+      },
+      {
+        "id": 23,
+        "name": "Положение о порядке и условиях предоставления педагогическим работникам длительного отпуска сроком до одного года",
+        "file": "long_leave.pdf",
+        "link": "/documents/long_leave.pdf"
+      },
+      {
+        "id": 24,
+        "name": "Положение о премировании работников",
+        "file": "bonus_regulations.pdf",
+        "link": "/documents/bonus_regulations.pdf"
+      },
+      {
+        "id": 25,
+        "name": "Положение об оказании материальной помощи работникам",
+        "file": "material_assistance.pdf",
+        "link": "/documents/material_assistance.pdf"
+      },
+      {
+        "id": 26,
+        "name": "Положение об оплате труда",
+        "file": "payment_regulations.pdf",
+        "link": "/documents/payment_regulations.pdf"
+      },
+      {
+        "id": 27,
+        "name": "Положение об охране труда",
+        "file": "labor_protection.pdf",
+        "link": "/documents/labor_protection.pdf"
+      },
+      {
+        "id": 28,
+        "name": "Положение о Комиссии по урегулированию споров между участниками образовательных отношений в учебном заведении",
+        "file": "dispute_commission.pdf",
+        "link": "/documents/dispute_commission.pdf"
+      },
+      {
+        "id": 29,
+        "name": "Положение о порядке организации и осуществлении образовательной деятельности по образовательным программам среднего профессионального образования в учебном заведении",
+        "file": "educational_activity.pdf",
+        "link": "/documents/educational_activity.pdf"
+      },
+      {
+        "id": 30,
+        "name": "Положение о порядке организации и осуществления образовательной деятельности по дополнительным профессиональным программам",
+        "file": "additional_education.pdf",
+        "link": "/documents/additional_education.pdf"
+      },
+      {
+        "id": 31,
+        "name": "Положение о предоставлении академического отпуска обучающимся",
+        "file": "academic_leave.pdf",
+        "link": "/documents/academic_leave.pdf"
+      },
+      {
+        "id": 32,
+        "name": "Кодекс профессиональной этики педагогических работников",
+        "file": "ethics_code.pdf",
+        "link": "/documents/ethics_code.pdf"
+      },
+      {
+        "id": 33,
+        "name": "Положение о расписании учебных занятий",
+        "file": "schedule_regulations.pdf",
+        "link": "/documents/schedule_regulations.pdf"
+      },
+      {
+        "id": 34,
+        "name": "Положение об организации образовательного процесса для обучения инвалидов и лиц с ограниченными возможностями здоровья",
+        "file": "inclusive_education.pdf",
+        "link": "/documents/inclusive_education.pdf"
+      },
+      {
+        "id": 35,
+        "name": "Положение о посещении учебных занятий участниками образовательного процесса",
+        "file": "class_attendance.pdf",
+        "link": "/documents/class_attendance.pdf"
+      },
+      {
+        "id": 36,
+        "name": "Положение о порядке организации выполнения и защиты дипломного проекта (работы)",
+        "file": "diploma_project.pdf",
+        "link": "/documents/diploma_project.pdf"
+      },
+      {
+        "id": 37,
+        "name": "Положение о порядке проведения государственной итоговой аттестации по образовательным программам среднего профессионального образования",
+        "file": "state_certification.pdf",
+        "link": "/documents/state_certification.pdf"
+      },
+      {
+        "id": 38,
+        "name": "Положение о стажировке преподавателей",
+        "file": "internship.pdf",
+        "link": "/documents/internship.pdf"
+      },
+      {
+        "id": 39,
+        "name": "Положение о библиотеке",
+        "file": "library.pdf",
+        "link": "/documents/library.pdf"
+      },
+      {
+        "id": 40,
+        "name": "Положение о выполнении индивидуального проекта",
+        "file": "individual_project.pdf",
+        "link": "/documents/individual_project.pdf"
+      },
+      {
+        "id": 41,
+        "name": "Положение об оплате за образовательные услуги обучающимися",
+        "file": "tuition_payment.pdf",
+        "link": "/documents/tuition_payment.pdf"
+      },
+      {
+        "id": 42,
+        "name": "Положение о порядке зачета результатов освоения обучающимися учебных дисциплин, профессиональных модулей, междисциплинарных курсов, практики, дополнительных образовательных программ в других организациях, осуществляющих образовательную деятельность",
+        "file": "credit_transfer.pdf",
+        "link": "/documents/credit_transfer.pdf"
+      },
+      {
+        "id": 43,
+        "name": "Положение о выдаче дубликата диплома (дубликата приложения к диплому) о среднем профессиональном образовании",
+        "file": "diploma_duplicate.pdf",
+        "link": "/documents/diploma_duplicate.pdf"
+      },
+      {
+        "id": 44,
+        "name": "Концепция воспитательной работы",
+        "file": "educational_concept.pdf",
+        "link": "/documents/educational_concept.pdf"
+      },
+      {
+        "id": 45,
+        "name": "Положение об организации, учебно-методическом обеспечении и контроле внеаудиторной самостоятельной работы обучающихся",
+        "file": "independent_work.pdf",
+        "link": "/documents/independent_work.pdf"
+      },
+      {
+        "id": 46,
+        "name": "Положение об организации и выполнении курсовой работы (курсового проекта)",
+        "file": "course_work.pdf",
+        "link": "/documents/course_work.pdf"
+      },
+      {
+        "id": 47,
+        "name": "Положение о планировании, организации и проведении лабораторных работ и практических занятий",
+        "file": "lab_practical_classes.pdf",
+        "link": "/documents/lab_practical_classes.pdf"
+      },
+      {
+        "id": 48,
+        "name": "Положение о студенческом самоуправлении",
+        "file": "student_self_government.pdf",
+        "link": "/documents/student_self_government.pdf"
+      },
+      {
+        "id": 49,
+        "name": "Положение о студенческом совете",
+        "file": "student_council.pdf",
+        "link": "/documents/student_council.pdf"
+      },
+      {
+        "id": 50,
+        "name": "Положение о формировании фонда оценочных средств",
+        "file": "assessment_fund.pdf",
+        "link": "/documents/assessment_fund.pdf"
+      },
+      {
+        "id": 51,
+        "name": "Положение о студенческом общежитии",
+        "file": "student_dormitory.pdf",
+        "link": "/documents/student_dormitory.pdf"
+      },
+      {
+        "id": 52,
+        "name": "Положение о разработке и формировании основной профессиональной образовательной программы",
+        "file": "educational_program_development.pdf",
+        "link": "/documents/educational_program_development.pdf"
+      },
+      {
+        "id": 53,
+        "name": "Положение о порядке проведения административных контрольных работ",
+        "file": "administrative_tests.pdf",
+        "link": "/documents/administrative_tests.pdf"
+      },
+      {
+        "id": 54,
+        "name": "Положение о проведении недели специальности",
+        "file": "specialty_week.pdf",
+        "link": "/documents/specialty_week.pdf"
+      },
+      {
+        "id": 55,
+        "name": "Положение о входном контроле",
+        "file": "entrance_control.pdf",
+        "link": "/documents/entrance_control.pdf"
+      },
+      {
+        "id": 56,
+        "name": "Положение о применении к обучающимся и снятия с обучающихся мер дисциплинарного взыскания",
+        "file": "disciplinary_measures.pdf",
+        "link": "/documents/disciplinary_measures.pdf"
+      },
+      {
+        "id": 57,
+        "name": "Положение о постановке обучающихся на внутритехникумовский учет и снятии с учета",
+        "file": "internal_registration.pdf",
+        "link": "/documents/internal_registration.pdf"
+      },
+      {
+        "id": 58,
+        "name": "Положение о штабе воспитательной работы",
+        "file": "educational_headquarters.pdf",
+        "link": "/documents/educational_headquarters.pdf"
+      },
+      {
+        "id": 59,
+        "name": "Положение о Совете профилактики",
+        "file": "prevention_council.pdf",
+        "link": "/documents/prevention_council.pdf"
+      },
+      {
+        "id": 60,
+        "name": "Положение о физическом воспитании студентов",
+        "file": "physical_education.pdf",
+        "link": "/documents/physical_education.pdf"
+      },
+      {
+        "id": 61,
+        "name": "Положение о порядке оформления, учета и выдачи документов по программам дополнительного образования и профессионального обучения",
+        "file": "additional_education_documents.pdf",
+        "link": "/documents/additional_education_documents.pdf"
+      },
+      {
+        "id": 62,
+        "name": "Положение об организации занятий по физической культуре с обучающимися, отнесенными по состоянию здоровья к специально медицинской группе",
+        "file": "special_medical_group.pdf",
+        "link": "/documents/special_medical_group.pdf"
+      },
+      {
+        "id": 63,
+        "name": "Положение о предметно-цикловой комиссии в АНЧ ПОО \"Краснодарский кооперативный техникум крайпотребсоюза\"",
+        "file": "subject_commission.pdf",
+        "link": "/documents/subject_commission.pdf"
+      },
+      {
+        "id": 64,
+        "name": "Порядок выдачи справки об обучении или периоде обучения",
+        "file": "study_certificate.pdf",
+        "link": "/documents/study_certificate.pdf"
+      },
+      {
+        "id": 65,
+        "name": "Положение об аттестации педагогических работников в целях подтверждения соответствия занимаемой должности",
+        "file": "teacher_certification.pdf",
+        "link": "/documents/teacher_certification.pdf"
+      },
+      {
+        "id": 66,
+        "name": "Положение о наставничестве",
+        "file": "mentoring.pdf",
+        "link": "/documents/mentoring.pdf"
+      },
+      {
+        "id": 67,
+        "name": "Положение о школе начинающего преподавателя",
+        "file": "beginning_teacher_school.pdf",
+        "link": "/documents/beginning_teacher_school.pdf"
+      },
+      {
+        "id": 68,
+        "name": "Положение об учебном кабинете, лаборатории",
+        "file": "classroom_laboratory.pdf",
+        "link": "/documents/classroom_laboratory.pdf"
+      },
+      {
+        "id": 69,
+        "name": "Положение о дежурстве",
+        "file": "duty.pdf",
+        "link": "/documents/duty.pdf"
+      },
+      {
+        "id": 70,
+        "name": "Положение о ведении журнала учебных занятий",
+        "file": "journal_keeping.pdf",
+        "link": "/documents/journal_keeping.pdf"
+      },
+      {
+        "id": 71,
+        "name": "Положение о формировании личного дела",
+        "file": "personal_file.pdf",
+        "link": "/documents/personal_file.pdf"
+      },
+      {
+        "id": 72,
+        "name": "Положение о Центре карьеры и содействия трудоустройству выпускников",
+        "file": "career_center.pdf",
+        "link": "/documents/career_center.pdf"
+      },
+      {
+        "id": 73,
+        "name": "Положение о порядке организации и осуществления образовательной деятельности по дополнительным профессиональным программам",
+        "file": "additional_education_2.pdf",
+        "link": "/documents/additional_education_2.pdf"
+      },
+      {
+        "id": 74,
+        "name": "Положение о об организации допуска",
+        "file": "admission_organization.pdf",
+        "link": "/documents/admission_organization.pdf"
+      },
+      {
+        "id": 75,
+        "name": "Положение о правилах выдачи и заполнения студенческого билета и зачетной книжки студента",
+        "file": "student_id_gradebook.pdf",
+        "link": "/documents/student_id_gradebook.pdf"
+      },
+      {
+        "id": 76,
+        "name": "Положение о профориентационной работе",
+        "file": "career_guidance.pdf",
+        "link": "/documents/career_guidance.pdf"
+      },
+      {
+        "id": 77,
+        "name": "Положение о об антитеррористической защищенности",
+        "file": "anti_terrorism.pdf",
+        "link": "/documents/anti_terrorism.pdf"
+      },
+      {
+        "id": 78,
+        "name": "Положение о об обучении по индивидуальному учебному плану, в том числе ускоренное обучение, в пределах осваиваемой образовательной программы",
+        "file": "individual_curriculum.pdf",
+        "link": "/documents/individual_curriculum.pdf"
+      },
+      {
+        "id": 79,
+        "name": "Положение о об учете и контроле посещаемости занятий, о правилах отработки пропущенных занятий студентами",
+        "file": "attendance_control.pdf",
+        "link": "/documents/attendance_control.pdf"
+      },
+      {
+        "id": 80,
+        "name": "Положение о внутренней системе оценки качества образования и внутреннем контроле",
+        "file": "quality_assessment.pdf",
+        "link": "/documents/quality_assessment.pdf"
+      },
+      {
+        "id": 81,
+        "name": "Правила внутреннего распорядка студенческого общежития",
+        "file": "dormitory_rules.pdf",
+        "link": "/documents/dormitory_rules.pdf"
+      },
+      {
+        "id": 82,
+        "name": "Положение о языке (языках) образования организации, осуществляющей образовательную деятельность по реализуемым ею образовательным программам в АНЧ ПОО «Краснодарский кооперативный техникум крайпотребсоюза»",
+        "file": "language_education.pdf",
+        "link": "/documents/language_education.pdf"
+      },
+      {
+        "id": 83,
+        "name": "Положение о порядке применения электронного обучения, дистанционных образовательных технологий при реализации образовательных программ",
+        "file": "e_learning.pdf",
+        "link": "/documents/e_learning.pdf"
+      },
+      {
+        "id": 84,
+        "name": "Положение о кураторе студенческой группы",
+        "file": "group_curator.pdf",
+        "link": "/documents/group_curator.pdf"
+      },
+      {
+        "id": 85,
+        "name": "Положение об учете и расследовании микроповреждений (микротравм) работников",
+        "file": "micro_injuries.pdf",
+        "link": "/documents/micro_injuries.pdf"
+      },
+      {
+        "id": 86,
+        "name": "Положение о системе управления охраной труда",
+        "file": "labor_protection_system.pdf",
+        "link": "/documents/labor_protection_system.pdf"
+      },
+      {
+        "id": 87,
+        "name": "Положение об электронной информационно-образовательной среде",
+        "file": "digital_environment.pdf",
+        "link": "/documents/digital_environment.pdf"
+      },
+      {
+        "id": 88,
+        "name": "Положение о комитете (комиссии) по охране труда",
+        "file": "labor_protection_committee.pdf",
+        "link": "/documents/labor_protection_committee.pdf"
+      },
+      {
+        "id": 89,
+        "name": "Положение о структурных подразделениях",
+        "file": "structural_units.pdf",
+        "link": "/documents/structural_units.pdf"
+      },
+      {
+        "id": 90,
+        "name": "Положение о методическом совете АНЧ ПОО «Краснодарский кооперативный техникум крайпотребсоюза»",
+        "file": "methodological_council.pdf",
+        "link": "/documents/methodological_council.pdf"
+      },
+      {
+        "id": 91,
+        "name": "Положение о молодежном медиацентре профессиональной образовательной организации",
+        "file": "youth_media_center.pdf",
+        "link": "/documents/youth_media_center.pdf"
+      },
+      {
+        "id": 92,
+        "name": "Положение о порядке предоставления обучающимся, прошедшим государственную итоговую аттестацию, каникул",
+        "file": "post_exam_vacation.pdf",
+        "link": "/documents/post_exam_vacation.pdf"
+      },
+      {
+        "id": 93,
+        "name": "Положение о центре профориентации",
+        "file": "career_guidance_center.pdf",
+        "link": "/documents/career_guidance_center.pdf"
+      },
+      {
+        "id": 94,
+        "name": "Положение об органах управления",
+        "file": "management_bodies.pdf",
+        "link": "/documents/management_bodies.pdf"
+      },
+      {
+        "id": 95,
+        "name": "Положение о порядке работы с персональными данными",
+        "file": "personal_data.pdf",
+        "link": "/documents/personal_data.pdf"
+      },
+      {
+        "id": 96,
+        "name": "Положение о проведении учебных занятий по физической культуре",
+        "file": "physical_education_classes.pdf",
+        "link": "/documents/physical_education_classes.pdf"
+      }
+    ]
+  }
+}

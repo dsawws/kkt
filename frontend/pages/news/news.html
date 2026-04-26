@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новости - Техникум</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/frontend/media-styles.css">
+    <script type="text/javascript" src="https://vk.com/js/api/openapi.js?168"></script>
+    <script src="/frontend/vk-widget.js"></script>
+</head>
+<body>
+
+    <div class="accessibility-bar">
+        <div class="container">
+            <button id="accessibilityToggle" class="accessibility-btn">
+                <i class="fas fa-eye"></i> Версия для слабовидящих
+            </button>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">
+                    <h1>Техникум</h1>
+                    <p>Качество + Креатив + Творчество</p>
+                </div>
+
+                <div class="search-box">
+                    <input type="text" placeholder="Поиск по сайту...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+
+                <div class="header-contacts">
+                    <p><i class="fas fa-phone"></i> +7 (86155)2-27-83</p>
+                    <p><i class="fas fa-envelope"></i> kktbel@mail.ru</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+<nav class="main-nav">
+    <div class="container">
+        <div class="nav-logo-mobile">КК<span>Т</span></div>
+        <button class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <ul class="nav-list">
+            <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
+            <li class="nav-item"><a href="/frontend/pages/basic-info/basic-info.html" class="nav-link">Сведения об организации</a></li>
+            <li class="nav-item"><a href="/frontend/pages/abiturient/abiturient.html" class="nav-link">Поступающим</a></li>
+            <li class="nav-item"><a href="/frontend/pages/student/student.html" class="nav-link">Студентам</a></li>
+            <li class="nav-item"><a href="/frontend/pages/teacher/teacher.html" class="nav-link">Преподавателям</a></li>
+            <li class="nav-item"><a href="/frontend/pages/professions/professions.html" class="nav-link">Специальности</a></li>
+            <li class="nav-item"><a href="/frontend/pages/news/news.html" class="nav-link active">Новости</a></li>
+            <li class="nav-item"><a href="/frontend/pages/kredit/kredit.html" class="nav-link">Обркредит в СПО</a></li>
+            <li class="nav-item"><a href="/frontend/pages/ssk/ssk.html" class="nav-link">ССК</a></li>
+            <li class="nav-item"><a href="/frontend/pages/antinarko/antinarko.html" class="nav-link">Антинарко</a></li>
+            <li class="nav-item"><a href="/frontend/pages/profilaktika/profilaktika.html" class="nav-link">Профилактика</a></li>
+        </ul>
+    </div>
+</nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Хлебные крошки -->
+            <nav class="breadcrumbs">
+                <a href="/">Главная</a>
+                <i class="fas fa-chevron-right"></i>
+                <span id="current-page-title">Новости</span>
+            </nav>
+
+            <!-- Основной контент -->
+            <div class="page-content">
+                <!-- Заголовок и описание страницы -->
+                <header class="page-header">
+                    <h1 class="page-title" id="page-title">Новости техникума</h1>
+                    <p class="page-description" id="page-description">Актуальные новости и события нашего учебного заведения</p>
+                </header>
+
+                <!-- Галерея изображений -->
+                <div id="images-section" class="media-section" style="display: none;">
+                    <h2>Галерея</h2>
+                    <div class="gallery-grid" id="gallery-container"></div>
+                </div>
+
+                <!-- Видео материалы -->
+                <div id="videos-section" class="media-section" style="display: none;">
+                    <h2>Видео материалы</h2>
+                    <div class="video-grid" id="videos-container"></div>
+                </div>
+
+                <!-- Основной текстовый контент -->
+                <section class="text-content" id="text-content">
+                    <p>Добро пожаловать на страницу новостей нашего техникума! Здесь вы найдете самые свежие и актуальные новости о жизни учебного заведения, мероприятиях, достижениях студентов и преподавателей.</p>
+
+                    <div class="news-grid" id="news-container">
+                        <!-- Новости будут загружены через JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Документы для скачивания -->
+                <div id="documents-section" class="media-section" style="display: none;">
+                    <h2>Документы для скачивания</h2>
+                    <div class="documents-list" id="documents-container"></div>
+                </div>
+
+                <!-- Дополнительные материалы -->
+                <div id="additional-section" class="media-section" style="display: none;">
+                    <!-- Дополнительный контент -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Техникум</h3>
+                    <p>Качество образование - наша главная цель</p>
+                    <div class="social-links">
+                        <a href="https://vk.com/belkkt"><i class="fab fa-vk"></i></a>
+                        <a href="https://t.me/belkkt"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Разделы сайта</h3>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/frontend/pages/basic-info/basic-info.html">Сведения об организации</a></li>
+                        <li><a href="/frontend/pages/abiturient/abiturient.html">Поступающим</a></li>
+                        <li><a href="/frontend/pages/student/student.html">Студентам</a></li>
+                        <li><a href="/frontend/pages/teacher/teacher.html">Преподавателям</a></li>
+                        <li><a href="/frontend/pages/professions/professions.html">Специальности</a></li>
+                        <li><a href="/frontend/pages/news/news.html">Новости</a></li>
+                        <li><a href="/frontend/pages/kredit/kredit.html">Обркредит в СПО</a></li>
+                        <li><a href="/frontend/pages/ssk/ssk.html">ССК</a></li>
+                        <li><a href="/frontend/pages/antinarko/antinarko.html">Антинарко</a></li>
+                        <li><a href="/frontend/pages/profilaktika/profilaktika.html">Профилактика</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Полезные ссылки</h3>
+                    <ul>
+                        <li><a href="#">Расписание</a></li>
+                        <li><a href="#">Электронная библиотека</a></li>
+                        <li><a href="http://e-learn.kktbel.ru/login/index.php">Дистанционное обучение</a></li>
+                        <li><a href="#">Трудоустройство</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Краснодарский край, 352630, г.Белореченск, улица Кирова, здание 4</li>
+                        <li><i class="fas fa-phone"></i> 8(86155) 2-27-83</li>
+                        <li><i class="fas fa-envelope"></i> kktbel@mail.ru</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Техникум. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/script.js"></script>
+    <script src="/frontend/mobile-menu.js"></script>
+    <script>
+        // Данные для страницы новостей
+        const newsData = {
+            title: 'Новости техникума',
+            description: 'Актуальные новости и события нашего учебного заведения',
+            content: `
+                <p>Добро пожаловать на страницу новостей нашего техникума! Здесь вы найдете самые свежие и актуальные новости о жизни учебного заведения, мероприятиях, достижениях студентов и преподавателей.</p>
+            `,
+            news: [
+                {
+                    date: '15 мая 2024',
+                    title: 'День открытых дверей',
+                    description: 'Приглашаем всех желающих на день открытых дверей, который состоится 25 мая в 15:00.',
+                    image: 'https://placehold.co/600x400/4CAF50/FFFFFF?text=День+открытых+дверей'
+                },
+                {
+                    date: '10 мая 2024',
+                    title: 'Защита дипломных проектов',
+                    description: 'С 20 по 25 мая пройдет защита дипломных проектов выпускников техникума.',
+                    image: 'https://placehold.co/600x400/2196F3/FFFFFF?text=Защита+дипломов'
+                },
+                {
+                    date: '5 мая 2024',
+                    title: 'Новые специальности',
+                    description: 'В новом учебном году мы открываем набор на две новые специальности.',
+                    image: 'https://placehold.co/600x400/FF9800/FFFFFF?text=Новые+специальности'
+                },
+                {
+                    date: '1 мая 2024',
+                    title: 'Спортивные достижения',
+                    description: 'Наши студенты заняли первое место в региональных соревнованиях по волейболу.',
+                    image: 'https://placehold.co/600x400/F44336/FFFFFF?text=Спортивные+достижения'
+                }
+            ]
+        };
+
+        // Функция для загрузки новостей
+        function loadNews() {
+            const newsContainer = document.getElementById('news-container');
+
+            if (newsContainer) {
+                newsContainer.innerHTML = newsData.news.map(item => `
+                    <div class="news-card">
+                        <div class="news-image">
+                            <img src="${item.image}" alt="${item.title}">
+                        </div>
+                        <div class="news-date">${item.date}</div>
+                        <div class="news-content">
+                            <h3>${item.title}</h3>
+                            <p>${item.description}</p>
+                            <a href="#" class="read-more">Подробнее <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Заполняем основную информацию
+            document.getElementById('page-title').textContent = newsData.title;
+            document.getElementById('page-description').textContent = newsData.description;
+            document.getElementById('current-page-title').textContent = newsData.title;
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNews();
+
+            // Добавляем стили для новостей
+            const style = document.createElement('style');
+            style.textContent = `
+                .news-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                    gap: 2rem;
+                    margin-top: 2rem;
+                }
+
+                .news-card {
+                    background: white;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                }
+
+                .news-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+                }
+
+                .news-image {
+                    width: 100%;
+                    height: 200px;
+                    overflow: hidden;
+                }
+
+                .news-image img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.3s ease;
+                }
+
+                .news-card:hover .news-image img {
+                    transform: scale(1.05);
+                }
+
+                .news-date {
+                    background: var(--primary-color);
+                    color: white;
+                    padding: 0.5rem 1rem;
+                    font-size: 0.9rem;
+                    font-weight: 500;
+                }
+
+                .news-content {
+                    padding: 1.5rem;
+                }
+
+                .news-content h3 {
+                    color: var(--primary-dark);
+                    margin-bottom: 0.5rem;
+                    font-size: 1.2rem;
+                }
+
+                .news-content p {
+                    color: var(--text-secondary);
+                    margin-bottom: 1rem;
+                    line-height: 1.5;
+                }
+
+                .read-more {
+                    color: var(--primary-color);
+                    font-weight: 500;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    transition: color 0.3s ease;
+                }
+
+                .read-more:hover {
+                    color: var(--primary-dark);
+                }
+
+                @media (max-width: 768px) {
+                    .news-grid {
+                        grid-template-columns: 1fr;
+                        gap: 1.5rem;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>

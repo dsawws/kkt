@@ -1,0 +1,473 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Техникум - Главная страница</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/frontend/style.css">
+    <script type="text/javascript" src="https://vk.com/js/api/openapi.js?168"></script>
+    <script src="/frontend/vk-widget.js"></script>
+
+</head>
+<body>
+
+    <div class="accessibility-bar">
+        <div class="container">
+            <button id="accessibilityToggle" class="accessibility-btn">
+                <i class="fas fa-eye"></i> Версия для слабовидящих
+            </button>
+        </div>
+    </div>
+
+
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">
+                    <h1>Техникум</h1>
+                    <p>Качество + Креатив + Творчество</p>
+                </div>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="Поиск по сайту...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                
+                <div class="header-contacts">
+                    <p><i class="fas fa-phone"></i> +7 (86155)2-27-83</p>
+                    <p><i class="fas fa-envelope"></i> kktbel@mail.ru</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+<nav class="main-nav">
+    <div class="container">
+        <div class="nav-logo-mobile">КК<span>Т</span></div>
+        <button class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <ul class="nav-list">
+            <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
+            <li class="nav-item"><a href="/frontend/pages/basic-info/basic-info.html" class="nav-link">Сведения об организации</a></li>
+            <li class="nav-item"><a href="/frontend/pages/abiturient/abiturient.html" class="nav-link">Поступающим</a></li>
+            <li class="nav-item"><a href="/frontend/pages/student/student.html" class="nav-link">Студентам</a></li>
+            <li class="nav-item"><a href="/frontend/pages/teacher/teacher.html" class="nav-link">Преподавателям</a></li>
+            <li class="nav-item"><a href="/frontend/pages/professions/professions.html" class="nav-link active">Специальности</a></li>
+            <li class="nav-item"><a href="/frontend/pages/news/news.html" class="nav-link">Новости</a></li>
+            <li class="nav-item"><a href="/frontend/pages/kredit/kredit.html" class="nav-link">Обркредит в СПО</a></li>
+            <li class="nav-item"><a href="/frontend/pages/ssk/ssk.html" class="nav-link">ССК</a></li>
+            <li class="nav-item"><a href="/frontend/pages/antinarko/antinarko.html" class="nav-link">Антинарко</a></li>
+            <li class="nav-item"><a href="/frontend/pages/profilaktika/profilaktika.html" class="nav-link">Профилактика</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+
+
+  <section class="slider">
+        <div class="slide active">
+            <div class="slide-content">
+                <h2 id="slider-title">Добро пожаловать в наш техникум!</h2>
+                <p id="slider-text">Мы готовим специалистов с 1944 года</p>
+                <a href="/page/3" class="btn">Подать заявление</a>
+            </div>
+        </div>
+    </section>
+
+
+<section class="quick-links">
+    <div class="container">
+        <h2 class="section-title">Быстрые ссылки</h2>
+        <div class="links-grid">
+            <!--
+            <a href="/page/3" class="link-card">
+                <div class="link-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h3>Абитуриенту</h3>
+                <p>Всё для поступающих в наш техникум</p>
+            </a>
+
+            <a href="/page/4" class="link-card">
+                <div class="link-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h3>Студенту</h3>
+                <p>Расписание, материалы, документы</p>
+            </a>
+
+            <a href="/page/5" class="link-card">
+                <div class="link-icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <h3>Преподавателю</h3>
+                <p>Методические материалы и документы</p>
+            </a>
+            -->
+
+            <a href="http://e-learn.kktbel.ru/login/index.php" class="link-card">
+                <div class="link-icon">
+                    <i class="fas fa-laptop"></i>
+                </div>
+                <h3>Электронное обучение</h3>
+                <p>Дистанционное обучение</p>
+            </a>
+
+            <a href="https://api.kktmobile-app.ru/app/.../index.html#" class="link-card">
+                <div class="link-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Приложение техникума</h3>
+                <p>Мобильное приложение для студентов и преподавателей</p>
+            </a>
+
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h3>Чат поддержка</h3>
+                <p>Онлайн-помощь и консультации</p>
+            </a>
+
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h3>Общежитие</h3>
+                <p>Информация о студенческом общежитии</p>
+            </a>
+
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fas fa-address-card"></i>
+                </div>
+                <h3>Контакты</h3>
+                <p>Контактная информация и схема проезда</p>
+            </a>
+
+
+        </div>
+    </div>
+</section>
+
+<section class="news">
+    <div class="container">
+        <h2 class="section-title">Новости и объявления</h2>
+
+        <!-- Адаптивный контейнер для ВК -->
+        <div class="vk-wrapper">
+            <div id="vk_groups"></div>
+        </div>
+
+        <div class="news-grid" id="news-container"></div>
+
+        <div class="news-actions">
+            <a href="/page/6" class="btn-outline">Все новости</a>
+        </div>
+    </div>
+</section>
+
+
+    <section class="director">
+        <div class="container">
+            <div class="director-inner">
+                <div class="director-image">
+                    <img src="{{director_image}}" alt="Директор техникума" id="director-img">
+                </div>
+                <div class="director-message">
+                    <h2 class="section-title" id="welcome-title">{{welcome_title}}</h2>
+                    <i><p id="welcome-text" style="white-space: pre-line;">{{welcome_text}}</p></i>
+                    <div class="director-signature">
+                        <p><span id="director-position">{{director_position}}</span><br><span id="director-name">{{director_name}}</span></p>
+                    </div>
+                    <p><i>По любым вопросам Вы можете обратиться, воспользовавшись нашими контактами.</i></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="director">
+        <div class="container">
+            <h2 style="text-align: center; color: var(--primary-dark);"><i>Единый телефон доверия для детей и подростков 8-800-2000-122</i></h2>
+            <p style="text-align: center;"><i>Звонок осуществляется с любых телефонов бесплатно и круглосуточно. <br> Единый телефон доверия для детей, подростков и их родителей оказывает консультативно психологическую помощь детям и родителям с целью укрепления семью, профилактики семейного неблагополучия, стрессовых и суицидальных настроений детей и подростков, защиты прав детей. Оказывает эмоциональную поддержку и помощь родителям в нахождении способов психологической помощи детям, пережившим травмирующее событие, в восстановлении повседневной жизни семьи и образовательного процесса.<br>Звонящий имеет право не называть свое имя, а содержание беседы остается абсолютно конфиденциально.<br>В разговоре с абонентом психолог всегда исходит из того, что человек имеет право быть таким, какой он есть. Специалисты Единого телефона доверия никогда и никого не осуждают, не критикуют и не учат жизни.</i></p>
+        </div>
+    </section>
+
+    <section class="vov">
+        <div class="vov_container">
+            <div class="vov-image">
+                    <img src="../uploads/VOV.jpg">
+            </div>
+            <p style="text-align: center; color: var(--primary-dark); font-weight: 500;"><u>Победа в Великой Отечественной войне <br>1941-1945</u></p>
+        </div>
+    </section>
+
+    <section class="specialties">
+        <div class="container">
+            <h2 class="section-title">Наши специальности</h2>
+            <div class="specialties-grid">
+                <div class="specialty-card">
+                    <div class="specialty-image">
+                        <img src="https://placehold.co/400x300/8BC34A/FFFFFF?text=Логистика" alt="Операционная деятельность в логистике">
+                    </div>
+                    <div class="specialty-content">
+                        <h3>Операционная деятельность в логистике</h3>
+                        <p>Срок обучения: 2 года 10 месяцев</p>
+                        <a href="#" class="btn-outline">Подробнее</a>
+                    </div>
+                </div>
+                
+                <div class="specialty-card">
+                    <div class="specialty-image">
+                        <img src="https://placehold.co/400x300/8BC34A/FFFFFF?text=Торговля" alt="Торговое дело">
+                    </div>
+                    <div class="specialty-content">
+                        <h3>Торговое дело</h3>
+                        <p>Срок обучения: 2 года 10 месяцев</p>
+                        <a href="#" class="btn-outline">Подробнее</a>
+                    </div>
+                </div>
+                
+                <div class="specialty-card">
+                    <div class="specialty-image">
+                        <img src="https://placehold.co/400x300/8BC34A/FFFFFF?text=Программирование" alt="Информационные системы">
+                    </div>
+                    <div class="specialty-content">
+                        <h3>Информационные системы и программирование</h3>
+                        <p>Срок обучения: 3 года 10 месяцев</p>
+                        <a href="#" class="btn-outline">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            <div class="specialties-actions">
+                <a href="/frontend/professions.html" class="btn">Все специальности</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="contacts">
+        <div class="container">
+            <h2 class="section-title">Контакты</h2>
+            <div class="contacts-inner">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Адрес</h3>
+                            <p>Краснодарский край, 352630, г.Белореченск, улица Кирова, здание 4</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Телефон</h3>
+                            <p> 8(86155)2-27-83</p>
+                            <p> 8-988-480-06-92(приёмная комиссия)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <p>kktbel@mail.ru</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Режим работы</h3>
+                            <p>Ежедневно с 8:00 - 17:00</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="map">
+    <div class="map-container">
+        <div style="position:relative;overflow:hidden;width:100%;height:100%;">
+            <a href="https://yandex.ru/maps/10988/belorechensk/?utm_medium=mapframe&utm_source=maps"
+               style="color:#eee;font-size:12px;position:absolute;top:0px;left:0px;z-index:1;">
+                Белореченск
+            </a>
+            <a href="https://yandex.ru/maps/10988/belorechensk/house/ulitsa_kirova_4/Z0AYfg9hSkUOQFpufXt0c3RkZQ==/?ll=39.881309%2C44.752871&utm_medium=mapframe&utm_source=maps&z=17.13"
+               style="color:#eee;font-size:12px;position:absolute;top:14px;left:0px;z-index:1;">
+                Яндекс Карты — транспорт, навигация, поиск мест
+            </a>
+            <iframe src="https://yandex.ru/map-widget/v1/?ll=39.881309%2C44.752871&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgoxNTAyODkzNjE3EmXQoNC-0YHRgdC40Y8sINCa0YDQsNGB0L3QvtC00LDRgNGB0LrQuNC5INC60YDQsNC5LCDQkdC10LvQvtGA0LXRh9C10L3RgdC6LCDRg9C70LjRhtCwINCa0LjRgNC-0LLQsCwgNCIKDXWGH0IV8QIzQg%2C%2C&z=17.13"
+                    width="100%"
+                    height="100%"
+                    frameborder="0"
+                    allowfullscreen="true"
+                    style="position:relative;border:none;">
+            </iframe>
+        </div>
+    </div>
+</div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Техникум</h3>
+                <p>Качество образование - наша главная цель</p>
+                <div class="social-links">
+                    <a href="https://vk.com/belkkt"><i class="fab fa-vk"></i></a>
+                    <a href="https://t.me/belkkt"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Разделы сайта</h3>
+                <ul>
+                    <li><a href="/">Главная</a></li>
+                    <li><a href="/frontend/pages/basic-info/basic-info.html">Сведения об организации</a></li>
+                    <li><a href="/frontend/pages/abiturient/abiturient.html">Поступающим</a></li>
+                    <li><a href="/frontend/pages/student/student.html">Студентам</a></li>
+                    <li><a href="/frontend/pages/teacher/teacher.html">Преподавателям</a></li>
+                    <li><a href="/frontend/pages/professions/professions.html">Специальности</a></li>
+                    <li><a href="/frontend/pages/news/news.html">Новости</a></li>
+                    <li><a href="/frontend/pages/kredit/kredit.html">Обркредит в СПО</a></li>
+                    <li><a href="/frontend/pages/ssk/ssk.html">ССК</a></li>
+                    <li><a href="/frontend/pages/antinarko/antinarko.html">Антинарко</a></li>
+                    <li><a href="/frontend/pages/profilaktika/profilaktika.html">Профилактика</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Полезные ссылки</h3>
+                <ul>
+                    <li><a href="#">Расписание</a></li>
+                    <li><a href="#">Электронная библиотека</a></li>
+                    <li><a href="#">Дистанционное обучение</a></li>
+                    <li><a href="#">Трудоустройство</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> Краснодарский край, 352630, г.Белореченск, улица Кирова, здание 4</li>
+                    <li><i class="fas fa-phone"></i> 8(86155) 2-27-83</li>
+                    <li><i class="fas fa-envelope"></i> kktbel@mail.ru</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Техникум. Все права защищены.</p>
+        </div>
+    </div>
+</footer>
+
+    <script src="/static/script.js"></script>
+    <script>
+        fetch('/api/homepage/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.welcome_title) {
+                    document.getElementById('welcome-title').textContent = data.welcome_title;
+                }
+                if (data.welcome_text) {
+                    document.getElementById('welcome-text').textContent = data.welcome_text;
+                }
+                                if (data.director_name) {
+                    document.getElementById('director-name').textContent = data.director_name;
+                }
+                if (data.director_position) {
+                    document.getElementById('director-position').textContent = data.director_position;
+                }
+                if (data.director_image) {
+                    document.getElementById('director-img').src = data.director_image;
+                }
+                if (data.slider_title) {
+                    document.getElementById('slider-title').textContent = data.slider_title;
+                }
+                if (data.slider_text) {
+                    document.getElementById('slider-text').textContent = data.slider_text;
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка загрузки данных главной страницы:', error);
+            });
+
+
+        // Загрузка меню (если нужно динамическое меню)
+        fetch('/api/menu/')
+            .then(response => response.json())
+            .then(menu => {
+                const menuContainer = document.getElementById('main-menu');
+                if (menuContainer) {
+                    menuContainer.innerHTML = '';
+                    
+                    menu.forEach(item => {
+                        const li = document.createElement('li');
+                        
+                        if (item.children && item.children.length > 0) {
+                            li.className = 'dropdown';
+                            li.innerHTML = `
+                                <a href="${item.url}" class="nav-link">${item.title} <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    ${item.children.map(child => `<li><a href="${child.url}">${child.title}</a></li>`).join('')}
+                                </ul>
+                            `;
+                        } else {
+                            li.innerHTML = `<a href="${item.url}" class="nav-link">${item.title}</a>`;
+                        }
+                        
+                        menuContainer.appendChild(li);
+                    });
+                }
+            })
+            .catch(error => {
+                // Меню может не загружаться, это не критично
+                console.warn('Меню не загружено (возможно, API недоступно):', error);
+            });
+
+        const newsContainer = document.getElementById('news-container');
+        newsContainer.innerHTML = `
+            <div class="news-card">
+                <div class="news-date">15 мая 2023</div>
+                <h3>День открытых дверей</h3>
+                <p>Узнайте всё о наших специальностях изнутри! Приглашаем будущих студентов и их родителей на День открытых дверей. <br> Следите за объявлениями на нашем сайте и в социальных сетях, чтобы не пропустить дату проведения. <br> Мы поможем вам сделать осознанный выбор и уверенно шагнуть в профессиональное будущее. </p>
+                <a href="#" class="read-more">Подробнее <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <!--
+                <div class="news-card">
+                <div class="news-date">10 мая 2023</div>
+                <h3>Защита дипломных проектов</h3>
+                <p>С 20 по 25 мая пройдет защита дипломных проектов выпускников техникума.</p>
+                <a href="#" class="read-more">Подробнее <i class="fas fa-arrow-right"></i></a>
+            </div>
+            -->
+            
+            <div class="news-card">
+                <div class="news-date">5 мая 2023</div>
+                <h3>Новые специальности</h3>
+                <p>В новом учебном году мы открываем набор на новую специальность 09.02.11 «Разработка и управление программным обеспечением»!</p>
+                <a href="#" class="read-more">Подробнее <i class="fas fa-arrow-right"></i></a>
+            </div>
+        `;
+
+    </script>
+    <script src="/frontend/mobile-menu.js"></script>
+</body>
+</html>

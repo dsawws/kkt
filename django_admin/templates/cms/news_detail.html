@@ -1,0 +1,66 @@
+{% extends 'cms/base.html' %}
+{% load static %}
+
+{% block title %}{{ news_item.title }} — Техникум{% endblock %}
+
+{% block content %}
+<main>
+<div class="container">
+    <nav class="breadcrumbs">
+        <a href="{% url 'cms:index' %}">Главная</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="{% url 'cms:news_list' %}">Новости</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>{{ news_item.title|truncatechars:40 }}</span>
+    </nav>
+
+    <div class="page-layout">
+        <div class="page-content">
+            <span class="news-card__tag" style="margin-bottom:12px;display:inline-block;">{{ news_item.tag }}</span>
+            <h1 class="page-title">{{ news_item.title }}</h1>
+            <p style="color:#999;font-size:.85rem;margin-bottom:24px;">
+                <i class="fas fa-calendar-alt" style="margin-right:6px;"></i>
+                {{ news_item.created_at|date:"d.m.Y" }}
+            </p>
+
+            {% if news_item.image %}
+            <img src="{{ news_item.image.url }}" alt="{{ news_item.title }}"
+                 style="width:100%;max-height:400px;object-fit:cover;border-radius:12px;margin-bottom:28px;">
+            {% endif %}
+
+            {% if news_item.excerpt %}
+            <p style="font-size:1.05rem;color:#555;font-style:italic;margin-bottom:24px;padding-left:16px;border-left:4px solid var(--primary-color);">
+                {{ news_item.excerpt }}
+            </p>
+            {% endif %}
+
+            <div class="content-block">{{ news_item.content|safe }}</div>
+
+            <div style="margin-top:32px;padding-top:24px;border-top:1px solid #eee;">
+                <a href="{% url 'cms:news_list' %}" class="btn-outline">
+                    <i class="fas fa-arrow-left"></i> Все новости
+                </a>
+            </div>
+        </div>
+
+        {% if recent %}
+        <aside class="page-sidebar">
+            <div style="background:#f8f9fa;border-radius:10px;padding:20px;border:1px solid #e9ecef;">
+                <h3 style="font-size:1rem;color:var(--primary-dark);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--primary-color);">
+                    Другие новости
+                </h3>
+                {% for item in recent %}
+                <a href="{% url 'cms:news_detail' item.slug %}"
+                   style="display:block;padding:10px 0;border-bottom:1px solid #eee;text-decoration:none;color:#333;font-size:.88rem;transition:color .2s;"
+                   onmouseover="this.style.color='var(--primary-color)'" onmouseout="this.style.color='#333'">
+                    <span class="news-card__tag" style="font-size:.7rem;margin-bottom:4px;display:inline-block;">{{ item.tag }}</span><br>
+                    {{ item.title|truncatechars:60 }}
+                </a>
+                {% endfor %}
+            </div>
+        </aside>
+        {% endif %}
+    </div>
+</div>
+</main>
+{% endblock %}

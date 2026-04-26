@@ -1,0 +1,55 @@
+{% extends 'cms/base.html' %}
+{% load static %}
+
+{% block title %}Новости — Техникум{% endblock %}
+
+{% block content %}
+<main>
+<div class="container">
+    <nav class="breadcrumbs">
+        <a href="{% url 'cms:index' %}">Главная</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>Новости</span>
+    </nav>
+
+    <div style="padding: 40px 0;">
+        <h1 class="page-title">Новости и объявления</h1>
+
+        <!-- ВК виджет -->
+        <div class="vk-wrapper" style="margin-bottom: 36px;">
+            <div id="vk_groups"></div>
+        </div>
+
+        {% if news %}
+        <div class="news-feed" style="max-width:100%;">
+            {% for item in news %}
+            <a href="{% url 'cms:news_detail' item.slug %}" class="news-post">
+                <div class="news-post__date">
+                    <span class="news-post__date-day">{{ item.created_at|date:"d" }}</span>
+                    <span class="news-post__date-mon">{{ item.created_at|date:"M" }}</span>
+                </div>
+                <div class="news-post__body">
+                    <span class="news-post__tag">{{ item.tag }}</span>
+                    <div class="news-post__title">{{ item.title }}</div>
+                    {% if item.excerpt %}
+                    <div class="news-post__excerpt">{{ item.excerpt|truncatechars:140 }}</div>
+                    {% endif %}
+                </div>
+                <div class="news-post__arrow"><i class="fas fa-chevron-right"></i></div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div style="text-align:center;padding:60px 20px;color:#999;">
+            <i class="fas fa-newspaper" style="font-size:3rem;margin-bottom:16px;display:block;"></i>
+            <p>Новостей пока нет. Добавьте их через <a href="/admin/cms/news/add/" style="color:var(--primary-color);">админ-панель</a>.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+</main>
+
+<script type="text/javascript" src="https://vk.com/js/api/openapi.js?168"></script>
+{% load static %}
+<script src="{% static 'vk-widget.js' %}"></script>
+{% endblock %}

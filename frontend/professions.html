@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Специальности — Наш техникум</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/professions.css">
+</head>
+<body>
+
+    <!-- Версия для слабовидящих -->
+    <div class="accessibility-bar">
+        <div class="container">
+            <button id="accessibilityToggle" class="accessibility-btn">
+                <i class="fas fa-eye"></i> Версия для слабовидящих
+            </button>
+        </div>
+    </div>
+
+    <!-- Шапка -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">
+                    <h1>Техникум</h1>
+                    <p>Качество + Креатив + Творчество</p>
+                </div>
+
+                <div class="search-box">
+                    <input type="text" placeholder="Поиск по сайту...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+
+                <div class="header-contacts">
+                    <p><i class="fas fa-phone"></i> +7 (86155)2-27-83</p>
+                    <p><i class="fas fa-envelope"></i> kktbel@mail.ru</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Навигация -->
+<nav class="main-nav">
+    <div class="container">
+        <div class="nav-logo-mobile">КК<span>Т</span></div>
+
+        </button>
+
+        <ul class="nav-list">
+            <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
+            <li class="nav-item"><a href="/frontend/pages/basic-info/basic-info.html" class="nav-link">Сведения об организации</a></li>
+            <li class="nav-item"><a href="/frontend/pages/abiturient/abiturient.html" class="nav-link">Поступающим</a></li>
+            <li class="nav-item"><a href="/frontend/pages/student/student.html" class="nav-link">Студентам</a></li>
+            <li class="nav-item"><a href="/frontend/pages/teacher/teacher.html" class="nav-link">Преподавателям</a></li>
+            <li class="nav-item"><a href="/frontend/pages/professions/professions.html" class="nav-link active">Специальности</a></li>
+            <li class="nav-item"><a href="/frontend/pages/news/news.html" class="nav-link">Новости</a></li>
+            <li class="nav-item"><a href="/frontend/pages/kredit/kredit.html" class="nav-link">Обркредит в СПО</a></li>
+            <li class="nav-item"><a href="/frontend/pages/ssk/ssk.html" class="nav-link">ССК</a></li>
+            <li class="nav-item"><a href="/frontend/pages/antinarko/antinarko.html" class="nav-link">Антинарко</a></li>
+            <li class="nav-item"><a href="/frontend/pages/profilaktika/profilaktika.html" class="nav-link">Профилактика</a></li>
+        </ul>
+    </div>
+</nav>
+
+    <!-- Раздел специальностей -->
+    <section class="professions-section">
+        <div class="container">
+            <h2 class="section-title">Специальности нашего техникума</h2>
+            <p class="section-subtitle">Выберите интересующую вас специальность, чтобы узнать подробности обучения</p>
+
+            <div class="professions-grid">
+                <!-- Информационные системы и программирование -->
+                <div class="profession-card"
+                     data-title="09.02.07 Информационные системы и программирование"
+                     data-image="https://placehold.co/600x400/8BC34A/FFFFFF?text=Информационные+системы"
+                     data-description="Специальность готовит специалистов по разработке, внедрению и сопровождению информационных систем. Студенты изучают программирование, базы данных, веб-разработку и системный анализ. Выпускники востребованы в IT-компаниях, банках, государственных учреждениях и любых организациях, где требуется автоматизация бизнес-процессов. Возможные должности: программист, системный администратор, веб-разработчик, специалист по базам данных.">
+                    <i class="fas fa-laptop-code"></i>
+                    <h3>Информационные системы и программирование</h3>
+                    <p><strong>Срок обучения:</strong> 3 года 10 месяцев</p>
+                    <p><strong>Квалификация:</strong> специалист по информационным системам</p>
+                </div>
+
+                <!-- Землеустройство -->
+                <div class="profession-card"
+                     data-title="21.02.19 Землеустройство"
+                     data-image="https://placehold.co/600x400/8BC34A/FFFFFF?text=Землеустройство"
+                     data-description="Специальность готовит специалистов по планированию и организации рационального использования земельных ресурсов. Студенты изучают геодезию, картографию, кадастр недвижимости и земельное право. Выпускники работают в кадастровых палатах, риэлторских компаниях, строительных организациях и государственных органах управления земельными ресурсами. Профессия сочетает в себе работу с современными геодезическими приборами и компьютерными технологиями.">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <h3>Землеустройство</h3>
+                    <p><strong>Срок обучения:</strong> 3 года 10 месяцев</p>
+                    <p><strong>Квалификация:</strong> специалист по землеустройству</p>
+                </div>
+
+                <!-- Экономика и бухгалтерский учет -->
+                <div class="profession-card"
+                     data-title="38.02.01 Экономика и бухгалтерский учет"
+                     data-image="https://placehold.co/600x400/8BC34A/FFFFFF?text=Экономика+и+бухучет"
+                     data-description="Одна из самых востребованных специальностей в любой отрасли экономики. Студенты изучают бухгалтерский учет, налогообложение, финансовый анализ, аудит и экономику предприятия. Выпускники могут работать бухгалтерами, экономистами, финансовыми аналитиками, налоговыми консультантами. Специальность обеспечивает стабильность и карьерный рост в различных сферах бизнеса и государственного управления.">
+                    <i class="fas fa-calculator"></i>
+                    <h3>Экономика и бухгалтерский учет</h3>
+                    <p><strong>Срок обучения:</strong> 2 года 10 месяцев</p>
+                    <p><strong>Квалификация:</strong> бухгалтер</p>
+                </div>
+
+                <!-- Операционная деятельность в логистике -->
+                <div class="profession-card"
+                     data-title="38.02.03 Операционная деятельность в логистике"
+                     data-image="https://placehold.co/600x400/8BC34A/FFFFFF?text=Логистика"
+                     data-description="Современная специальность, готовящая специалистов по управлению материальными потоками. Студенты изучают транспортную логистику, складское хозяйство, управление цепями поставок, таможенное дело. Выпускники работают логистами, менеджерами по закупкам, специалистами по ВЭД, складскими менеджерами. Профессия требует аналитического мышления и умения работать в условиях многозадачности.">
+                    <i class="fas fa-truck-loading"></i>
+                    <h3>Операционная деятельность в логистике</h3>
+                    <p><strong>Срок обучения:</strong> 2 года 10 месяцев</p>
+                    <p><strong>Квалификация:</strong> операционный логист</p>
+                </div>
+
+                <!-- Торговое дело -->
+                <div class="profession-card"
+                     data-title="38.02.08 Торговое дело"
+                     data-image="https://placehold.co/600x400/8BC34A/FFFFFF?text=Торговое+дело"
+                     data-description="Специальность для тех, кто хочет работать в сфере продаж и маркетинга. Студенты изучают мерчандайзинг, управление продажами, маркетинговые исследования, товароведение. Выпускники становятся менеджерами по продажам, торговыми представителями, мерчандайзерами, руководителями отделов продаж. Профессия предлагает высокий доход при успешной работе и возможности быстрого карьерного роста.">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h3>Торговое дело</h3>
+                    <p><strong>Срок обучения:</strong> 2 года 10 месяцев</p>
+                    <p><strong>Квалификация:</strong> специалист торгового дела</p>
+                </div>
+
+                <!-- Юриспруденция -->
+                <div class="profession-card"
+                     data-title="40.02.04 Юриспруденция"
+                     data-image="https://placehold.co/600x400/8BC34A/FFFFFF?text=Юриспруденция"
+                     data-description="Классическая специальность, пользующаяся постоянным спросом на рынке труда. Студенты изучают гражданское, уголовное, трудовое право, основы государственного устройства. Выпускники работают юрисконсультами в компаниях, помощниками нотариусов и адвокатов, специалистами в государственных органах. Профессия требует аналитического мышления, внимательности и хороших коммуникативных навыков.">
+                    <i class="fas fa-gavel"></i>
+                    <h3>Юриспруденция</h3>
+                    <p><strong>Срок обучения:</strong> 2 года 10 месяцев</p>
+                    <p><strong>Квалификация:</strong> юрист</p>
+                </div>
+
+                <!-- Туризм и гостеприимство -->
+                <div class="profession-card"
+                     data-title="43.02.16 Туризм и гостеприимство"
+                     data-image="https://placehold.co/600x400/8BC34A/FFFFFF?text=Туризм+и+гостеприимство"
+                     data-description="Интересная специальность для тех, кто любит путешествия и общение с людьми. Студенты изучают география туризма, технологию продаж турпродуктов, гостиничный сервис, экскурсоведение. Выпускники работают менеджерами по туризму, администраторами гостиниц, экскурсоводами, организаторами мероприятий. Профессия предлагает возможность работать в международных компаниях и путешествовать по всему миру.">
+                    <i class="fas fa-hotel"></i>
+                    <h3>Туризм и гостеприимство</h3>
+                    <p><strong>Срок обучения:</strong> 2 года 10 месяцев</p>
+                    <p><strong>Квалификация:</strong> специалист по туризму и гостеприимству</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Модальное окно -->
+    <div class="modal" id="professionModal">
+        <div class="modal-content">
+            <span class="close-btn" id="modalClose">&times;</span>
+            <img id="modalImage" src="" alt="Фото специальности">
+            <h2 id="modalTitle"></h2>
+            <p id="modalDescription"></p>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Техникум</h3>
+                    <p>Качество образование - наша главная цель</p>
+                    <div class="social-links">
+                        <a href="https://vk.com/belkkt"><i class="fab fa-vk"></i></a>
+                        <a href="https://t.me/belkkt"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Разделы сайта</h3>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/page/2">Сведения об организации</a></li>
+                        <li><a href="/page/3">Поступающим</a></li>
+                        <li><a href="/page/4">Студентам</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Полезные ссылки</h3>
+                    <ul>
+                        <li><a href="">Расписание</a></li>
+                        <li><a href="#">Электронная библиотека</a></li>
+                        <li><a href="#">Дистанционное обучение</a></li>
+                        <li><a href="#">Трудоустройство</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Краснодарский край, 352630, г.Белореченск, улица Кирова, здание 4</li>
+                        <li><i class="fas fa-phone"></i> 8(86155) 2-27-83</li>
+                        <li><i class="fas fa-envelope"></i> kktbel@mail.ru</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Техникум. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/frontend/professions.js"></script>
+    <script src="/frontend/mobile-menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель техникума</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #8BC34A;
+            --primary-dark: #689F38;
+            --primary-light: #DCEDC8;
+            --accent-color: #FFC107;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-light: #FFFFFF;
+            --bg-light: #F5F5F5;
+            --bg-dark: #2E7D32;
+            --sidebar-width: 250px;
+            --header-height: 60px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--bg-light);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Сайдбар */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background-color: var(--bg-dark);
+            text-align: center;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .menu-item:hover {
+            background-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .submenu {
+            padding-left: 20px;
+            background-color: rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .submenu.active {
+            display: block;
+        }
+
+        .submenu-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submenu-item:hover {
+            background-color: var(--primary-color);
+        }
+
+        /* Основной контент */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+        }
+
+        .admin-header {
+            background-color: var(--text-light);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .content-section {
+            background-color: var(--text-light);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 10px;
+        }
+
+        /* Формы */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-danger {
+            background-color: #f44336;
+            color: var(--text-light);
+        }
+
+        .btn-danger:hover {
+            background-color: #d32f2f;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.875rem;
+        }
+
+        /* Таблицы */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table th {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+        }
+
+        .table tr:hover {
+            background-color: rgba(139, 195, 74, 0.1);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        /* Вкладки */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab.active {
+            border-bottom: 2px solid var(--primary-color);
+            color: var(--primary-dark);
+            font-weight: 500;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Редактор контента */
+        .content-editor {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .editor-toolbar {
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .editor-toolbar button {
+            padding: 5px 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .editor-toolbar button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .editor-content {
+            padding: 15px;
+            min-height: 200px;
+            outline: none;
+        }
+
+        /* Загрузка файлов */
+        .file-upload {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary-color);
+        }
+
+        .file-list {
+            margin-top: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Конструктор таблиц */
+        .table-builder {
+            margin-bottom: 20px;
+        }
+
+        .table-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .table-preview {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .table-preview table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-preview td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            min-width: 100px;
+        }
+
+        .table-preview td:focus {
+            outline: 2px solid var(--primary-color);
+        }
+
+        /* Главная страница редактор */
+        .homepage-editor .form-group {
+            margin-bottom: 20px;
+        }
+
+        .image-preview {
+            max-width: 300px;
+            margin-top: 10px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Уведомления */
+        .alert {
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Модальное окно */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .modal {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            width: 400px;
+            max-width: 90%;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Сайдбар -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Админ-панель</h2>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-item" onclick="showSection('dashboard')">
+                <i class="fas fa-tachometer-alt"></i> Дашборд
+            </div>
+            <div class="menu-item" onclick="toggleSubmenu('pages-menu')">
+                <i class="fas fa-file"></i> Страницы <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="submenu" id="pages-menu">
+                <div class="submenu-item" onclick="showSection('pages-list')">Все страницы</div>
+                <div class="submenu-item" onclick="showSection('add-page')">Добавить страницу</div>
+                <div class="submenu-item" onclick="showSection('menu-structure')">Структура меню</div>
+            </div>
+            <div class="menu-item" onclick="showSection('homepage-editor')">
+                <i class="fas fa-home"></i> Главная страница
+            </div>
+            <div class="menu-item" onclick="showSection('content-blocks')">
+                <i class="fas fa-align-left"></i> Блоки контента
+            </div>
+            <div class="menu-item" onclick="showSection('media')">
+                <i class="fas fa-images"></i> Медиафайлы
+            </div>
+            <div class="menu-item" onclick="showSection('users')">
+                <i class="fas fa-users"></i> Пользователи
+            </div>
+            <div class="menu-item" onclick="showSection('settings')">
+                <i class="fas fa-cog"></i> Настройки
+            </div>
+            <div class="menu-item" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Выйти
+            </div>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="main-content">
+        <div class="admin-header">
+            <h1 id="section-title">Дашборд</h1>
+            <div>
+                <span id="current-user">Администратор</span>
+            </div>
+        </div>
+
+        <!-- Дашборд -->
+        <div id="dashboard" class="content-section">
+            <h2 class="section-title">Общая статистика</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <div style="background: var(--primary-light); padding: 20px; border-radius: 8px;">
+                    <h3>Страницы</h3>
+                    <p id="pages-count">0</p>
+                </div>
+                <div style="background: var(--primary-light); padding: 20px; border-radius: 8px;">
+                    <h3>Блоки контента</h3>
+                    <p id="blocks-count">0</p>
+                </div>
+                <div style="background: var(--primary-light); padding: 20px; border-radius: 8px;">
+                    <h3>Медиафайлы</h3>
+                    <p id="media-count">0</p>
+                </div>
+                <div style="background: var(--primary-light); padding: 20px; border-radius: 8px;">
+                    <h3>Пользователи</h3>
+                    <p id="users-count">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Список страниц -->
+        <div id="pages-list" class="content-section" style="display: none;">
+            <h2 class="section-title">Управление страницами</h2>
+            <button class="btn btn-primary" onclick="showAddPageForm()">Добавить страницу</button>
+            <div id="pages-alert"></div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Название</th>
+                        <th>URL</th>
+                        <th>Статус</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody id="pages-table-body">
+                    <!-- Страницы будут загружены через JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Добавление/редактирование страницы -->
+        <div id="add-page" class="content-section" style="display: none;">
+            <h2 class="section-title" id="page-form-title">Добавить страницу</h2>
+            <div id="page-alert"></div>
+            <form id="page-form">
+                <input type="hidden" id="page-id">
+                <div class="form-group">
+                    <label for="page-title">Название страницы</label>
+                    <input type="text" id="page-title" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="page-slug">URL (slug)</label>
+                    <input type="text" id="page-slug" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="page-parent">Родительская страница</label>
+                    <select id="page-parent" class="form-control">
+                        <option value="">Нет (основная страница)</option>
+                        <!-- Опции будут заполнены через JS -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="page-description">Описание</label>
+                    <textarea id="page-description" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="page-published"> Опубликовано
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+                <button type="button" class="btn" onclick="showSection('pages-list')">Отмена</button>
+            </form>
+        </div>
+
+        <!-- Редактор главной страницы -->
+        <div id="homepage-editor" class="content-section" style="display: none;">
+            <h2 class="section-title">Редактирование главной страницы</h2>
+            <div id="homepage-alert"></div>
+            <form id="homepage-form" class="homepage-editor">
+                <div class="form-group">
+                    <label for="homepage-welcome-title">Заголовок приветствия</label>
+                    <input type="text" id="homepage-welcome-title" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="homepage-welcome-text">Текст приветствия</label>
+                    <textarea id="homepage-welcome-text" class="form-control" rows="5"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="homepage-director-name">Имя директора</label>
+                    <input type="text" id="homepage-director-name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="homepage-director-position">Должность директора</label>
+                    <input type="text" id="homepage-director-position" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="homepage-director-image">Фото директора</label>
+                    <input type="text" id="homepage-director-image" class="form-control" placeholder="/uploads/image.jpg">
+                    <button type="button" class="btn" onclick="showSection('media')">Выбрать из медиафайлов</button>
+                    <div class="image-preview" id="director-image-preview">
+                        <img id="director-preview-img" src="" alt="Предпросмотр">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="homepage-slider-title">Заголовок слайдера</label>
+                    <input type="text" id="homepage-slider-title" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="homepage-slider-text">Текст слайдера</label>
+                    <input type="text" id="homepage-slider-text" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+            </form>
+        </div>
+
+        <!-- Блоки контента -->
+        <div id="content-blocks" class="content-section" style="display: none;">
+            <h2 class="section-title">Управление контентом</h2>
+            <div class="form-group">
+                <label for="content-page-select">Выберите страницу:</label>
+                <select id="content-page-select" class="form-control" onchange="loadContentBlocks()">
+                    <!-- Опции будут заполнены через JS -->
+                </select>
+            </div>
+            <div id="content-alert"></div>
+            <div id="content-blocks-container">
+                <!-- Блоки контента будут загружены через JS -->
+            </div>
+            <div class="tabs">
+                <div class="tab active" onclick="switchContentTab('text')">Текст</div>
+                <div class="tab" onclick="switchContentTab('image')">Изображение</div>
+                <div class="tab" onclick="switchContentTab('file')">Файл</div>
+                <div class="tab" onclick="switchContentTab('table')">Таблица</div>
+            </div>
+            <div id="text-editor" class="tab-content active">
+                <h3>Добавить текстовый блок</h3>
+                <form id="text-block-form">
+                    <input type="hidden" id="content-page-id">
+                    <div class="form-group">
+                        <label for="text-content">Текст</label>
+                        <div class="content-editor">
+                            <div class="editor-toolbar">
+                                <button type="button" onclick="formatText('bold')"><i class="fas fa-bold"></i></button>
+                                <button type="button" onclick="formatText('italic')"><i class="fas fa-italic"></i></button>
+                                <button type="button" onclick="formatText('underline')"><i class="fas fa-underline"></i></button>
+                                <button type="button" onclick="formatText('insertUnorderedList')"><i class="fas fa-list-ul"></i></button>
+                                <button type="button" onclick="formatText('insertOrderedList')"><i class="fas fa-list-ol"></i></button>
+                                <button type="button" onclick="formatText('createLink')"><i class="fas fa-link"></i></button>
+                            </div>
+                            <div class="editor-content" id="text-editor-content" contenteditable="true"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="block-order">Порядок</label>
+                        <input type="number" id="block-order" class="form-control" value="0">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Добавить блок</button>
+                </form>
+            </div>
+            <div id="image-editor" class="tab-content">
+                <h3>Добавить изображение</h3>
+                <form id="image-block-form">
+                    <input type="hidden" id="image-page-id">
+                    <div class="form-group">
+                        <label for="image-url">URL изображения</label>
+                        <input type="text" id="image-url" class="form-control" placeholder="/uploads/image.jpg">
+                        <button type="button" class="btn" onclick="showSection('media')">Выбрать из медиафайлов</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="image-alt">Alt текст</label>
+                        <input type="text" id="image-alt" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="image-order">Порядок</label>
+                        <input type="number" id="image-order" class="form-control" value="0">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Добавить изображение</button>
+                </form>
+            </div>
+            <div id="file-editor" class="tab-content">
+                <h3>Добавить файл</h3>
+                <form id="file-block-form">
+                    <input type="hidden" id="file-page-id">
+                    <div class="form-group">
+                        <label for="file-url">URL файла</label>
+                        <input type="text" id="file-url" class="form-control" placeholder="/uploads/document.pdf">
+                        <button type="button" class="btn" onclick="showSection('media')">Выбрать из медиафайлов</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="file-order">Порядок</label>
+                        <input type="number" id="file-order" class="form-control" value="0">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Добавить файл</button>
+                </form>
+            </div>
+            <div id="table-editor" class="tab-content">
+                <h3>Добавить таблицу</h3>
+                <form id="table-block-form">
+                    <input type="hidden" id="table-page-id">
+                    <div class="form-group">
+                        <label>Конструктор таблицы</label>
+                        <div class="table-builder">
+                            <div class="table-controls">
+                                <button type="button" class="btn" onclick="addTableRow()">Добавить строку</button>
+                                <button type="button" class="btn" onclick="addTableColumn()">Добавить столбец</button>
+                                <button type="button" class="btn btn-danger" onclick="clearTable()">Очистить</button>
+                            </div>
+                            <div class="table-preview">
+                                <table id="table-preview">
+                                    <tbody>
+                                        <tr>
+                                            <td contenteditable="true">Заголовок 1</td>
+                                            <td contenteditable="true">Заголовок 2</td>
+                                        </tr>
+                                        <tr>
+                                            <td contenteditable="true">Данные 1</td>
+                                            <td contenteditable="true">Данные 2</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="table-order">Порядок</label>
+                        <input type="number" id="table-order" class="form-control" value="0">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Добавить таблицу</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Медиафайлы -->
+        <div id="media" class="content-section" style="display: none;">
+            <h2 class="section-title">Медиафайлы</h2>
+            <div id="media-alert"></div>
+            <div class="file-upload" id="file-dropzone" onclick="document.getElementById('file-input').click()">
+                <i class="fas fa-cloud-upload-alt" style="font-size: 48px; color: #ccc;"></i>
+                <p>Перетащите файлы сюда или кликните для загрузки</p>
+                <input type="file" id="file-input" style="display: none;" multiple onchange="handleFileUpload()">
+            </div>
+            <div class="file-list" id="file-list">
+                <!-- Файлы будут загружены через JS -->
+            </div>
+        </div>
+
+        <!-- Другие разделы админки -->
+        <div id="menu-structure" class="content-section" style="display: none;">
+            <h2 class="section-title">Структура меню</h2>
+            <!-- Контент для управления структурой меню -->
+        </div>
+
+        <div id="users" class="content-section" style="display: none;">
+            <h2 class="section-title">Управление пользователями</h2>
+            <!-- Контент для управления пользователями -->
+        </div>
+
+        <div id="settings" class="content-section" style="display: none;">
+            <h2 class="section-title">Настройки сайта</h2>
+            <!-- Контент для настроек сайта -->
+        </div>
+    </div>
+
+    <!-- Модальное окно подтверждения удаления -->
+    <div class="modal-backdrop" id="delete-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Подтверждение удаления</h3>
+                <button class="modal-close" onclick="closeModal('delete-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Вы уверены, что хотите удалить этот элемент? Это действие нельзя отменить.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal('delete-modal')">Отмена</button>
+                <button class="btn btn-danger" id="confirm-delete-btn">Удалить</button>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+
+        let authToken = localStorage.getItem('authToken');
+        let currentDeleteId = null;
+        let currentDeleteType = null;
+        
+        if (!authToken) {
+            window.location.href = '/admin/login';
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+            loadPagesForSelect();
+            loadHomepageData();
+            loadFiles();
+            setupEventListeners();
+        });
+
+        function showSection(sectionId) {
+
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+
+            document.getElementById(sectionId).style.display = 'block';
+            
+
+            const titles = {
+                'dashboard': 'Дашборд',
+                'pages-list': 'Управление страницами',
+                'add-page': 'Добавить страницу',
+                'homepage-editor': 'Редактирование главной страницы',
+                'content-blocks': 'Управление контентом',
+                'media': 'Медиафайлы',
+                'menu-structure': 'Структура меню',
+                'users': 'Управление пользователями',
+                'settings': 'Настройки сайта'
+            };
+            
+            document.getElementById('section-title').textContent = titles[sectionId] || 'Админ-панель';
+        }
+
+        function toggleSubmenu(menuId) {
+            document.getElementById(menuId).classList.toggle('active');
+        }
+
+        function loadDashboardData() {
+
+            fetch('/api/pages/', {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+            .then(response => response.json())
+            .then(pages => {
+                document.getElementById('pages-count').textContent = pages.length;
+                loadPagesTable(pages);
+            });
+            
+
+            fetch('/api/content/', {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+            .then(response => response.json())
+            .then(blocks => {
+                document.getElementById('blocks-count').textContent = blocks.length;
+            });
+            
+
+            fetch('/api/files/', {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+            .then(response => response.json())
+            .then(files => {
+                document.getElementById('media-count').textContent = files.length;
+            });
+        }
+
+        function loadPagesTable(pages) {
+            const tbody = document.getElementById('pages-table-body');
+            tbody.innerHTML = '';
+            
+            pages.forEach(page => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${page.id}</td>
+                    <td>${page.title}</td>
+                    <td>/${page.slug}</td>
+                    <td>${page.is_published ? 'Опубликовано' : 'Черновик'}</td>
+                    <td class="action-buttons">
+                        <button class="btn btn-primary btn-sm" onclick="editPage(${page.id})">Редактировать</button>
+                        <button class="btn btn-danger btn-sm" onclick="confirmDelete(${page.id}, 'page')">Удалить</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function loadPagesForSelect() {
+
+            fetch('/api/pages/', {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+            .then(response => response.json())
+            .then(pages => {
+                const parentSelect = document.getElementById('page-parent');
+                const contentSelect = document.getElementById('content-page-select');
+                
+
+                parentSelect.innerHTML = '<option value="">Нет (основная страница)</option>';
+                contentSelect.innerHTML = '';
+                
+
+                pages.forEach(page => {
+                    const option = document.createElement('option');
+                    option.value = page.id;
+                    option.textContent = page.title;
+                    
+                    parentSelect.appendChild(option.cloneNode(true));
+                    contentSelect.appendChild(option.cloneNode(true));
+                });
+            });
+        }
+
+        function loadHomepageData() {
+            fetch('/api/homepage/', {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+            .then(response => response.json())
+            .then(homepage => {
+                document.getElementById('homepage-welcome-title').value = homepage.welcome_title || '';
+                document.getElementById('homepage-welcome-text').value = homepage.welcome_text || '';
+                document.getElementById('homepage-director-name').value = homepage.director_name || '';
+                document.getElementById('homepage-director-position').value = homepage.director_position || '';
+                document.getElementById('homepage-director-image').value = homepage.director_image || '';
+                document.getElementById('homepage-slider-title').value = homepage.slider_title || '';
+                document.getElementById('homepage-slider-text').value = homepage.slider_text || '';
+                
+
+                const previewImg = document.getElementById('director-preview-img');
+                if (homepage.director_image) {
+                    previewImg.src = homepage.director_image;
+                    document.getElementById('director-image-preview').style.display = 'block';
+                } else {
+                    document.getElementById('director-image-preview').style.display = 'none';
+                }
+            });
+        }
+
+        function loadFiles() {
+            fetch('/api/files/', {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+            .then(response => response.json())
+            .then(files => {
+                const fileList = document.getElementById('file-list');
+                fileList.innerHTML = '';
+                
+                if (files.length === 0) {
+                    fileList.innerHTML = '<p>Нет загруженных файлов</p>';
+                    return;
+                }
+                
+                files.forEach(file => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    fileItem.innerHTML = `
+                        <div>
+                            <strong>${file.filename}</strong>
+                            <div>${file.file_type} • ${new Date(file.uploaded_at).toLocaleDateString()}</div>
+                        </div>
+                        <div class="file-actions">
+                            <button class="btn btn-primary btn-sm" onclick="copyFilePath('${file.file_path}')">Копировать путь</button>
+                            <button class="btn btn-danger btn-sm" onclick="confirmDelete(${file.id}, 'file')">Удалить</button>
+                        </div>
+                    `;
+                    fileList.appendChild(fileItem);
+                });
+            });
+        }
+
+        function setupEventListeners() {
+
+            document.getElementById('page-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                savePage();
+            });
+            
+
+            document.getElementById('homepage-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveHomepage();
+            });
+            
+
+            document.getElementById('text-block-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addTextBlock();
+            });
+            
+            document.getElementById('image-block-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addImageBlock();
+            });
+            
+            document.getElementById('file-block-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addFileBlock();
+            });
+            
+            document.getElementById('table-block-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addTableBlock();
+            });
+            
+
+            document.getElementById('homepage-director-image').addEventListener('input', function() {
+                const url = this.value;
+                const previewImg = document.getElementById('director-preview-img');
+                if (url) {
+                    previewImg.src = url;
+                    document.getElementById('director-image-preview').style.display = 'block';
+                } else {
+                    document.getElementById('director-image-preview').style.display = 'none';
+                }
+            });
+            
+
+            const dropzone = document.getElementById('file-dropzone');
+            dropzone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                dropzone.style.borderColor = 'var(--primary-color)';
+            });
+            
+            dropzone.addEventListener('dragleave', function() {
+                dropzone.style.borderColor = '#ddd';
+            });
+            
+            dropzone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                dropzone.style.borderColor = '#ddd';
+                
+                if (e.dataTransfer.files.length > 0) {
+                    handleFileUpload(e.dataTransfer.files);
+                }
+            });
+        }
+
+        function showAddPageForm() {
+            document.getElementById('page-form').reset();
+            document.getElementById('page-id').value = '';
+            document.getElementById('page-form-title').textContent = 'Добавить страницу';
+            document.getElementById('page-published').checked = true;
+            showSection('add-page');
+        }
+
+        function savePage() {
+            const pageId = document.getElementById('page-id').value;
+            const pageData = {
+                title: document.getElementById('page-title').value,
+                slug: document.getElementById('page-slug').value,
+                parent_id: document.getElementById('page-parent').value || null,
+                description: document.getElementById('page-description').value,
+                is_published: document.getElementById('page-published').checked
+            };
+            
+            const url = pageId ? `/api/pages/${pageId}` : '/api/pages/';
+            const method = pageId ? 'PUT' : 'POST';
+            
+            fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                },
+                body: JSON.stringify(pageData)
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Ошибка сохранения');
+                return response.json();
+            })
+            .then(() => {
+                showAlert('page-alert', 'Страница успешно сохранена!', 'success');
+                loadPagesForSelect();
+                loadDashboardData();
+            })
+            .catch(error => {
+                showAlert('page-alert', 'Ошибка при сохранении страницы: ' + error.message, 'error');
+            });
+        }
+
+        function editPage(pageId) {
+            fetch(`/api/pages/${pageId}`, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+            .then(response => response.json())
+            .then(page => {
+                document.getElementById('page-id').value = page.id;
+                document.getElementById('page-title').value = page.title;
+                document.getElementById('page-slug').value = page.slug;
+                document.getElementById('page-parent').value = page.parent_id || '';
+                document.getElementById('page-description').value = page.description || '';
+                document.getElementById('page-published').checked = page.is_published;
+                document.getElementById('page-form-title').textContent = 'Редактировать страницу';
+                
+                showSection('add-page');
+            })
+            .catch(error => {
+                showAlert('pages-alert', 'Ошибка загрузки страницы: ' + error.message, 'error');
+            });
+        }
+
+        function saveHomepage() {
+            const homepageData = {
+                welcome_title: document.getElementById('homepage-welcome-title').value,
+                welcome_text: document.getElementById('homepage-welcome-text').value,
+                director_name: document.getElementById('homepage-director-name').value,
+                director_position: document.getElementById('homepage-director-position').value,
+                director_image: document.getElementById('homepage-director-image').value,
+                slider_title: document.getElementById('homepage-slider-title').value,
+                slider_text: document.getElementById('homepage-slider-text').value
+            };
+            
+            fetch('/api/homepage/', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                },
+                body: JSON.stringify(homepageData)
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Ошибка сохранения');
+                return response.json();
+            })
+            .then(() => {
+                showAlert('homepage-alert', 'Главная страница успешно обновлена!', 'success');
+            })
+            .catch(error => {
+                showAlert('homepage-alert', 'Ошибка при сохранении: ' + error.message, 'error');
+            });
+        }
+
+        function confirmDelete(id, type) {
+            currentDeleteId = id;
+            currentDeleteType = type;
+            document.getElementById('delete-modal').style.display = 'flex';
+            
+            document.getElementById('confirm-delete-btn').onclick = function() {
+                if (type === 'page') {
+                    deletePage(id);
+                } else if (type === 'file') {
+                    deleteFile(id);
+                } else if (type === 'block') {
+                    deleteBlock(id);
+                }
+                closeModal('delete-modal');
+            };
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function deletePage(pageId) {
+            fetch(`/api/pages/${pageId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Ошибка удаления');
+                return response.json();
+            })
+            .then(() => {
+                showAlert('pages-alert', 'Страница успешно удалена!', 'success');
+                loadDashboardData();
+                loadPagesForSelect();
+            })
+            .catch(error => {
+                showAlert('pages-alert', 'Ошибка при удалении страницы: ' + error.message, 'error');
+            });
+        }
+
+        function deleteFile(fileId) {
+            fetch(`/api/files/${fileId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Ошибка удаления');
+                loadFiles();
+                showAlert('media-alert', 'Файл успешно удален!', 'success');
+            })
+            .catch(error => {
+                showAlert('media-alert', 'Ошибка при удалении файла: ' + error.message, 'error');
+            });
+        }
+
+        function addTextBlock() {
+            const pageId = document.getElementById('content-page-select').value;
+            const content = document.getElementById('text-editor-content').innerHTML;
+            const order = document.getElementById('block-order').value;
+            
+            const blockData = {
+                page_id: parseInt(pageId),
+                type: 'text',
+                content: content,
+                order: parseInt(order),
+                meta: { alt: altText },
+            };
+            
+            fetch('/api/content/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                },
+                body: JSON.stringify(blockData)
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Ошибка добавления');
+                return response.json();
+            })
+            .then(() => {
+                showAlert('content-alert', 'Текстовый блок добавлен!', 'success');
+                loadContentBlocks();
+                document.getElementById('text-editor-content').innerHTML = '';
+            })
+            .catch(error => {
+                showAlert('content-alert', 'Ошибка при добавлении блока: ' + error.message, 'error');
+            });
+        }
+
+        function addImageBlock() {
+            const pageId = document.getElementById('content-page-select').value;
+            const imageUrl = document.getElementById('image-url').value;
+            const altText = document.getElementById('image-alt').value;
+            const order = document.getElementById('image-order').value;
+            
+            const blockData = {
+                page_id: parseInt(pageId),
+                type: 'image',
+                content: imageUrl,
+                meta: JSON.stringify({ alt: altText }),
+                order: parseInt(order)
+            };
+            
+            fetch('/api/content/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                },
+                body: JSON.stringify(blockData)
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Ошибка добавления');
+                return response.json();
+            })
+            .then(() => {
+                showAlert('content-alert', 'Изображение добавлено!', 'success');
+                loadContentBlocks();
+                document.getElementById('image-url').value = '';
+                document.getElementById('image-alt').value = '';
+            })
+            .catch(error => {
+                showAlert('content-alert', 'Ошибка при добавлении изображения: ' + error.message, 'error');
+            });
+        }
+
+        function addFileBlock() {
+            const pageId = document.getElementById('content-page-select').value;
+            const fileUrl = document.getElementById('file-url').value;
+            const order = document.getElementById('file-order').value;
+            
+            const blockData = {
+                page_id: parseInt(pageId),
+                type: 'file',
+                content: fileUrl,
+                order: parseInt(order)
+            };
+            
+            fetch('/api/content/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                },
+                body: JSON.stringify(blockData)
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Ошибка добавления');
+                return response.json();
+            })
+            .then(() => {
+                showAlert('content-alert', 'Файл добавлен!', 'success');
+                loadContentBlocks();
+                document.getElementById('file-url').value = '';
+            })
+            .catch(error => {
+                showAlert('content-alert', 'Ошибка при добавлении файла: ' + error.message, 'error');
+            });
+        }
+
+        function addTableBlock() {
+            const pageId = document.getElementById('content-page-select').value;
+            const order = document.getElementById('table-order').value;
+            
+
+            const table = document.getElementById('table-preview');
+            const rows = table.querySelectorAll('tr');
+            const tableData = [];
+            
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const rowData = [];
+                cells.forEach(cell => {
+                    rowData.push(cell.textContent);
+                });
+                tableData.push(rowData);
+            });
+            
+            const blockData = {
+                page_id: parseInt(pageId),
+                type: 'table',
+                content: 'Таблица данных',
+                meta: JSON.stringify(tableData),
+                order: parseInt(order)
+            };
+            
+            fetch('/api/content/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                },
+                body: JSON.stringify(blockData)
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Ошибка добавления');
+                return response.json();
+            })
+            .then(() => {
+                showAlert('content-alert', 'Таблица добавлена!', 'success');
+                loadContentBlocks();
+            })
+            .catch(error => {
+                showAlert('content-alert', 'Ошибка при добавлении таблицы: ' + error.message, 'error');
+            });
+        }
+
+        function loadContentBlocks() {
+            const pageId = document.getElementById('content-page-select').value;
+            
+            if (!pageId) return;
+            
+            fetch(`/api/content/${pageId}`, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+            .then(response => response.json())
+            .then(blocks => {
+                const container = document.getElementById('content-blocks-container');
+                container.innerHTML = '<h3>Блоки контента на этой странице</h3>';
+                
+                if (blocks.length === 0) {
+                    container.innerHTML += '<p>На этой странице пока нет блоков контента</p>';
+                    return;
+                }
+                
+                blocks.forEach(block => {
+                    const blockElement = document.createElement('div');
+                    blockElement.className = 'content-block-item';
+                    blockElement.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border: 1px solid #ddd; margin-bottom: 10px;">
+                            <div>
+                                <strong>Тип:</strong> ${block.type} | 
+                                <strong>Порядок:</strong> ${block.order}
+                                <div>${block.content.substring(0, 100)}${block.content.length > 100 ? '...' : ''}</div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary btn-sm" onclick="editContentBlock(${block.id})">Редактировать</button>
+                                <button class="btn btn-danger btn-sm" onclick="confirmDelete(${block.id}, 'block')">Удалить</button>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(blockElement);
+                });
+            });
+        }
+
+        function deleteBlock(blockId) {
+            fetch(`/api/content/${blockId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Ошибка удаления');
+                loadContentBlocks();
+                showAlert('content-alert', 'Блок успешно удален!', 'success');
+            })
+            .catch(error => {
+                showAlert('content-alert', 'Ошибка при удалении блока: ' + error.message, 'error');
+            });
+        }
+
+        function handleFileUpload(files = null) {
+            const fileInput = files || document.getElementById('file-input').files;
+            if (!fileInput || fileInput.length === 0) return;
+            
+            const formData = new FormData();
+            for (let i = 0; i < fileInput.length; i++) {
+                formData.append('files', fileInput[i]);
+            }
+            
+            fetch('/api/upload/', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                },
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Ошибка загрузки');
+                return response.json();
+            })
+            .then(() => {
+                showAlert('media-alert', 'Файлы успешно загружены!', 'success');
+                loadFiles();
+                loadDashboardData();
+            })
+            .catch(error => {
+                showAlert('media-alert', 'Ошибка при загрузке файлов: ' + error.message, 'error');
+            });
+        }
+
+        function copyFilePath(path) {
+            navigator.clipboard.writeText(path)
+                .then(() => {
+                    showAlert('media-alert', 'Путь скопирован в буфер обмена!', 'success');
+                })
+                .catch(err => {
+                    showAlert('media-alert', 'Ошибка копирования: ' + err.message, 'error');
+                });
+        }
+
+        function switchContentTab(tabName) {
+
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+
+            document.getElementById(`${tabName}-editor`).classList.add('active');
+            
+
+            document.querySelector(`.tab[onclick="switchContentTab('${tabName}')"]`).classList.add('active');
+        }
+
+        function formatText(command) {
+            document.execCommand(command, false, null);
+            document.getElementById('text-editor-content').focus();
+        }
+
+        function addTableRow() {
+            const table = document.getElementById('table-preview');
+            const row = table.insertRow();
+            const colCount = table.rows[0].cells.length;
+            
+            for (let i = 0; i < colCount; i++) {
+                const cell = row.insertCell();
+                cell.contentEditable = true;
+            }
+        }
+
+        function addTableColumn() {
+            const table = document.getElementById('table-preview');
+            const rows = table.rows;
+            
+            for (let i = 0; i < rows.length; i++) {
+                const cell = rows[i].insertCell();
+                cell.contentEditable = true;
+            }
+        }
+
+        function clearTable() {
+            const table = document.getElementById('table-preview');
+            table.innerHTML = '';
+            
+
+            const row1 = table.insertRow();
+            const cell1 = row1.insertCell();
+            const cell2 = row1.insertCell();
+            cell1.contentEditable = true;
+            cell2.contentEditable = true;
+            
+            const row2 = table.insertRow();
+            const cell3 = row2.insertCell();
+            const cell4 = row2.insertCell();
+            cell3.contentEditable = true;
+            cell4.contentEditable = true;
+        }
+
+        function showAlert(containerId, message, type) {
+            const alertDiv = document.getElementById(containerId);
+            alertDiv.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            
+
+            setTimeout(() => {
+                alertDiv.innerHTML = '';
+            }, 5000);
+        }
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            window.location.href = '/admin/login';
+        }
+        function createLink() {
+            const selection = window.getSelection();
+            if (selection.toString().trim() === '') {
+                alert('Выделите текст для создания ссылки');
+                return;
+            }
+
+
+            document.getElementById('link-text').value = selection.toString();
+            
+
+            document.getElementById('link-modal').style.display = 'flex';
+        }
+
+        function closeLinkModal() {
+            document.getElementById('link-modal').style.display = 'none';
+
+            document.getElementById('link-url').value = '';
+            document.getElementById('link-text').value = '';
+            document.getElementById('link-new-tab').checked = false;
+        }
+
+        function insertLink() {
+            const url = document.getElementById('link-url').value;
+            const text = document.getElementById('link-text').value;
+            const newTab = document.getElementById('link-new-tab').checked;
+            
+            if (!url) {
+                alert('Введите URL ссылки');
+                return;
+            }
+
+            if (!text) {
+                alert('Введите текст ссылки');
+                return;
+            }
+
+
+            let linkHtml = `<a href="${url}"`;
+            if (newTab) {
+                linkHtml += ' target="_blank"';
+            }
+            linkHtml += `>${text}</a>`;
+
+
+            document.execCommand('insertHTML', false, linkHtml);
+            
+
+            closeLinkModal();
+        }
+
+        function editLink() {
+            const selection = window.getSelection();
+            if (selection.rangeCount === 0) return;
+            
+            const range = selection.getRangeAt(0);
+            let linkElement = range.startContainer;
+
+            while (linkElement && linkElement.nodeName !== 'A') {
+                linkElement = linkElement.parentNode;
+            }
+            
+            if (!linkElement || linkElement.nodeName !== 'A') {
+                alert('Поместите курсор на ссылку для редактирования');
+                return;
+            }
+
+            document.getElementById('link-url').value = linkElement.href;
+            document.getElementById('link-text').value = linkElement.textContent;
+            document.getElementById('link-new-tab').checked = linkElement.target === '_blank';
+            
+
+            document.getElementById('link-modal').style.display = 'flex';
+            
+
+            window.currentEditingLink = linkElement;
+        }
+
+        function updateLink() {
+            const url = document.getElementById('link-url').value;
+            const text = document.getElementById('link-text').value;
+            const newTab = document.getElementById('link-new-tab').checked;
+            
+            if (!url) {
+                alert('Введите URL ссылки');
+                return;
+            }
+
+            if (!text) {
+                alert('Введите текст ссылки');
+                return;
+            }
+
+            if (window.currentEditingLink) {
+
+                window.currentEditingLink.href = url;
+                window.currentEditingLink.textContent = text;
+                window.currentEditingLink.target = newTab ? '_blank' : '';
+                
+
+                window.currentEditingLink = null;
+            }
+            
+
+            closeLinkModal();
+        }
+
+        function removeLink() {
+            const selection = window.getSelection();
+            if (selection.rangeCount === 0) return;
+            
+            const range = selection.getRangeAt(0);
+            let linkElement = range.startContainer;
+            
+
+            while (linkElement && linkElement.nodeName !== 'A') {
+                linkElement = linkElement.parentNode;
+            }
+            
+            if (!linkElement || linkElement.nodeName !== 'A') {
+                alert('Поместите курсор на ссылку для удаления');
+                return;
+            }
+            
+
+            const text = document.createTextNode(linkElement.textContent);
+            linkElement.parentNode.replaceChild(text, linkElement);
+        }
+
+        function setupEditorToolbar() {
+            const toolbar = document.querySelector('.editor-toolbar');
+
+            const oldLinkButton = toolbar.querySelector('[onclick*="createLink"]');
+            if (oldLinkButton) {
+                oldLinkButton.remove();
+            }
+
+            toolbar.innerHTML += `
+                <button type="button" onclick="createLink()" title="Вставить ссылку"><i class="fas fa-link"></i></button>
+                <button type="button" onclick="editLink()" title="Редактировать ссылку"><i class="fas fa-edit"></i></button>
+                <button type="button" onclick="removeLink()" title="Удалить ссылку"><i class="fas fa-unlink"></i></button>
+            `;
+        }
+
+
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            
+
+            setupEditorToolbar();
+        });
+    </script>
+</body>
+</html>
