@@ -30,7 +30,7 @@ class MenuItem(MPTTModel):
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
     class MPTTMeta:
-        order_insertion_by = ['order', 'title']
+        order_insertion_by = ['order']
 
     class Meta:
         verbose_name = 'Пункт меню'
@@ -57,7 +57,7 @@ class Page(models.Model):
     slug = models.SlugField('URL', max_length=200, unique=True, blank=True)
     description = models.TextField('Описание', blank=True)
     content = RichTextUploadingField('Содержимое', blank=True)
-    
+    order = models.IntegerField('Порядок', default=0)
     parent = models.ForeignKey(
         'self',
         on_delete=models.SET_NULL,

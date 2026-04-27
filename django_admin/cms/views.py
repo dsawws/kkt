@@ -9,7 +9,10 @@ import os
 def index(request):
     """Главная страница"""
     homepage = HomePage.load()
-    menu_items = MenuItem.objects.filter(parent=None, is_active=True).prefetch_related('children')
+    menu_items = MenuItem.objects.filter(
+    parent=None,
+    is_active=True
+).order_by('order', 'title')
     banners = Banner.objects.filter(is_active=True).order_by('order')
     latest_news = News.objects.filter(is_published=True)[:3]
 
@@ -25,11 +28,15 @@ def index(request):
 def page_detail(request, slug):
     """Детальная страница"""
     page = get_object_or_404(Page, slug=slug, is_published=True)
-    menu_items = MenuItem.objects.filter(parent=None, is_active=True).prefetch_related('children')
+    menu_items = MenuItem.objects.filter(
+    parent=None,
+    is_active=True
+).order_by('order', 'title')
     
     # Получаем блоки контента
     content_blocks = page.blocks.filter(is_active=True).order_by('order')
-    
+    siblings = page.parent.subpages.filter(is_published=True).order_by('order', 'title') if page.parent else None
+    children = page.subpages.filter(is_published=True).order_by('order', 'title')
     # Получаем документы по категориям (только с файлами или без — показываем все)
     documents_by_category = {}
     for doc in page.documents.filter(is_active=True).order_by('category', 'order'):
@@ -38,17 +45,22 @@ def page_detail(request, slug):
         documents_by_category[doc.category].append(doc)
     
     context = {
-        'page': page,
-        'menu_items': menu_items,
-        'content_blocks': content_blocks,
-        'documents_by_category': documents_by_category,
-    }
+    'page': page,
+    'menu_items': menu_items,
+    'content_blocks': content_blocks,
+    'documents_by_category': documents_by_category,
+    'siblings': siblings,
+    'children': children,
+}
     return render(request, 'cms/page_detail.html', context)
 
 
 def news_list(request):
     """Страница новостей"""
-    menu_items = MenuItem.objects.filter(parent=None, is_active=True).prefetch_related('children')
+    menu_items = MenuItem.objects.filter(
+    parent=None,
+    is_active=True
+).order_by('order', 'title')
     news = News.objects.filter(is_published=True)
     context = {
         'news': news,
@@ -60,7 +72,10 @@ def news_list(request):
 def news_detail(request, slug):
     """Детальная новость"""
     news_item = get_object_or_404(News, slug=slug, is_published=True)
-    menu_items = MenuItem.objects.filter(parent=None, is_active=True).prefetch_related('children')
+    menu_items = MenuItem.objects.filter(
+    parent=None,
+    is_active=True
+).order_by('order', 'title')
     recent = News.objects.filter(is_published=True).exclude(slug=slug)[:4]
     context = {
         'news_item': news_item,
@@ -72,17 +87,19 @@ def news_detail(request, slug):
 
 @csrf_exempt
 def api_menu(request):
-    """API для получения меню"""
-    menu_items = MenuItem.objects.filter(parent=None, is_active=True).prefetch_related('children')
-    
+    menu_items = MenuItem.objects.filter(parent=None, is_active=True).order_by('order', 'title')
+
     def serialize_menu_item(item):
         return {
             'id': item.id,
             'title': item.title,
             'url': item.get_absolute_url(),
-            'children': [serialize_menu_item(child) for child in item.get_children().filter(is_active=True)]
+            'children': [
+                serialize_menu_item(child)
+                for child in item.get_children().filter(is_active=True).order_by('order', 'title')
+            ]
         }
-    
+
     data = [serialize_menu_item(item) for item in menu_items]
     return JsonResponse(data, safe=False)
 
@@ -149,7 +166,10 @@ def search(request):
     """Поиск по сайту"""
     from django.db.models import Q
     query = request.GET.get('q', '').strip()
-    menu_items = MenuItem.objects.filter(parent=None, is_active=True).prefetch_related('children')
+    menu_items = MenuItem.objects.filter(
+    parent=None,
+    is_active=True
+).order_by('order', 'title')
 
     pages = []
     documents = []

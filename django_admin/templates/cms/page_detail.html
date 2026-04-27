@@ -19,7 +19,7 @@
         <div class="page-layout">
             {# Боковая навигация #}
             {% if page.parent %}
-                {% with siblings=page.parent.subpages.all %}
+                
                 {% if siblings %}
                 <aside class="page-sidebar">
                     <ul class="sidebar-nav">
@@ -33,11 +33,11 @@
                     </ul>
                 </aside>
                 {% endif %}
-                {% endwith %}
-            {% elif page.subpages.all %}
+                
+            {% elif children %}
                 <aside class="page-sidebar">
                     <ul class="sidebar-nav">
-                        {% for sub in page.subpages.all %}
+                        {% for sub in children %}
                         {% if sub.is_published %}
                         <li><a href="{% url 'cms:page_detail' sub.slug %}">{{ sub.title }}</a></li>
                         {% endif %}

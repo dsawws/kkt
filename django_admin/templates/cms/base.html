@@ -415,7 +415,10 @@
         </div>
     </div>
 </footer>
-
+<!-- DEBUG -->
+{% for sub in siblings %}
+    {{ sub.title }} - {{ sub.order }}<br>
+{% endfor %}
 {% load static %}
 <script src="{% static 'script.js' %}"></script>
 <script>
