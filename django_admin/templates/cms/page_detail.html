@@ -19,9 +19,9 @@
         <div class="page-layout">
             {# Боковая навигация #}
             {% if page.parent %}
-                
+                {% with siblings=siblings %}
                 {% if siblings %}
-                <aside class="page-sidebar">
+                <!--<aside class="page-sidebar">
                     <ul class="sidebar-nav">
                         {% for sub in siblings %}
                         {% if sub.is_published %}
@@ -30,14 +30,39 @@
                         </li>
                         {% endif %}
                         {% endfor %}
+                    </ul>-->
+                    <!--извините за костыльное решение, другого варианта не нашёл-->
+                    <aside class="page-sidebar">
+                    
+                    <ul class="sidebar-nav">
+                        <li class=""><a href="/page/osnovnye-svedeniya/">Основные сведения</a></li>
+                        <li class=""><a href="/page/struktura/">Структура и органы управления образовательной организацией</a></li>
+                        <li class=""><a href="/page/dokumenty/">Документы</a></li>
+                        <li class=""><a href="/page/obrazovanie/">Образование</a></li>
+                        <li class=""><a href="/page/rukovodstvo/">Руководство</a></li>
+                        <li class=""><a href="/page/materialno-tekhnicheskoe/">Материально-техническое обеспечение и оснащённость образовательного процесса</a></li>
+                        <li class=""><a href="/page/vakantnye-mesta/">Вакантные места для приема (перевода) обучающихся</a></li>
+                        <li class=""><a href="/page/finansy/">Финансово-хозяйственная деятельность</a></li>
+                        <li class=""><a href="/page/dostupnaya-sreda/">Доступная среда</a></li>
+                        <li class=""><a href="/page/stipendii/">Стипендии и меры поддержки обучающихся</a></li>
+                        <li class=""><a href="/page/mezhdunarodnoe/">Международное сотрудничество</a></li>
+                        <li class=""><a href="/page/obrazovatelnye-standarty/">Образовательные стандарты и требования</a></li>
+                        <li class=""><a href="/page/pedagogicheskiy-sostav/">Педагогический состав</a></li>
+                        <li class=""><a href="/page/pitanie/">Организация питания в образовательной организации</a></li>
+                        
+
+            
+                        
                     </ul>
-                </aside>
-                {% endif %}
                 
+                </aside>
+                
+                {% endif %}
+                {% endwith %}
             {% elif children %}
                 <aside class="page-sidebar">
                     <ul class="sidebar-nav">
-                        {% for sub in children %}
+                        {% for sub in page.subpages.all %}
                         {% if sub.is_published %}
                         <li><a href="{% url 'cms:page_detail' sub.slug %}">{{ sub.title }}</a></li>
                         {% endif %}
