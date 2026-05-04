@@ -16,66 +16,166 @@
     </div>
 </section>
 
-<section class="quick-links">
+<section class="bento-section">
     <div class="container">
         <h2 class="section-title">Быстрые ссылки</h2>
-        <div class="links-grid">
-            <a href="http://e-learn.kktbel.ru/login/index.php" class="link-card">
-                <div class="link-icon">
-                    <i class="fas fa-laptop"></i>
+        <div class="bento-grid">
+
+            <!-- Большая плитка — Поступающим (2×2) -->
+            <a href="{% url 'cms:page_detail' 'abiturient' %}" class="bento-card bento-large bento-g1">
+                <div class="bento-bg-icon"><i class="fas fa-user-graduate"></i></div>
+                <div class="bento-content">
+                    <span class="bento-label">Раздел</span>
+                    <h2>Поступающим</h2>
+                    <p>Условия приёма, документы, приказы о зачислении и вся информация для абитуриентов</p>
                 </div>
-                <h3>Электронное обучение (Moodle)</h3>
-                <p>Дистанционное обучение</p>
+                <div class="bento-stat">
+                    <span class="bento-stat-num">2026</span>
+                    <span class="bento-stat-label">учебный год</span>
+                </div>
             </a>
 
-            <a href="https://api.kktmobile-app.ru/app/.../index.html#" class="link-card">
-                <div class="link-icon">
-                    <i class="fas fa-mobile-alt"></i>
+            <!-- Электронное обучение -->
+            <a href="http://e-learn.kktbel.ru/login/index.php" class="bento-card bento-g2" target="_blank" rel="noopener">
+                <div class="bento-bg-icon"><i class="fas fa-laptop"></i></div>
+                <div class="bento-content">
+                    <span class="bento-label">Платформа</span>
+                    <h2>Moodle</h2>
+                    <p>Дистанционное обучение и учебные материалы</p>
                 </div>
-                <h3>Приложение техникума (Расписание)</h3>
-                <p>Мобильное приложение для студентов и преподавателей</p>
             </a>
 
-            <a href="https://vk.com/im?sel=-belkkt" target="_blank" class="link-card">
-                <div class="link-icon">
-                    <i class="fas fa-comments"></i>
+            <!-- Приложение -->
+            <a href="https://api.kktmobile-app.ru/app/.../index.html#" class="bento-card bento-g3">
+                <div class="bento-bg-icon"><i class="fas fa-mobile-alt"></i></div>
+                <div class="bento-content">
+                    <span class="bento-label">Мобильное</span>
+                    <h2>Приложение</h2>
+                    <p>Расписание, оценки, объявления</p>
                 </div>
-                <h3>Написать нам</h3>
-                <p>Онлайн-консультация в ВКонтакте</p>
             </a>
 
-            <a href="{% url 'cms:page_detail' 'student' %}" class="link-card">
-                <div class="link-icon">
-                    <i class="fas fa-building"></i>
+            <!-- Оплата обучения -->
+            <a href="{% url 'cms:page_detail' 'platnye-uslugi' %}" class="bento-card bento-g4">
+                <div class="bento-bg-icon"><i class="fas fa-credit-card"></i></div>
+                <div class="bento-content">
+                    <span class="bento-label">Оплата</span>
+                    <h2>Оплата обучения</h2>
+                    <p>Онлайн-оплата и реквизиты</p>
                 </div>
-                <h3>Общежитие</h3>
-                <p>Информация о студенческом общежитии</p>
             </a>
+
+            <!-- Написать нам -->
+            <a href="https://vk.com/im?sel=-belkkt" class="bento-card bento-g5" target="_blank" rel="noopener">
+                <div class="bento-bg-icon"><i class="fab fa-vk"></i></div>
+                <div class="bento-content">
+                    <span class="bento-label">Связь</span>
+                    <h2>Написать нам</h2>
+                    <p>Онлайн-консультация ВКонтакте</p>
+                </div>
+            </a>
+
+            <!-- Общежитие -->
+            <a href="{% url 'cms:page_detail' 'student' %}" class="bento-card bento-g6">
+                <div class="bento-bg-icon"><i class="fas fa-building"></i></div>
+                <div class="bento-content">
+                    <span class="bento-label">Студентам</span>
+                    <h2>Общежитие</h2>
+                    <p>Условия проживания и стоимость</p>
+                </div>
+            </a>
+
+            <!-- Контакты — широкая плитка -->
+            <div class="bento-card bento-contacts" style="cursor:default">
+                <div class="bento-bg-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="bento-content">
+                    <span class="bento-label">Контакты</span>
+                    <h2>Как нас найти</h2>
+                </div>
+                <ul class="bento-list">
+                    <li><i class="fas fa-map-marker-alt"></i><span>352630, Краснодарский край, г. Белореченск, ул. Кирова, д. 4</span></li>
+                    <li><i class="fas fa-phone"></i><a href="tel:+78615522783">8 (86155) 2-27-83</a></li>
+                    <li><i class="fas fa-phone"></i><a href="tel:+79884800692">8-988-480-06-92 (приёмная комиссия)</a></li>
+                    <li><i class="fas fa-envelope"></i><a href="mailto:kktbel@mail.ru">kktbel@mail.ru</a></li>
+                </ul>
+            </div>
+
         </div>
     </div>
 </section>
 
-
-<section class="director">
+<section class="specialties">
     <div class="container">
-        <div class="director-inner">
-            {% if homepage.director_image %}
-            <div class="director-image">
-                <img src="{{ homepage.director_image.url }}" alt="{{ homepage.director_name }}" id="director-img">
-            </div>
-            {% endif %}
-            <div class="director-message">
-                <h2 class="section-title" id="welcome-title">{{ homepage.welcome_title }}</h2>
-                <i><p id="welcome-text" style="white-space: pre-line;">{{ homepage.welcome_text }}</p></i>
-                <div class="director-signature">
-                    <p>
-                        <span id="director-position">{{ homepage.director_position }}</span><br>
-                        <span id="director-name">{{ homepage.director_name }}</span>
-                    </p>
+        <div class="specs-split">
+            <div class="specs-split__left">
+                <div class="specs-split__img-wrap">
+                    <img src="https://placehold.co/560x420/2E7D32/FFFFFF?text=ККТ+Белореченск" alt="Техникум">
+                    <div class="specs-split__badge">
+                        <span class="specs-split__badge-num">7</span>
+                        <span class="specs-split__badge-text">специальностей<br>СПО</span>
+                    </div>
                 </div>
-                <p><i>По любым вопросам Вы можете обратиться, воспользовавшись нашими контактами.</i></p>
+            </div>
+            <div class="specs-split__right">
+                <p class="specs-split__label">Образование</p>
+                <h2 class="specs-split__title">Мы обучаем востребованным специальностям</h2>
+                <p class="specs-split__desc">Среднее профессиональное образование по очной форме. Поступление после 9 и 11 классов. Бюджетных мест нет — только договорная основа.</p>
+                <ul class="specs-split__list">
+                    <li><i class="fas fa-plane"></i> Туризм и гостеприимство <span>43.02.16</span></li>
+                    <li><i class="fas fa-truck"></i> Операционная деятельность в логистике <span>38.02.03</span></li>
+                    <li><i class="fas fa-store"></i> Торговое дело <span>38.02.08</span></li>
+                    <li><i class="fas fa-calculator"></i> Экономика и бухгалтерский учёт <span>38.02.01</span></li>
+                    <li><i class="fas fa-balance-scale"></i> Юриспруденция <span>40.02.04</span></li>
+                    <li><i class="fas fa-code"></i> Разработка и управление ПО <span>09.02.11</span></li>
+                    <li><i class="fas fa-map-marked-alt"></i> Землеустройство <span>21.02.19</span></li>
+                </ul>
+                <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;">
+                    <a href="{% url 'cms:page_detail' 'professions' %}" class="btn">Все специальности</a>
+                    <a href="{% url 'cms:page_detail' 'abiturient' %}" class="btn-outline">Как поступить</a>
+                </div>
             </div>
         </div>
+    </div>
+</section>
+
+<section class="news">
+    <div class="container">
+        <h2 class="section-title">Новости и объявления</h2>
+
+        <!-- ВК виджет — на всю ширину -->
+        <div class="vk-full-wrapper">
+            <div id="vk_groups"></div>
+        </div>
+
+        <!-- Новости сайта снизу -->
+        {% if latest_news %}
+        <div class="news-feed-bottom">
+            <h3 class="news-feed-title">Новости техникума</h3>
+            <div class="news-feed-grid">
+                {% for item in latest_news %}
+                <a href="{% url 'cms:news_detail' item.slug %}" class="news-post">
+                    <div class="news-post__date">
+                        <span class="news-post__date-day">{{ item.created_at|date:"d" }}</span>
+                        <span class="news-post__date-mon">{{ item.created_at|date:"M" }}</span>
+                    </div>
+                    <div class="news-post__body">
+                        <span class="news-post__tag">{{ item.tag }}</span>
+                        <div class="news-post__title">{{ item.title }}</div>
+                        {% if item.excerpt %}<div class="news-post__excerpt">{{ item.excerpt|truncatechars:120 }}</div>{% endif %}
+                    </div>
+                    <div class="news-post__arrow"><i class="fas fa-chevron-right"></i></div>
+                </a>
+                {% endfor %}
+            </div>
+            <div style="text-align:center; margin-top:24px;">
+                <a href="{% url 'cms:news_list' %}" class="btn-outline">Все новости</a>
+            </div>
+        </div>
+        {% else %}
+        <div style="text-align:center; margin-top:24px;">
+            <a href="{% url 'cms:news_list' %}" class="btn-outline">Все новости</a>
+        </div>
+        {% endif %}
     </div>
 </section>
 
@@ -86,42 +186,6 @@
         Единый телефон доверия для детей, подростков и их родителей оказывает консультативно психологическую помощь детям и родителям с целью укрепления семью, профилактики семейного неблагополучия, стрессовых и суицидальных настроений детей и подростков, защиты прав детей. Оказывает эмоциональную поддержку и помощь родителям в нахождении способов психологической помощи детям, пережившим травмирующее событие, в восстановлении повседневной жизни семьи и образовательного процесса.<br>
         Звонящий имеет право не называть свое имя, а содержание беседы остается абсолютно конфиденциально.<br>
         В разговоре с абонентом психолог всегда исходит из того, что человек имеет право быть таким, какой он есть. Специалисты Единого телефона доверия никогда и никого не осуждают, не критикуют и не учат жизни.</i></p>
-    </div>
-</section>
-
-<section class="news">
-    <div class="container">
-        <h2 class="section-title">Новости и объявления</h2>
-        <div class="news-split">
-            <div class="news-split__vk">
-                <div class="vk-wrapper" style="margin:0;">
-                    <div id="vk_groups"></div>
-                </div>
-            </div>
-            <div class="news-split__posts">
-                <div class="news-feed" style="max-width:100%;">
-                    {% for item in latest_news %}
-                    <a href="{% url 'cms:news_detail' item.slug %}" class="news-post">
-                        <div class="news-post__date">
-                            <span class="news-post__date-day">{{ item.created_at|date:"d" }}</span>
-                            <span class="news-post__date-mon">{{ item.created_at|date:"M" }}</span>
-                        </div>
-                        <div class="news-post__body">
-                            <span class="news-post__tag">{{ item.tag }}</span>
-                            <div class="news-post__title">{{ item.title }}</div>
-                            {% if item.excerpt %}<div class="news-post__excerpt">{{ item.excerpt|truncatechars:90 }}</div>{% endif %}
-                        </div>
-                        <div class="news-post__arrow"><i class="fas fa-chevron-right"></i></div>
-                    </a>
-                    {% empty %}
-                    <p style="text-align:center;color:#999;padding:20px 0;">Новостей пока нет</p>
-                    {% endfor %}
-                </div>
-                <div style="margin-top:20px;">
-                    <a href="{% url 'cms:news_list' %}" class="btn-outline">Все новости</a>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 
@@ -151,7 +215,6 @@
             {% endfor %}
         </div>
         {% else %}
-        {# Заглушки пока баннеры не добавлены #}
         <div class="banners-grid banners-placeholder">
             <div class="banner-item banner-empty">
                 <i class="fas fa-image"></i>
@@ -167,42 +230,6 @@
             </div>
         </div>
         {% endif %}
-    </div>
-</section>
-
-<section class="specialties">
-    <div class="container">
-        <div class="specs-split">
-            <!-- Левая часть: картинка + текст -->
-            <div class="specs-split__left">
-                <div class="specs-split__img-wrap">
-                    <img src="https://placehold.co/560x420/2E7D32/FFFFFF?text=ККТ+Белореченск" alt="Техникум">
-                    <div class="specs-split__badge">
-                        <span class="specs-split__badge-num">7</span>
-                        <span class="specs-split__badge-text">специальностей<br>СПО</span>
-                    </div>
-                </div>
-            </div>
-            <!-- Правая часть: заголовок + список + кнопка -->
-            <div class="specs-split__right">
-                <p class="specs-split__label">Образование</p>
-                <h2 class="specs-split__title">Мы обучаем востребованным профессиям</h2>
-                <p class="specs-split__desc">Среднее профессиональное образование по очной форме. Поступление после 9 и 11 классов. Бюджетных мест нет — только договорная основа.</p>
-                <ul class="specs-split__list">
-                    <li><i class="fas fa-plane"></i> Туризм и гостеприимство <span>43.02.16</span></li>
-                    <li><i class="fas fa-truck"></i> Операционная деятельность в логистике <span>38.02.03</span></li>
-                    <li><i class="fas fa-store"></i> Торговое дело <span>38.02.08</span></li>
-                    <li><i class="fas fa-calculator"></i> Экономика и бухгалтерский учёт <span>38.02.01</span></li>
-                    <li><i class="fas fa-balance-scale"></i> Юриспруденция <span>40.02.04</span></li>
-                    <li><i class="fas fa-code"></i> Разработка и управление ПО <span>09.02.11</span></li>
-                    <li><i class="fas fa-map-marked-alt"></i> Землеустройство <span>21.02.19</span></li>
-                </ul>
-                <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;">
-                    <a href="{% url 'cms:page_detail' 'professions' %}" class="btn">Все специальности</a>
-                    <a href="{% url 'cms:page_detail' 'abiturient' %}" class="btn-outline">Как поступить</a>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 

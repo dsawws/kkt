@@ -2,9 +2,69 @@ from django.contrib import admin
 from django.utils.html import format_html
 from mptt.admin import MPTTModelAdmin, DraggableMPTTAdmin
 from .models import (
-    MenuItem, Page, ContentBlock, Document,
-    HomePage, Gallery, GalleryImage, Banner, News
+    MenuItem, Page, ContentBlock, Document, DocumentSection,
+    HomePage, Gallery, GalleryImage, Banner, News,
+    EducationalProgram, AdmissionYear, ProgramDocument
 )
+
+
+class ProgramDocumentInline(admin.TabularInline):
+    model = ProgramDocument
+    extra = 1
+    fields = ('doc_type', 'title', 'file', 'order', 'is_active')
+    ordering = ['order']
+
+
+class AdmissionYearInline(admin.StackedInline):
+    model = AdmissionYear
+    extra = 1
+    fields = ('year', 'order', 'is_active')
+    ordering = ['-year']
+    show_change_link = True
+
+
+@admin.register(EducationalProgram)
+class EducationalProgramAdmin(admin.ModelAdmin):
+    list_display = ('code', 'title', 'qualification', 'duration', 'form', 'page', 'order', 'is_active')
+    list_filter = ('is_active', 'page', 'form')
+    search_fields = ('code', 'title', 'qualification')
+    list_editable = ('order', 'is_active')
+    inlines = [AdmissionYearInline]
+    fieldsets = (
+        ('Специальность', {
+            'fields': ('page', 'code', 'title', 'qualification', 'duration', 'form')
+        }),
+        ('Настройки', {
+            'fields': ('order', 'is_active')
+        }),
+    )
+
+
+@admin.register(AdmissionYear)
+class AdmissionYearAdmin(admin.ModelAdmin):
+    list_display = ('year', 'program', 'is_active', 'doc_count')
+    list_filter = ('year', 'is_active', 'program')
+    search_fields = ('program__title', 'program__code')
+    list_editable = ('is_active',)
+    inlines = [ProgramDocumentInline]
+
+    def doc_count(self, obj):
+        return obj.documents.count()
+    doc_count.short_description = 'Документов'
+
+
+@admin.register(ProgramDocument)
+class ProgramDocumentAdmin(admin.ModelAdmin):
+    list_display = ('title', 'doc_type', 'year', 'file_link', 'order', 'is_active')
+    list_filter = ('doc_type', 'is_active', 'year__program')
+    search_fields = ('title', 'year__program__title')
+    list_editable = ('order', 'is_active')
+
+    def file_link(self, obj):
+        if obj.file and obj.file.name:
+            return format_html('<a href="{}" target="_blank">Скачать</a>', obj.file.url)
+        return '—'
+    file_link.short_description = 'Файл'
 
 
 @admin.register(MenuItem)
@@ -32,6 +92,15 @@ class ContentBlockInline(admin.TabularInline):
     ordering = ['order']
 
 
+class DocumentSectionInline(admin.TabularInline):
+    model = DocumentSection
+    extra = 0
+    fields = ('category', 'title', 'order', 'is_active')
+    ordering = ['order']
+    verbose_name = 'Раздел документов'
+    verbose_name_plural = 'Порядок разделов документов'
+
+
 class DocumentInline(admin.TabularInline):
     model = Document
     extra = 1
@@ -45,7 +114,7 @@ class PageAdmin(admin.ModelAdmin):
     list_filter = ('is_published', 'show_in_menu', 'parent', 'created_at')
     search_fields = ('title', 'slug', 'description', 'content')
     prepopulated_fields = {'slug': ('title',)}
-    inlines = [ContentBlockInline, DocumentInline]
+    inlines = [ContentBlockInline, DocumentSectionInline, DocumentInline]
     
     fieldsets = (
         ('Основная информация', {
@@ -62,7 +131,25 @@ class PageAdmin(admin.ModelAdmin):
     
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        return qs.prefetch_related('blocks', 'documents')
+        return qs.prefetch_related('blocks', 'documents', 'document_sections')
+
+
+@admin.register(DocumentSection)
+class DocumentSectionAdmin(admin.ModelAdmin):
+    list_display = ('title', 'page', 'category', 'order', 'is_active')
+    list_filter = ('page', 'is_active')
+    search_fields = ('title', 'category', 'page__title')
+    list_editable = ('order', 'is_active')
+    ordering = ['page', 'order']
+    
+    fieldsets = (
+        ('Основная информация', {
+            'fields': ('page', 'category', 'title')
+        }),
+        ('Настройки', {
+            'fields': ('order', 'is_active')
+        }),
+    )
 
 
 @admin.register(ContentBlock)

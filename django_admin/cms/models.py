@@ -133,6 +133,29 @@ class ContentBlock(models.Model):
         return f'{self.page.title} - {self.get_block_type_display()} ({self.order})'
 
 
+class DocumentSection(models.Model):
+    """Раздел документов — управляет порядком категорий на странице"""
+    page = models.ForeignKey(
+        Page,
+        on_delete=models.CASCADE,
+        related_name='document_sections',
+        verbose_name='Страница'
+    )
+    category = models.CharField('Категория', max_length=100)
+    title = models.CharField('Заголовок раздела', max_length=200)
+    order = models.IntegerField('Порядок', default=0)
+    is_active = models.BooleanField('Активен', default=True)
+
+    class Meta:
+        verbose_name = 'Раздел документов'
+        verbose_name_plural = 'Разделы документов'
+        ordering = ['order', 'title']
+        unique_together = [('page', 'category')]
+
+    def __str__(self):
+        return f'{self.page.title} → {self.title} (порядок: {self.order})'
+
+
 class Document(models.Model):
     """Документ для загрузки"""
     CATEGORY_CHOICES = [
@@ -346,3 +369,85 @@ class GalleryImage(models.Model):
 
     def __str__(self):
         return self.title or f'Изображение {self.id}'
+
+
+
+class EducationalProgram(models.Model):
+    """Образовательная программа (специальность)"""
+    page = models.ForeignKey(
+        Page,
+        on_delete=models.CASCADE,
+        related_name='edu_programs',
+        verbose_name='Страница',
+        null=True, blank=True
+    )
+    code = models.CharField('Код специальности', max_length=20, blank=True)
+    title = models.CharField('Название специальности', max_length=300)
+    qualification = models.CharField('Квалификация', max_length=200, blank=True)
+    duration = models.CharField('Срок обучения', max_length=100, blank=True)
+    form = models.CharField('Форма обучения', max_length=100, blank=True, default='Очная')
+    order = models.IntegerField('Порядок', default=0)
+    is_active = models.BooleanField('Активна', default=True)
+
+    class Meta:
+        verbose_name = 'Образовательная программа'
+        verbose_name_plural = 'Образовательные программы'
+        ordering = ['order', 'code']
+
+    def __str__(self):
+        return f'{self.code} {self.title}' if self.code else self.title
+
+
+class AdmissionYear(models.Model):
+    """Год поступления для образовательной программы"""
+    program = models.ForeignKey(
+        EducationalProgram,
+        on_delete=models.CASCADE,
+        related_name='years',
+        verbose_name='Программа'
+    )
+    year = models.IntegerField('Год поступления')
+    order = models.IntegerField('Порядок', default=0)
+    is_active = models.BooleanField('Активен', default=True)
+
+    class Meta:
+        verbose_name = 'Год поступления'
+        verbose_name_plural = 'Годы поступления'
+        ordering = ['-year']
+        unique_together = [('program', 'year')]
+
+    def __str__(self):
+        return f'{self.program} — {self.year}'
+
+
+class ProgramDocument(models.Model):
+    """Документ образовательной программы"""
+    DOC_TYPES = [
+        ('opop', 'ОПОП (основная программа)'),
+        ('rup', 'Рабочий учебный план'),
+        ('calendar', 'Календарный учебный график'),
+        ('annotation', 'Аннотации рабочих программ'),
+        ('fos', 'Фонд оценочных средств'),
+        ('practice', 'Программа практики'),
+        ('other', 'Прочее'),
+    ]
+
+    year = models.ForeignKey(
+        AdmissionYear,
+        on_delete=models.CASCADE,
+        related_name='documents',
+        verbose_name='Год поступления'
+    )
+    doc_type = models.CharField('Тип документа', max_length=50, choices=DOC_TYPES, default='opop')
+    title = models.CharField('Название документа', max_length=300)
+    file = models.FileField('Файл', upload_to='edu_programs/%Y/', blank=True, null=True)
+    order = models.IntegerField('Порядок', default=0)
+    is_active = models.BooleanField('Активен', default=True)
+
+    class Meta:
+        verbose_name = 'Документ программы'
+        verbose_name_plural = 'Документы программы'
+        ordering = ['order', 'doc_type']
+
+    def __str__(self):
+        return self.title

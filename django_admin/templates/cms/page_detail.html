@@ -18,10 +18,30 @@
 
         <div class="page-layout">
             {# Боковая навигация #}
-            {% if page.parent %}
+            {% if page.slug == 'basic-info' or page.parent and page.parent.slug == 'basic-info' %}
+                {# Жёстко прописанное меню для раздела "Сведения об организации" #}
+                <aside class="page-sidebar">
+                    <ul class="sidebar-nav">
+                        <li class="{% if page.slug == 'basic-info' or page.slug == 'osnovnye-svedeniya' %}active{% endif %}"><a href="/page/basic-info/">Основные сведения</a></li>
+                        <li class="{% if page.slug == 'struktura' %}active{% endif %}"><a href="/page/struktura/">Структура и органы управления образовательной организацией</a></li>
+                        <li class="{% if page.slug == 'dokumenty' %}active{% endif %}"><a href="/page/dokumenty/">Документы</a></li>
+                        <li class="{% if page.slug == 'obrazovanie' %}active{% endif %}"><a href="/page/obrazovanie/">Образование</a></li>
+                        <li class="{% if page.slug == 'rukovodstvo' %}active{% endif %}"><a href="/page/rukovodstvo/">Руководство</a></li>
+                        <li class="{% if page.slug == 'pedagogicheskiy-sostav' %}active{% endif %}"><a href="/page/pedagogicheskiy-sostav/">Педагогический состав</a></li>
+                        <li class="{% if page.slug == 'materialno-tekhnicheskoe' %}active{% endif %}"><a href="/page/materialno-tekhnicheskoe/">Материально-техническое обеспечение и оснащённость образовательного процесса. Доступная среда</a></li>
+                        <li class="{% if page.slug == 'platnye-uslugi' %}active{% endif %}"><a href="/page/platnye-uslugi/">Платные образовательные услуги</a></li>
+                        <li class="{% if page.slug == 'finansy' %}active{% endif %}"><a href="/page/finansy/">Финансово-хозяйственная деятельность</a></li>
+                        <li class="{% if page.slug == 'vakantnye-mesta' %}active{% endif %}"><a href="/page/vakantnye-mesta/">Вакантные места для приема (перевода) обучающихся</a></li>
+                        <li class="{% if page.slug == 'stipendii' %}active{% endif %}"><a href="/page/stipendii/">Стипендии и меры поддержки обучающихся</a></li>
+                        <li class="{% if page.slug == 'mezhdunarodnoe' %}active{% endif %}"><a href="/page/mezhdunarodnoe/">Международное сотрудничество</a></li>
+                        <li class="{% if page.slug == 'pitanie' %}active{% endif %}"><a href="/page/pitanie/">Организация питания в образовательной организации</a></li>
+                        <li class="{% if page.slug == 'obrazovatelnye-standarty' %}active{% endif %}"><a href="/page/obrazovatelnye-standarty/">Образовательные стандарты и требования</a></li>
+                    </ul>
+                </aside>
+            {% elif page.parent %}
                 {% with siblings=siblings %}
                 {% if siblings %}
-                <!--<aside class="page-sidebar">
+                    <aside class="page-sidebar">
                     <ul class="sidebar-nav">
                         {% for sub in siblings %}
                         {% if sub.is_published %}
@@ -30,33 +50,8 @@
                         </li>
                         {% endif %}
                         {% endfor %}
-                    </ul>-->
-                    <!--извините за костыльное решение, другого варианта не нашёл-->
-                    <aside class="page-sidebar">
-                    
-                    <ul class="sidebar-nav">
-                        <li class=""><a href="/page/osnovnye-svedeniya/">Основные сведения</a></li>
-                        <li class=""><a href="/page/struktura/">Структура и органы управления образовательной организацией</a></li>
-                        <li class=""><a href="/page/dokumenty/">Документы</a></li>
-                        <li class=""><a href="/page/obrazovanie/">Образование</a></li>
-                        <li class=""><a href="/page/rukovodstvo/">Руководство</a></li>
-                        <li class=""><a href="/page/materialno-tekhnicheskoe/">Материально-техническое обеспечение и оснащённость образовательного процесса</a></li>
-                        <li class=""><a href="/page/vakantnye-mesta/">Вакантные места для приема (перевода) обучающихся</a></li>
-                        <li class=""><a href="/page/finansy/">Финансово-хозяйственная деятельность</a></li>
-                        <li class=""><a href="/page/dostupnaya-sreda/">Доступная среда</a></li>
-                        <li class=""><a href="/page/stipendii/">Стипендии и меры поддержки обучающихся</a></li>
-                        <li class=""><a href="/page/mezhdunarodnoe/">Международное сотрудничество</a></li>
-                        <li class=""><a href="/page/obrazovatelnye-standarty/">Образовательные стандарты и требования</a></li>
-                        <li class=""><a href="/page/pedagogicheskiy-sostav/">Педагогический состав</a></li>
-                        <li class=""><a href="/page/pitanie/">Организация питания в образовательной организации</a></li>
-                        
-
-            
-                        
                     </ul>
-                
                 </aside>
-                
                 {% endif %}
                 {% endwith %}
             {% elif children %}
@@ -99,11 +94,11 @@
 
                 {% if documents_by_category %}
                 <section class="documents-section">
-                    {% for category, docs in documents_by_category.items %}
+                    {% for category, section_data in documents_by_category.items %}
                     <div class="documents-category">
-                        <h2>{{ docs.0.get_category_display }}</h2>
+                        <h2>{{ section_data.title }}</h2>
                         <div class="documents-list">
-                            {% for doc in docs %}
+                            {% for doc in section_data.docs %}
                             <div class="document-item">
                                 <div class="document-icon"><i class="fas fa-file-pdf"></i></div>
                                 <div class="document-info">
@@ -126,6 +121,101 @@
                     </div>
                     {% endfor %}
                 </section>
+                {% endif %}
+
+                {# Образовательные программы: Год → Специальности → Файлы #}
+                {% if edu_by_year %}
+                <section class="edu-programs-section">
+                    <h2 class="edu-section-title">Образовательные программы</h2>
+
+                    {% for year, programs in edu_by_year.items %}
+                    <div class="edu-year-card">
+                        <!-- Кнопка года -->
+                        <button class="edu-year-toggle" onclick="toggleEdu(this)">
+                            <span><i class="fas fa-calendar-alt"></i> Год поступления: <strong>{{ year }}</strong></span>
+                            <span class="edu-year-count">{{ programs|length }} специальност{% if programs|length == 1 %}ь{% elif programs|length < 5 %}и{% else %}ей{% endif %}</span>
+                            <i class="fas fa-chevron-down edu-chevron"></i>
+                        </button>
+
+                        <!-- Список специальностей -->
+                        <div class="edu-year-body">
+                            {% for item in programs %}
+                            <div class="edu-spec-block">
+                                <!-- Кнопка специальности -->
+                                <button class="edu-spec-toggle" onclick="toggleEdu(this)">
+                                    <span class="edu-spec-left">
+                                        {% if item.program.code %}<span class="edu-spec-code">{{ item.program.code }}</span>{% endif %}
+                                        <span class="edu-spec-name">{{ item.program.title }}</span>
+                                    </span>
+                                    <span class="edu-spec-meta">
+                                        {% if item.program.duration %}<span>{{ item.program.duration }}</span>{% endif %}
+                                        <i class="fas fa-chevron-down edu-chevron"></i>
+                                    </span>
+                                </button>
+
+                                <!-- Таблица файлов -->
+                                <div class="edu-spec-body">
+                                    {% if item.docs %}
+                                    <table class="edu-docs-table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:40px">№</th>
+                                                <th>Наименование документа</th>
+                                                <th style="width:180px">Тип</th>
+                                                <th style="width:80px">Файл</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for doc in item.docs %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>
+                                                    {% if doc.file and doc.file.name %}
+                                                    <a href="{{ doc.file.url }}" target="_blank" class="edu-doc-link">
+                                                        <i class="fas fa-file-pdf"></i> {{ doc.title }}
+                                                    </a>
+                                                    {% else %}
+                                                    <span class="edu-doc-nofile">
+                                                        <i class="fas fa-file"></i> {{ doc.title }}
+                                                    </span>
+                                                    {% endif %}
+                                                </td>
+                                                <td><span class="edu-doc-type">{{ doc.get_doc_type_display }}</span></td>
+                                                <td>
+                                                    {% if doc.file and doc.file.name %}
+                                                    <a href="{{ doc.file.url }}" class="edu-download-btn" download title="Скачать">
+                                                        <i class="fas fa-download"></i>
+                                                    </a>
+                                                    {% else %}
+                                                    <span class="edu-no-file" title="Файл не загружен">
+                                                        <i class="fas fa-clock"></i>
+                                                    </span>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% else %}
+                                    <p class="edu-no-docs">Документы ещё не добавлены</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </section>
+
+                <script>
+                function toggleEdu(btn) {
+                    const body = btn.nextElementSibling;
+                    const chevron = btn.querySelector('.edu-chevron');
+                    const isOpen = body.classList.contains('open');
+                    body.classList.toggle('open', !isOpen);
+                    chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
+                }
+                </script>
                 {% endif %}
             </div>
         </div>
