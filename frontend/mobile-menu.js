@@ -42,10 +42,18 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleMenu();
     });
 
+    // Закрываем меню при клике вне навигации
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.main-nav') && navList.classList.contains('active')) {
             closeMenu();
         }
+    });
+
+    // Закрываем меню при клике по ссылке (навигация работает нормально)
+    navList.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            closeMenu();
+        });
     });
 
     window.addEventListener('resize', () => {

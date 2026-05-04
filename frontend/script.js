@@ -105,7 +105,6 @@ document.addEventListener('DOMContentLoaded', function() {
     dropdowns.forEach(dropdown => {
         dropdown.addEventListener('click', function(e) {
             if (window.innerWidth < 992) {
-                e.preventDefault();
                 this.classList.toggle('open');
             }
         });

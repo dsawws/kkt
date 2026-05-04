@@ -1,47 +1,31 @@
 function initVKWidget() {
-    const screenWidth = window.innerWidth;
     const vkContainer = document.getElementById("vk_groups");
-
     if (!vkContainer) return;
 
-    // Очищаем контейнер
     vkContainer.innerHTML = "";
 
-    // Определяем параметры для разных устройств
-    let widgetId, widgetParams;
+    // Берём реальную ширину контейнера
+    const containerWidth = vkContainer.parentElement
+        ? vkContainer.parentElement.offsetWidth
+        : window.innerWidth;
 
-    if (screenWidth < 768) {
-        // Мобильная версия
-        widgetId = "vk_groups_mobile";
-        widgetParams = {
-            mode: 4,
-            wide: 0,
-            width: "auto",
-            height: 300,
-            color1: "FFFFFF",
-            color2: "000000",
-            color3: "3cae3e"
-        };
-    } else {
-        // Десктоп версия
-        widgetId = "vk_groups_desktop";
-        widgetParams = {
-            mode: 4,
-            wide: 1,
-            width: "auto",
-            height: 400,
-            color1: "FFFFFF",
-            color2: "000000",
-            color3: "3cae3e"
-        };
-    }
+    const isMobile = window.innerWidth < 768;
 
-    // Создаем новый div для виджета
+    const widgetId = isMobile ? "vk_groups_mobile" : "vk_groups_desktop";
+    const widgetParams = {
+        mode: 4,
+        wide: 1,
+        width: Math.max(containerWidth, 300),
+        height: isMobile ? 350 : 500,
+        color1: "FFFFFF",
+        color2: "000000",
+        color3: "2e7d32"
+    };
+
     const widgetDiv = document.createElement('div');
     widgetDiv.id = widgetId;
     vkContainer.appendChild(widgetDiv);
 
-    // Инициализируем виджет
     VK.Widgets.Group(widgetId, widgetParams, 218711190);
 }
 

@@ -37,6 +37,14 @@
                 <div class="header-contacts">
                     <p><i class="fas fa-phone"></i> +7 (86155)2-27-83</p>
                     <p><i class="fas fa-envelope"></i> kktbel@mail.ru</p>
+                    <div class="social-links" style="display: flex; gap: 10px; margin-top: 8px;">
+                        <a href="https://vk.com/belkkt" target="_blank" rel="noopener" style="color: #fff; font-size: 1.2rem;" title="ВКонтакте">
+                            <i class="fab fa-vk"></i>
+                        </a>
+                        <a href="https://t.me/belkkt" target="_blank" rel="noopener" style="color: #fff; font-size: 1.2rem;" title="Telegram">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -79,80 +87,180 @@
     </section>
 
 
-<section class="quick-links">
+<section class="bento-section">
     <div class="container">
         <h2 class="section-title">Быстрые ссылки</h2>
-        <div class="links-grid">
-            <!--
-            <a href="/page/3" class="link-card">
-                <div class="link-icon">
-                    <i class="fas fa-user-graduate"></i>
+        <div class="bento-grid">
+
+            <!-- Большая плитка — Поступающим (2×2) -->
+            <a href="/frontend/pages/abiturient/abiturient.html" class="bento-card bento-large bento-g1">
+                <div class="bento-bg-icon"><i class="fas fa-user-graduate"></i></div>
+                <div class="bento-content">
+                    <span class="bento-label">Раздел</span>
+                    <h2>Поступающим</h2>
+                    <p>Условия приёма, документы, приказы о зачислении и вся информация для абитуриентов</p>
                 </div>
-                <h3>Абитуриенту</h3>
-                <p>Всё для поступающих в наш техникум</p>
+                <div class="bento-stat">
+                    <span class="bento-stat-num">2026</span>
+                    <span class="bento-stat-label">учебный год</span>
+                </div>
             </a>
 
-            <a href="/page/4" class="link-card">
-                <div class="link-icon">
-                    <i class="fas fa-book"></i>
+            <!-- Электронное обучение -->
+            <a href="http://e-learn.kktbel.ru/login/index.php" class="bento-card bento-g2" target="_blank" rel="noopener">
+                <div class="bento-bg-icon"><i class="fas fa-laptop"></i></div>
+                <div class="bento-content">
+                    <span class="bento-label">Платформа</span>
+                    <h2>Moodle</h2>
+                    <p>Дистанционное обучение и учебные материалы</p>
                 </div>
-                <h3>Студенту</h3>
-                <p>Расписание, материалы, документы</p>
             </a>
 
-            <a href="/page/5" class="link-card">
-                <div class="link-icon">
-                    <i class="fas fa-chalkboard-teacher"></i>
+            <!-- Приложение -->
+            <a href="https://api.kktmobile-app.ru/app/.../index.html#" class="bento-card bento-g3">
+                <div class="bento-bg-icon"><i class="fas fa-mobile-alt"></i></div>
+                <div class="bento-content">
+                    <span class="bento-label">Мобильное</span>
+                    <h2>Приложение</h2>
+                    <p>Расписание, оценки, объявления</p>
                 </div>
-                <h3>Преподавателю</h3>
-                <p>Методические материалы и документы</p>
-            </a>
-            -->
-
-            <a href="http://e-learn.kktbel.ru/login/index.php" class="link-card">
-                <div class="link-icon">
-                    <i class="fas fa-laptop"></i>
-                </div>
-                <h3>Электронное обучение</h3>
-                <p>Дистанционное обучение</p>
             </a>
 
-            <a href="https://api.kktmobile-app.ru/app/.../index.html#" class="link-card">
-                <div class="link-icon">
-                    <i class="fas fa-mobile-alt"></i>
+            <!-- Оплата обучения -->
+            <a href="/frontend/pages/basic-info/main_pages/paymentpage.html" class="bento-card bento-g4">
+                <div class="bento-bg-icon"><i class="fas fa-credit-card"></i></div>
+                <div class="bento-content">
+                    <span class="bento-label">Оплата</span>
+                    <h2>Оплата обучения</h2>
+                    <p>Онлайн-оплата и реквизиты</p>
                 </div>
-                <h3>Приложение техникума</h3>
-                <p>Мобильное приложение для студентов и преподавателей</p>
             </a>
 
-            <a href="#" class="link-card">
-                <div class="link-icon">
-                    <i class="fas fa-comments"></i>
+            <!-- Написать нам -->
+            <a href="https://vk.com/im?sel=-belkkt" class="bento-card bento-g5" target="_blank" rel="noopener">
+                <div class="bento-bg-icon"><i class="fab fa-vk"></i></div>
+                <div class="bento-content">
+                    <span class="bento-label">Связь</span>
+                    <h2>Написать нам</h2>
+                    <p>Онлайн-консультация ВКонтакте</p>
                 </div>
-                <h3>Чат поддержка</h3>
-                <p>Онлайн-помощь и консультации</p>
             </a>
 
-            <a href="#" class="link-card">
-                <div class="link-icon">
-                    <i class="fas fa-building"></i>
+            <!-- Общежитие -->
+            <a href="/frontend/pages/student/student.html" class="bento-card bento-g6">
+                <div class="bento-bg-icon"><i class="fas fa-building"></i></div>
+                <div class="bento-content">
+                    <span class="bento-label">Студентам</span>
+                    <h2>Общежитие</h2>
+                    <p>Условия проживания и стоимость</p>
                 </div>
-                <h3>Общежитие</h3>
-                <p>Информация о студенческом общежитии</p>
             </a>
 
-            <a href="#" class="link-card">
-                <div class="link-icon">
-                    <i class="fas fa-address-card"></i>
+            <!-- Контакты — широкая плитка -->
+            <div class="bento-card bento-contacts" style="cursor:default">
+                <div class="bento-bg-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="bento-content">
+                    <span class="bento-label">Контакты</span>
+                    <h2>Как нас найти</h2>
                 </div>
-                <h3>Контакты</h3>
-                <p>Контактная информация и схема проезда</p>
-            </a>
-
+                <ul class="bento-list">
+                    <li><i class="fas fa-map-marker-alt"></i><span>352630, Краснодарский край, г. Белореченск, ул. Кирова, д. 4</span></li>
+                    <li><i class="fas fa-phone"></i><a href="tel:+78615522783">8 (86155) 2-27-83</a></li>
+                    <li><i class="fas fa-phone"></i><a href="tel:+79884800692">8-988-480-06-92 (приёмная комиссия)</a></li>
+                    <li><i class="fas fa-envelope"></i><a href="mailto:kktbel@mail.ru">kktbel@mail.ru</a></li>
+                </ul>
+            </div>
 
         </div>
     </div>
 </section>
+
+    <section class="specialties">
+        <div class="container">
+            <h2 class="section-title">Наши специальности</h2>
+            <div class="specialties-grid">
+                <div class="specialty-card">
+                    <div class="specialty-image">
+                        <img src="https://placehold.co/400x300/8BC34A/FFFFFF?text=Информационные+системы" alt="Информационные системы и программирование">
+                    </div>
+                    <div class="specialty-content">
+                        <h3>09.02.07 Информационные системы и программирование</h3>
+                        <p>Срок обучения: 3 года 10 месяцев</p>
+                        <a href="/frontend/pages/professions/professions.html" class="btn-outline">Подробнее</a>
+                    </div>
+                </div>
+
+                <div class="specialty-card">
+                    <div class="specialty-image">
+                        <img src="https://placehold.co/400x300/8BC34A/FFFFFF?text=Землеустройство" alt="Землеустройство">
+                    </div>
+                    <div class="specialty-content">
+                        <h3>21.02.19 Землеустройство</h3>
+                        <p>Срок обучения: 3 года 10 месяцев</p>
+                        <a href="/frontend/pages/professions/professions.html" class="btn-outline">Подробнее</a>
+                    </div>
+                </div>
+
+                <div class="specialty-card">
+                    <div class="specialty-image">
+                        <img src="https://placehold.co/400x300/8BC34A/FFFFFF?text=Экономика+и+бухучет" alt="Экономика и бухгалтерский учет">
+                    </div>
+                    <div class="specialty-content">
+                        <h3>38.02.01 Экономика и бухгалтерский учет</h3>
+                        <p>Срок обучения: 2 года 10 месяцев</p>
+                        <a href="/frontend/pages/professions/professions.html" class="btn-outline">Подробнее</a>
+                    </div>
+                </div>
+
+                <div class="specialty-card">
+                    <div class="specialty-image">
+                        <img src="https://placehold.co/400x300/8BC34A/FFFFFF?text=Логистика" alt="Операционная деятельность в логистике">
+                    </div>
+                    <div class="specialty-content">
+                        <h3>38.02.03 Операционная деятельность в логистике</h3>
+                        <p>Срок обучения: 2 года 10 месяцев</p>
+                        <a href="/frontend/pages/professions/professions.html" class="btn-outline">Подробнее</a>
+                    </div>
+                </div>
+
+                <div class="specialty-card">
+                    <div class="specialty-image">
+                        <img src="https://placehold.co/400x300/8BC34A/FFFFFF?text=Торговое+дело" alt="Торговое дело">
+                    </div>
+                    <div class="specialty-content">
+                        <h3>38.02.08 Торговое дело</h3>
+                        <p>Срок обучения: 2 года 10 месяцев</p>
+                        <a href="/frontend/pages/professions/professions.html" class="btn-outline">Подробнее</a>
+                    </div>
+                </div>
+
+                <div class="specialty-card">
+                    <div class="specialty-image">
+                        <img src="https://placehold.co/400x300/8BC34A/FFFFFF?text=Юриспруденция" alt="Юриспруденция">
+                    </div>
+                    <div class="specialty-content">
+                        <h3>40.02.04 Юриспруденция</h3>
+                        <p>Срок обучения: 2 года 10 месяцев</p>
+                        <a href="/frontend/pages/professions/professions.html" class="btn-outline">Подробнее</a>
+                    </div>
+                </div>
+
+                <div class="specialty-card">
+                    <div class="specialty-image">
+                        <img src="https://placehold.co/400x300/8BC34A/FFFFFF?text=Туризм+и+гостеприимство" alt="Туризм и гостеприимство">
+                    </div>
+                    <div class="specialty-content">
+                        <h3>43.02.16 Туризм и гостеприимство</h3>
+                        <p>Срок обучения: 2 года 10 месяцев</p>
+                        <a href="/frontend/pages/professions/professions.html" class="btn-outline">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            <div class="specialties-actions">
+                <a href="/frontend/pages/professions/professions.html" class="btn">Все специальности</a>
+            </div>
+        </div>
+    </section>
 
 <section class="news">
     <div class="container">
@@ -171,25 +279,6 @@
     </div>
 </section>
 
-
-    <section class="director">
-        <div class="container">
-            <div class="director-inner">
-                <div class="director-image">
-                    <img src="{{director_image}}" alt="Директор техникума" id="director-img">
-                </div>
-                <div class="director-message">
-                    <h2 class="section-title" id="welcome-title">{{welcome_title}}</h2>
-                    <i><p id="welcome-text" style="white-space: pre-line;">{{welcome_text}}</p></i>
-                    <div class="director-signature">
-                        <p><span id="director-position">{{director_position}}</span><br><span id="director-name">{{director_name}}</span></p>
-                    </div>
-                    <p><i>По любым вопросам Вы можете обратиться, воспользовавшись нашими контактами.</i></p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section class="director">
         <div class="container">
             <h2 style="text-align: center; color: var(--primary-dark);"><i>Единый телефон доверия для детей и подростков 8-800-2000-122</i></h2>
@@ -203,49 +292,6 @@
                     <img src="../uploads/VOV.jpg">
             </div>
             <p style="text-align: center; color: var(--primary-dark); font-weight: 500;"><u>Победа в Великой Отечественной войне <br>1941-1945</u></p>
-        </div>
-    </section>
-
-    <section class="specialties">
-        <div class="container">
-            <h2 class="section-title">Наши специальности</h2>
-            <div class="specialties-grid">
-                <div class="specialty-card">
-                    <div class="specialty-image">
-                        <img src="https://placehold.co/400x300/8BC34A/FFFFFF?text=Логистика" alt="Операционная деятельность в логистике">
-                    </div>
-                    <div class="specialty-content">
-                        <h3>Операционная деятельность в логистике</h3>
-                        <p>Срок обучения: 2 года 10 месяцев</p>
-                        <a href="#" class="btn-outline">Подробнее</a>
-                    </div>
-                </div>
-                
-                <div class="specialty-card">
-                    <div class="specialty-image">
-                        <img src="https://placehold.co/400x300/8BC34A/FFFFFF?text=Торговля" alt="Торговое дело">
-                    </div>
-                    <div class="specialty-content">
-                        <h3>Торговое дело</h3>
-                        <p>Срок обучения: 2 года 10 месяцев</p>
-                        <a href="#" class="btn-outline">Подробнее</a>
-                    </div>
-                </div>
-                
-                <div class="specialty-card">
-                    <div class="specialty-image">
-                        <img src="https://placehold.co/400x300/8BC34A/FFFFFF?text=Программирование" alt="Информационные системы">
-                    </div>
-                    <div class="specialty-content">
-                        <h3>Информационные системы и программирование</h3>
-                        <p>Срок обучения: 3 года 10 месяцев</p>
-                        <a href="#" class="btn-outline">Подробнее</a>
-                    </div>
-                </div>
-            </div>
-            <div class="specialties-actions">
-                <a href="/frontend/professions.html" class="btn">Все специальности</a>
-            </div>
         </div>
     </section>
 
@@ -382,21 +428,6 @@
         fetch('/api/homepage/')
             .then(response => response.json())
             .then(data => {
-                if (data.welcome_title) {
-                    document.getElementById('welcome-title').textContent = data.welcome_title;
-                }
-                if (data.welcome_text) {
-                    document.getElementById('welcome-text').textContent = data.welcome_text;
-                }
-                                if (data.director_name) {
-                    document.getElementById('director-name').textContent = data.director_name;
-                }
-                if (data.director_position) {
-                    document.getElementById('director-position').textContent = data.director_position;
-                }
-                if (data.director_image) {
-                    document.getElementById('director-img').src = data.director_image;
-                }
                 if (data.slider_title) {
                     document.getElementById('slider-title').textContent = data.slider_title;
                 }
