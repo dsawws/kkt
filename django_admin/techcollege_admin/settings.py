@@ -117,3 +117,4 @@ CKEDITOR_CONFIGS = {
         'extraAllowedContent': 'div(*)[*]{*}; span(*)[*]{*}; p(*)[*]{*}; a[*]; img[*]; h1 h2 h3 h4 h5 h6[*]',
     },
 }
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 20000
