@@ -171,29 +171,45 @@ class ContentBlockAdmin(admin.ModelAdmin):
 
 @admin.register(Document)
 class DocumentAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'page', 'file_size', 'download_link', 'is_active', 'created_at')
+    list_display = (
+        'title',
+        'category',
+        'page',
+        'file_size',
+        'download_link',
+        'is_active',
+        'created_at'
+    )
+
     list_filter = ('category', 'is_active', 'page', 'created_at')
     search_fields = ('title', 'description', 'page__title')
     list_editable = ('is_active',)
-    
+
     fieldsets = (
         ('Основная информация', {
-            'fields': ('page', 'category', 'title', 'description', 'file')
+            'fields': ('page','category','title','description','external_url','file')
         }),
         ('Настройки', {
             'fields': ('order', 'is_active')
         }),
     )
-    
+
     def download_link(self, obj):
+        if obj.external_url:
+            return format_html(
+                '<a href="{}" target="_blank">Открыть ссылку</a>',
+                obj.external_url
+            )
+
         if obj.file and obj.file.name:
             return format_html(
                 '<a href="{}" target="_blank">Скачать</a>',
                 obj.file.url
             )
-        return '—'
-    download_link.short_description = 'Файл'
 
+        return '—'
+
+    download_link.short_description = 'Файл'
 
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):

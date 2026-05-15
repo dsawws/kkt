@@ -107,8 +107,8 @@
                                     {% if doc.file_size %}<p>{{ doc.file_size }}</p>{% endif %}
                                 </div>
                                 {% if doc.file and doc.file.name %}
-                                <a href="{{ doc.file.url }}" class="download-btn" download>
-                                    <i class="fas fa-download"></i> Скачать
+                                <a href="{{ doc.file.url }}" class="download-btn">
+                                    Открыть
                                 </a>
                                 {% else %}
                                 <span class="download-btn" style="background:#9e9e9e;cursor:default;">
@@ -183,8 +183,8 @@
                                                 <td><span class="edu-doc-type">{{ doc.get_doc_type_display }}</span></td>
                                                 <td>
                                                     {% if doc.file and doc.file.name %}
-                                                    <a href="{{ doc.file.url }}" class="edu-download-btn" download title="Скачать">
-                                                        <i class="fas fa-download"></i>
+                                                    <a href="{{ doc.file.url }}" class="edu-download-btn" title="Скачать">
+                                                        <i class="fas fa-external-link-alt"></i>
                                                     </a>
                                                     {% else %}
                                                     <span class="edu-no-file" title="Файл не загружен">

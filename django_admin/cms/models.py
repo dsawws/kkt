@@ -209,7 +209,8 @@ class Document(models.Model):
     category = models.CharField('Категория', max_length=100, choices=CATEGORY_CHOICES, default='other')
     title = models.CharField('Название', max_length=200)
     description = models.TextField('Описание', blank=True)
-    file = models.FileField('Файл', upload_to='documents/%Y/%m/')
+    external_url = models.URLField('Внешняя ссылка', blank=True)
+    file = models.FileField('Файл',upload_to='documents/%Y/%m/',blank=True,null=True)
     file_size = models.CharField('Размер файла', max_length=50, blank=True)
     
     order = models.IntegerField('Порядок', default=0)
