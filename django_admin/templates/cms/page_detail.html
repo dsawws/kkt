@@ -38,6 +38,26 @@
                         <li class="{% if page.slug == 'obrazovatelnye-standarty' %}active{% endif %}"><a href="/page/obrazovatelnye-standarty/">Образовательные стандарты и требования</a></li>
                     </ul>
                 </aside>
+
+            {% elif page.slug == 'student' or page.parent and page.parent.slug == 'student' %}
+            {# Жёстко прописанное меню для раздела "Студентам" #}
+            <aside class="page-sidebar">
+                <ul class="sidebar-nav">
+                        <li class="{% if page.slug == 'student' %}active{% endif %}"><a href="/page/student/">Студентам</a></li>
+                        <li class="{% if page.slug == 'raspisanie-zanyatij' %}active{% endif %}"><a href="/page/raspisanie-zanyatij">Расписание занятий</a></li>
+                        <li class="{% if page.slug == 'studencheskij-sovet' %}active{% endif %}"><a href="/page/studencheskij-sovet">Студенческий совет</a></li>
+                        <li class="{% if page.slug == 'kursovoe-proektirovanie' %}active{% endif %}"><a href="/page/kursovoe-proektirovanie">Курсовое проектирование</a></li>
+                        <li class="{% if page.slug == 'diplomnoe-proektirovanie' %}active{% endif %}"><a href="/page/diplomnoe-proektirovanie">Дипломное проектирование</a></li>
+                        <li class="{% if page.slug == 'sport' %}active{% endif %}"><a href="/page/sport">Спорт</a></li>
+                        <li class="{% if page.slug == 'obshezhitie' %}active{% endif %}"><a href="/page/obshezhitie">Общежитие</a></li>
+                        <li class="{% if page.slug == 'biblioteka' %}active{% endif %}"><a href="/page/biblioteka">Библиотека</a></li>
+                        <li class="{% if page.slug == 'vneklassnye-meropriyatiya' %}active{% endif %}"><a href="/page/vneklassnye-meropriyatiya">Внеклассные мероприятия</a></li>
+                        <li class="{% if page.slug == 'prodolzhenie-obucheniya-v-vuze' %}active{% endif %}"><a href="/page/prodolzhenie-obucheniya-v-vuze">Продолжение обучения в ВУЗе</a></li>
+                        <li class="{% if page.slug == 'anketirovanie' %}active{% endif %}"><a href="/page/anketirovanie">Анкетирование</a></li>
+                        <li class="{% if page.slug == 'vnutrennyaya-sistema-ocenki-kachestva-obrazovaniya' %}active{% endif %}"><a href="/page/vnutrennyaya-sistema-ocenki-kachestva-obrazovaniya">Внутренняя система оценки качества образования</a></li>
+                        <li class="{% if page.slug == 'vneshnyaya-ocenka-kachestva' %}active{% endif %}"><a href="/page/vneshnyaya-ocenka-kachestva">Внешняя оценка качества</a></li>
+                </ul>
+            </aside>
             {% elif page.parent %}
                 {% with siblings=siblings %}
                 {% if siblings %}

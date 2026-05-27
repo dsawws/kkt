@@ -11,6 +11,52 @@
     <link rel="stylesheet" href="{% static 'media-styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     <style>
+/* Версия для слабовидящих */
+body.accessibility-mode {
+    background: #000 !important;
+    color: #fff !important;
+    font-size: 120% !important;
+}
+body.accessibility-mode *:not(i):not([class*="fa-"]) {
+    font-family: Arial, sans-serif !important;
+    line-height: 1.8 !important;
+    letter-spacing: 0.5px !important;
+    color: #fff !important;
+    background-color: transparent !important;
+    border-color: #fff !important;
+}
+body.accessibility-mode i,
+body.accessibility-mode [class*="fa-"] {
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+    font-weight: 900 !important;
+    font-style: normal !important;
+    color: #fff !important;
+    background-color: transparent !important;
+    letter-spacing: normal !important;
+}
+body.accessibility-mode a {
+    color: #ff0 !important;
+    text-decoration: underline !important;
+}
+body.accessibility-mode img {
+    filter: grayscale(100%) contrast(120%) !important;
+    opacity: 0.9;
+}
+body.accessibility-mode .header,
+body.accessibility-mode .main-nav,
+body.accessibility-mode .footer {
+    background: #111 !important;
+}
+body.accessibility-mode input,
+body.accessibility-mode button {
+    background: #222 !important;
+    color: #fff !important;
+    border: 1px solid #fff !important;
+}
+
+
+
+
     /* ── Новости ── */
     .news { padding: 70px 0; background: #fff; }
     /* ВК виджет на всю ширину */
@@ -62,7 +108,6 @@
         .news-feed-grid { grid-template-columns: 1fr; }
         .news-feed-grid .news-post { border-right: none; }
     }
-
     /* ── Плавающий виджет связи ── */
     .float-widget {
         position: fixed;
@@ -588,32 +633,20 @@ if (menuToggle && navList) {
     });
 }
 
-// Подменю на мобилке — открывать по тапу
-document.querySelectorAll('.nav-item').forEach(item => {
-    const link = item.querySelector('.nav-link');
-    const dropdown = item.querySelector('.dropdown-menu');
-    if (dropdown && link) {
-        link.addEventListener('click', (e) => {
-            if (window.innerWidth <= 992) {
-                e.preventDefault();
-                const isOpen = item.classList.contains('open');
-                // Закрыть все остальные
-                document.querySelectorAll('.nav-item.open').forEach(i => i.classList.remove('open'));
-                if (!isOpen) item.classList.add('open');
-            }
-        });
-    }
-});
 
 // Версия для слабовидящих
-const accBtn = document.getElementById('accessibilityToggle');
-if (accBtn) {
-    if (localStorage.getItem('accessibilityMode') === 'enabled') document.body.classList.add('accessibility-mode');
-    accBtn.addEventListener('click', () => {
-        document.body.classList.toggle('accessibility-mode');
-        localStorage.setItem('accessibilityMode', document.body.classList.contains('accessibility-mode') ? 'enabled' : 'disabled');
-    });
+// Версия для слабовидящих
+if (localStorage.getItem('accessibilityMode') === 'enabled') {
+    document.body.classList.add('accessibility-mode');
 }
+
+document.querySelectorAll('.accessibility-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.body.classList.toggle('accessibility-mode');
+        localStorage.setItem('accessibilityMode',
+            document.body.classList.contains('accessibility-mode') ? 'enabled' : 'disabled');
+    });
+});
 </script>
 
 <!-- Плавающий виджет связи -->
