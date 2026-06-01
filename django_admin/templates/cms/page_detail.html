@@ -59,6 +59,21 @@
                         <li class="{% if page.slug == 'gosudarstvennaya-itogovaya-attestaciya' %}active{% endif %}"><a href="/page/gosudarstvennaya-itogovaya-attestaciya/">Государственная итоговая аттестация</a></li>
                 </ul>
             </aside>
+
+            {% elif page.slug == 'abiturient' or page.parent and page.parent.slug == 'abiturient' %}
+            {# Жёстко прописанное меню для раздела "Поступающим" #}
+            <aside class="page-sidebar">
+                <ul class="sidebar-nav">
+                        <li class="{% if page.slug == 'abiturient' %}active{% endif %}"><a href="/page/abiturient">Поступающим</a></li>
+                        <li class="{% if page.slug == 'usloviya-priyoma' %}active{% endif %}"><a href="/page/usloviya-priyoma">Условия приёма</a></li>
+                        <li class="{% if page.slug == 'socialnaya-zashishennost' %}active{% endif %}"><a href="/page/socialnaya-zashishennost">Социальная защищенность</a></li>
+                        <li class="{% if page.slug == 'spiski-postupayushih' %}active{% endif %}"><a href="/page/spiski-postupayushih">Списки поступающих</a></li>
+                        <li class="{% if page.slug == 'prikazy-o-zachislenii' %}active{% endif %}"><a href="/page/prikazy-o-zachislenii">Приказы о зачислении</a></li>
+                        <li class="{% if page.slug == 'vakantnye-mesta-dlya-priema-perevoda-obuchayushihsya' %}active{% endif %}"><a href="/page/vakantnye-mesta-dlya-priema-perevoda-obuchayushihsya">Вакантные места для приема (перевода) обучающихся</a></li>
+                        <li class="{% if page.slug == 'professions' %}active{% endif %}"><a href="/page/professions/">Специальности</a></li>
+                </ul>
+            </aside>
+
             {% elif page.parent %}
                 {% with siblings=siblings %}
                 {% if siblings %}

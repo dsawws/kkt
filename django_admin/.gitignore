@@ -30,6 +30,7 @@ db.sqlite3-journal
 /media
 /staticfiles
 /static
+db.sqlite3
 
 # IDE
 .vscode/
