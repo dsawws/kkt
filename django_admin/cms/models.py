@@ -189,10 +189,14 @@ class Document(models.Model):
         ('konferentsiya', 'Студенческая научно-практическая конференция'),
         # Студентам
         ('student_docs', 'Документы студентам'),
+        # Трудоустройство
+        ('trudoustrojstvo_docs', 'Трудоустройство'),
         # ССК
         ('ssk_docs', 'Документы ССК'),
         # Антинарко
         ('antinarko_docs', 'Антинарко'),
+        # Антикоррупция
+        ('antikorrupciya_docs', 'Антикоррупция'),
         # Профилактика
         ('profilaktika_docs', 'Профилактика'),
         ('other', 'Прочее'),
