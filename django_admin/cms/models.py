@@ -46,9 +46,15 @@ class MenuItem(MPTTModel):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        if self.page:
-            return f'/page/{self.page.slug}/'
-        return f'/page/{self.slug}/'
+        children = self.get_children().filter(is_active=True).order_by('order', 'title')
+        for child in children:
+            if child.page_id:
+                return child.page.get_absolute_url()
+        if self.page_id:
+            return self.page.get_absolute_url()
+        if self.slug:
+            return f'/page/{self.slug}/'
+        return '#'
 
 
 class Page(models.Model):
@@ -245,18 +251,75 @@ class Document(models.Model):
 
 class HomePage(models.Model):
     """Настройки главной страницы"""
+    site_name = models.CharField(
+        'Название техникума',
+        max_length=300,
+        default='АНЧ ПОО «Краснодарский кооперативный техникум крайпотребсоюза»',
+    )
+    site_tagline = models.CharField('Слоган', max_length=200, default='Качество + Креатив + Творчество', blank=True)
+    site_phone = models.CharField('Телефон', max_length=50, default='8(86155)2-27-83', blank=True)
+    site_email = models.EmailField('Email', default='kktbel@mail.ru', blank=True)
+    site_vk = models.URLField('ВКонтакте', default='https://vk.com/belkkt', blank=True)
+    site_telegram = models.URLField('Telegram', default='https://t.me/belkkt', blank=True)
+
     welcome_title = models.CharField('Заголовок приветствия', max_length=200, default='Добро пожаловать!')
     welcome_text = models.TextField('Текст приветствия', blank=True)
-    
+
     director_name = models.CharField('Имя директора', max_length=200, blank=True)
     director_position = models.CharField('Должность директора', max_length=200, blank=True)
     director_image = models.ImageField('Фото директора', upload_to='homepage/', blank=True)
     director_message = models.TextField('Обращение директора', blank=True)
-    
+
     slider_title = models.CharField('Заголовок слайдера', max_length=200, default='Добро пожаловать в наш техникум!')
     slider_text = models.TextField('Текст слайдера', default='Мы готовим специалистов с 1944 года')
     slider_image = models.ImageField('Изображение слайдера', upload_to='homepage/', blank=True)
-    
+
+    bento_title = models.CharField('Заголовок быстрых ссылок', max_length=200, default='Быстрые ссылки')
+
+    specialties_label = models.CharField('Подпись блока специальностей', max_length=100, default='Образование', blank=True)
+    specialties_title = models.CharField(
+        'Заголовок специальностей',
+        max_length=300,
+        default='Мы обучаем востребованным специальностям',
+    )
+    specialties_text = models.TextField(
+        'Текст специальностей',
+        blank=True,
+        default='Среднее профессиональное образование по очной форме. Поступление после 9 и 11 классов.',
+    )
+    specialties_image = models.ImageField('Фото блока специальностей', upload_to='homepage/', blank=True)
+    specialties_count = models.CharField('Число специальностей', max_length=10, default='7', blank=True)
+    specialties_list = models.TextField(
+        'Список специальностей (каждая с новой строки: иконка|название|код)',
+        blank=True,
+        help_text='Пример: fa-plane|Туризм и гостеприимство|43.02.16',
+    )
+
+    hotline_text = models.TextField('Текст телефона доверия', blank=True)
+    vov_text = models.CharField('Текст блока ВОВ', max_length=300, blank=True, default='Победа в Великой Отечественной войне 1941-1945')
+    vov_image = models.ImageField('Изображение ВОВ', upload_to='homepage/', blank=True)
+
+    contacts_title = models.CharField('Заголовок контактов', max_length=200, default='Контакты')
+    contacts_address = models.CharField('Адрес', max_length=300, blank=True)
+    contacts_phone = models.CharField('Телефон контактов', max_length=100, blank=True)
+    contacts_phone2 = models.CharField('Доп. телефон', max_length=100, blank=True)
+    contacts_email = models.EmailField('Email контактов', blank=True)
+    contacts_hours = models.CharField('Режим работы', max_length=200, blank=True)
+    contacts_map_url = models.URLField('Ссылка на карту (iframe)', blank=True)
+
+    footer_tagline = models.CharField(
+        'Текст в подвале',
+        max_length=300,
+        default='Качество образование — наша главная цель',
+        blank=True,
+    )
+    footer_copyright = models.CharField(
+        'Копирайт',
+        max_length=300,
+        default='© 2026 Техникум. Все права защищены.',
+        blank=True,
+    )
+
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
     class Meta:
@@ -277,6 +340,120 @@ class HomePage(models.Model):
     def load(cls):
         obj, created = cls.objects.get_or_create(pk=1)
         return obj
+
+    def get_specialties_items(self):
+        items = []
+        for line in self.specialties_list.splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            parts = line.split('|')
+            if len(parts) >= 3:
+                items.append({'icon': parts[0].strip(), 'title': parts[1].strip(), 'code': parts[2].strip()})
+        return items
+
+
+class ContentTable(models.Model):
+    """Переиспользуемая таблица / HTML-блок"""
+    title = models.CharField('Название', max_length=200)
+    slug = models.SlugField('Код', max_length=200, unique=True, blank=True)
+    content = RichTextUploadingField('Содержимое')
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Таблица'
+        verbose_name_plural = 'Таблицы'
+        ordering = ['title']
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title, allow_unicode=True)
+        super().save(*args, **kwargs)
+
+
+class HomeQuickLink(models.Model):
+    """Плитка быстрой ссылки на главной (bento)"""
+    STYLE_CHOICES = [
+        ('bento-g1', 'Зелёный 1 (большая)'),
+        ('bento-g2', 'Зелёный 2'),
+        ('bento-g3', 'Зелёный 3'),
+        ('bento-g4', 'Зелёный 4'),
+        ('bento-g5', 'Зелёный 5'),
+        ('bento-g6', 'Зелёный 6'),
+        ('bento-g7', 'Зелёный 7'),
+        ('bento-g8', 'Зелёный 8'),
+        ('bento-contacts', 'Контакты (белая)'),
+    ]
+
+    label = models.CharField('Подпись', max_length=100, blank=True)
+    title = models.CharField('Заголовок', max_length=200)
+    description = models.TextField('Описание', blank=True)
+    url = models.CharField('Ссылка', max_length=500, blank=True)
+    icon = models.CharField('Иконка FontAwesome', max_length=100, default='fas fa-link')
+    style = models.CharField('Стиль', max_length=30, choices=STYLE_CHOICES, default='bento-g2')
+    is_large = models.BooleanField('Большая плитка', default=False)
+    is_contacts = models.BooleanField('Блок контактов', default=False)
+    contacts_list = models.TextField(
+        'Список контактов (каждая строка: иконка|текст|ссылка)',
+        blank=True,
+        help_text='Пример: fa-phone|8-988-480-06-92|tel:+79884800692',
+    )
+    stat_num = models.CharField('Число статистики', max_length=20, blank=True)
+    stat_label = models.CharField('Подпись статистики', max_length=100, blank=True)
+    order = models.IntegerField('Порядок', default=0)
+    is_active = models.BooleanField('Активна', default=True)
+    open_in_new_tab = models.BooleanField('Открывать в новой вкладке', default=False)
+
+    class Meta:
+        verbose_name = 'Быстрая ссылка'
+        verbose_name_plural = 'Быстрые ссылки главной'
+        ordering = ['order', 'title']
+
+    def __str__(self):
+        return self.title
+
+    def get_contacts_items(self):
+        items = []
+        for line in self.contacts_list.splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            parts = line.split('|')
+            if len(parts) >= 2:
+                items.append({
+                    'icon': parts[0].strip(),
+                    'text': parts[1].strip(),
+                    'url': parts[2].strip() if len(parts) > 2 else '',
+                })
+        return items
+
+
+class HomeBlock(models.Model):
+    """Произвольный блок на главной странице"""
+    BLOCK_TYPES = [
+        ('text', 'Текст / HTML'),
+        ('welcome', 'Приветствие'),
+        ('director', 'Обращение директора'),
+        ('html', 'Произвольный HTML'),
+    ]
+
+    block_type = models.CharField('Тип', max_length=20, choices=BLOCK_TYPES, default='text')
+    title = models.CharField('Заголовок', max_length=200, blank=True)
+    content = RichTextUploadingField('Содержимое', blank=True)
+    order = models.IntegerField('Порядок', default=0)
+    is_active = models.BooleanField('Активен', default=True)
+
+    class Meta:
+        verbose_name = 'Блок главной'
+        verbose_name_plural = 'Блоки главной'
+        ordering = ['order']
+
+    def __str__(self):
+        return self.title or f'Блок {self.get_block_type_display()}'
 
 
 class News(models.Model):

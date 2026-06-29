@@ -1,0 +1,144 @@
+{% extends 'panel/base.html' %}
+{% load static %}
+
+{% block topbar_actions %}
+{% if object %}
+<a href="{{ object.get_absolute_url }}" target="_blank" class="btn btn-secondary"><i class="fas fa-eye"></i> Просмотр</a>
+{% endif %}
+<a href="{% url 'panel:page_list' %}" class="btn btn-secondary">← К списку</a>
+{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data" id="page-form">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+    <div class="form-errors">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <div class="wp-card">
+        <div class="wp-card-header"><h2>Страница</h2></div>
+        <div class="wp-card-body">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="id_title">Заголовок</label>
+                    {{ form.title }}
+                    {% if form.title.errors %}<div class="form-errors">{{ form.title.errors }}</div>{% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="id_slug">Ссылка (URL)</label>
+                    {{ form.slug }}
+                    <div class="form-help">Адрес: /page/<span id="slug-preview">{{ form.slug.value|default:"..." }}</span>/</div>
+                    {% if form.slug.errors %}<div class="form-errors">{{ form.slug.errors }}</div>{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wp-card">
+        <div class="wp-card-header">
+            <h2>Содержимое</h2>
+            <div class="editor-insert-tools">
+                <button type="button" class="btn btn-sm btn-secondary" id="btn-insert-table" title="Вставить сохранённую таблицу">
+                    <i class="fas fa-table"></i> Таблица
+                </button>
+                <button type="button" class="btn btn-sm btn-secondary" id="btn-insert-doc" title="Вставить блок загрузки документа">
+                    <i class="fas fa-file-pdf"></i> Документ
+                </button>
+                <a href="{% url 'panel:table_add' %}" class="btn btn-sm btn-secondary" target="_blank">
+                    <i class="fas fa-plus"></i> Новая таблица
+                </a>
+                {% if object %}
+                <a href="{% url 'panel:document_add' %}?page={{ object.pk }}" class="btn btn-sm btn-secondary" target="_blank">
+                    <i class="fas fa-plus"></i> Новый документ
+                </a>
+                {% else %}
+                <span class="form-help" style="align-self:center;">Сохраните страницу, чтобы загрузить документ</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="wp-card-body">
+            <p class="form-help">Кнопка «Таблица» вставляет <strong>переиспользуемый блок</strong> — при изменении таблицы в разделе «Таблицы» содержимое обновится на всех страницах.</p>
+            {{ form.content }}
+            {% if form.content.errors %}<div class="form-errors">{{ form.content.errors }}</div>{% endif %}
+        </div>
+    </div>
+
+    <details class="wp-card" style="margin-bottom:16px;">
+        <summary class="wp-card-header" style="cursor:pointer;list-style:none;">
+            <h2 style="display:inline;">Дополнительно (меню, SEO)</h2>
+        </summary>
+        <div class="wp-card-body">
+            <div class="form-row">
+                <div class="form-check">{{ form.is_published }} <label>{{ form.is_published.label }}</label></div>
+                <div class="form-check">{{ form.show_in_menu }} <label>{{ form.show_in_menu.label }}</label></div>
+            </div>
+            <p class="form-help">«Показывать в меню» — страница появится в навигации автоматически</p>
+            <div class="form-row">
+                <div class="form-group"><label>{{ form.parent.label }}</label>{{ form.parent }}</div>
+                <div class="form-group"><label>{{ form.order.label }}</label>{{ form.order }}</div>
+            </div>
+            <div class="form-group"><label>{{ form.description.label }}</label>{{ form.description }}</div>
+            <div class="form-group"><label>{{ form.meta_title.label }}</label>{{ form.meta_title }}</div>
+            <div class="form-group"><label>{{ form.meta_description.label }}</label>{{ form.meta_description }}</div>
+        </div>
+    </details>
+
+    {% if block_formset %}
+    <div class="wp-card" style="margin-bottom:16px;">
+        <div class="wp-card-header">
+            <h2>Блоки контента</h2>
+            <a href="{% url 'panel:block_add' %}?page={{ object.pk }}" class="btn btn-sm btn-secondary" target="_blank">
+                <i class="fas fa-plus"></i> Новый блок
+            </a>
+        </div>
+        <div class="wp-card-body">
+            <p class="form-help">Дополнительные блоки отображаются на странице под основным текстом (галерея, видео, отдельный HTML).</p>
+            {{ block_formset.management_form }}
+            {% if block_formset.non_form_errors %}
+            <div class="form-errors">{{ block_formset.non_form_errors }}</div>
+            {% endif %}
+            {% for bf in block_formset %}
+            <div class="formset-row" style="border:1px solid #ddd;border-radius:6px;padding:16px;margin-bottom:12px;">
+                <div class="formset-header" style="display:flex;justify-content:space-between;margin-bottom:12px;">
+                    <strong>Блок #{{ forloop.counter }}</strong>
+                    {% if bf.DELETE %}<label>{{ bf.DELETE }} Удалить</label>{% endif %}
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>{{ bf.block_type.label }}</label>{{ bf.block_type }}</div>
+                    <div class="form-group"><label>{{ bf.title.label }}</label>{{ bf.title }}</div>
+                    <div class="form-group"><label>{{ bf.order.label }}</label>{{ bf.order }}</div>
+                </div>
+                <div class="form-group"><label>{{ bf.content.label }}</label>{{ bf.content }}</div>
+                <div class="form-check">{{ bf.is_active }} <label>{{ bf.is_active.label }}</label></div>
+                {% for hidden in bf.hidden_fields %}{{ hidden }}{% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Сохранить страницу</button>
+</form>
+
+<div id="insert-modal" class="modal-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center;">
+    <div style="background:#fff;padding:24px;border-radius:8px;max-width:480px;width:90%;max-height:80vh;overflow:auto;">
+        <h3 id="insert-modal-title" style="margin-bottom:16px;"></h3>
+        <div id="insert-modal-list"></div>
+        <button type="button" class="btn btn-secondary" style="margin-top:16px;" onclick="document.getElementById('insert-modal').style.display='none'">Отмена</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'panel/slugify.js' %}"></script>
+<script src="{% static 'panel/editor-tools.js' %}"></script>
+<script>
+initSlugField('id_title', 'id_slug', 'slug-preview');
+initPageEditorTools({
+    snippetsUrl: '{% url "panel:api_editor_snippets" %}',
+    tableUrlTemplate: '{% url "panel:api_table_snippet" 0 %}'.replace('/0/', '/{id}/'),
+    documentUrlTemplate: '{% url "panel:api_document_snippet" 0 %}'.replace('/0/', '/{id}/'),
+});
+</script>
+{% endblock %}

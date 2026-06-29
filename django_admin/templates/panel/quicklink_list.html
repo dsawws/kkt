@@ -1,0 +1,72 @@
+{% extends 'panel/base.html' %}
+
+{% block topbar_actions %}
+<a href="{% url 'panel:quicklink_add' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Добавить плитку</a>
+<a href="{% url 'panel:homepage' %}" class="btn btn-secondary">Настройки главной</a>
+{% endblock %}
+
+{% block content %}
+<div class="wp-card">
+    <div class="wp-card-header">
+        <h2>Плитки главной страницы ({{ total }} шт.)</h2>
+        <a href="/" target="_blank" class="btn btn-sm btn-secondary">Просмотр сайта</a>
+    </div>
+    <div class="wp-card-body">
+        {% if items %}
+        <table class="wp-table">
+            <thead>
+                <tr>
+                    <th>Порядок</th>
+                    <th>Заголовок</th>
+                    <th>Ссылка</th>
+                    <th>Стиль</th>
+                    <th>Статус</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.order }}</td>
+                    <td>
+                        <strong>{{ item.title }}</strong>
+                        {% if item.label %}<br><small style="color:#646970;">{{ item.label }}</small>{% endif %}
+                    </td>
+                    <td style="max-width:200px;word-break:break-all;">{{ item.url|default:"—" }}</td>
+                    <td>{{ item.get_style_display }}</td>
+                    <td>
+                        {% if item.is_active %}
+                        <span class="badge badge-success">Активна</span>
+                        {% else %}
+                        <span class="badge badge-draft">Скрыта</span>
+                        {% endif %}
+                    </td>
+                    <td class="actions">
+                        <a href="{% url 'panel:quicklink_edit' item.pk %}" class="btn btn-sm btn-primary">Изменить</a>
+                        <form method="post" action="{% url 'panel:quicklink_delete' item.pk %}" style="display:inline;" onsubmit="return confirm('Удалить плитку «{{ item.title }}»?');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p style="color:#646970;padding:20px 0;">
+            Плиток нет в базе данных. <a href="{% url 'panel:quicklink_add' %}">Добавить первую</a>
+            или запустите <code>py manage.py create_initial_data</code>
+        </p>
+        {% endif %}
+    </div>
+</div>
+<div class="wp-card">
+    <div class="wp-card-body">
+        <p class="form-help" style="margin:0;">
+            <strong>Важно:</strong> у каждой плитки должен быть уникальный «Стиль» (позиция в сетке).
+            Не ставьте двум плиткам одинаковый стиль — иначе на сайте они наложатся друг на друга.
+            Порядок сортирует список в админке; на сайте позицию задаёт стиль.
+        </p>
+    </div>
+</div>
+{% endblock %}

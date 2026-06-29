@@ -1,0 +1,65 @@
+{% extends 'panel/base.html' %}
+
+{% block topbar_actions %}
+<a href="{{ back_url }}" class="btn btn-secondary">← Назад</a>
+{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="wp-card">
+        <div class="wp-card-header"><h2>Галерея</h2></div>
+        <div class="wp-card-body">
+            {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}<div class="form-errors">{{ field.errors }}</div>{% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% if formset %}
+    <div class="wp-card">
+        <div class="wp-card-header"><h2>Изображения</h2></div>
+        <div class="wp-card-body">
+            {{ formset.management_form }}
+            {% for f in formset %}
+            <div class="formset-row">
+                <div class="formset-header">
+                    <strong>Изображение #{{ forloop.counter }}</strong>
+                    {% if f.DELETE %}<label>{{ f.DELETE }} Удалить</label>{% endif %}
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>{{ f.image.label }}</label>
+                        {{ f.image }}
+                        {% if f.instance.image %}
+                        <img src="{{ f.instance.image.url }}" style="max-width:120px;margin-top:6px;">
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label>{{ f.title.label }}</label>
+                        {{ f.title }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>{{ f.description.label }}</label>
+                    {{ f.description }}
+                </div>
+                <div class="form-group">
+                    <label>{{ f.order.label }}</label>
+                    {{ f.order }}
+                </div>
+                {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Сохранить</button>
+</form>
+{% endblock %}

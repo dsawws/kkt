@@ -1,0 +1,74 @@
+{% extends 'panel/base.html' %}
+
+{% block topbar_actions %}
+<a href="{{ back_url }}" class="btn btn-secondary">← Назад</a>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+
+    <div class="meta-boxes">
+        <div>
+            <div class="wp-card">
+                <div class="wp-card-header"><h2>Специальность</h2></div>
+                <div class="wp-card-body">
+                    {% for field in form %}
+                    <div class="form-group">
+                        <label>{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}<div class="form-errors">{{ field.errors }}</div>{% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {% if formset and object %}
+            <div class="wp-card">
+                <div class="wp-card-header"><h2>Годы поступления</h2></div>
+                <div class="wp-card-body">
+                    {{ formset.management_form }}
+                    {% for f in formset %}
+                    <div class="formset-row">
+                        <div class="formset-header">
+                            <strong>Год #{{ forloop.counter }}</strong>
+                            {% if f.DELETE %}<label>{{ f.DELETE }} Удалить</label>{% endif %}
+                            {% if f.instance.pk %}
+                            <a href="{% url 'panel:program_docs' f.instance.pk %}" class="btn btn-sm btn-secondary">Документы ОПОП</a>
+                            {% endif %}
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>{{ f.year.label }}</label>
+                                {{ f.year }}
+                            </div>
+                            <div class="form-group">
+                                <label>{{ f.order.label }}</label>
+                                {{ f.order }}
+                            </div>
+                        </div>
+                        <div class="form-check">{{ f.is_active }} <label>{{ f.is_active.label }}</label></div>
+                        {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div>
+            <div class="meta-box">
+                <div class="meta-box-title">Сохранить</div>
+                <div class="meta-box-body">
+                    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+                        <i class="fas fa-save"></i> Сохранить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% if not object %}
+<p style="color:#646970;margin-top:12px;">Сначала сохраните программу, затем добавьте годы поступления и документы.</p>
+{% endif %}
+{% endblock %}

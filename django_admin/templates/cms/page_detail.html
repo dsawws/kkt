@@ -1,5 +1,5 @@
 {% extends 'cms/base.html' %}
-{% load static %}
+{% load static cms_tags %}
 
 {% block title %}{{ page.meta_title|default:page.title }} - ККТ Белореченск{% endblock %}
 
@@ -17,89 +17,20 @@
         </nav>
 
         <div class="page-layout">
-            {# Боковая навигация #}
-            {% if page.slug == 'basic-info' or page.parent and page.parent.slug == 'basic-info' %}
-                {# Жёстко прописанное меню для раздела "Сведения об организации" #}
-                <aside class="page-sidebar">
-                    <ul class="sidebar-nav">
-                        <li class="{% if page.slug == 'basic-info' or page.slug == 'osnovnye-svedeniya' %}active{% endif %}"><a href="/page/basic-info/">Основные сведения</a></li>
-                        <li class="{% if page.slug == 'struktura' %}active{% endif %}"><a href="/page/struktura/">Структура и органы управления образовательной организацией</a></li>
-                        <li class="{% if page.slug == 'dokumenty' %}active{% endif %}"><a href="/page/dokumenty/">Документы</a></li>
-                        <li class="{% if page.slug == 'obrazovanie' %}active{% endif %}"><a href="/page/obrazovanie/">Образование</a></li>
-                        <li class="{% if page.slug == 'rukovodstvo' %}active{% endif %}"><a href="/page/rukovodstvo/">Руководство</a></li>
-                        <li class="{% if page.slug == 'pedagogicheskiy-sostav' %}active{% endif %}"><a href="/page/pedagogicheskiy-sostav/">Педагогический состав</a></li>
-                        <li class="{% if page.slug == 'materialno-tekhnicheskoe' %}active{% endif %}"><a href="/page/materialno-tekhnicheskoe/">Материально-техническое обеспечение и оснащённость образовательного процесса. Доступная среда</a></li>
-                        <li class="{% if page.slug == 'platnye-uslugi' %}active{% endif %}"><a href="/page/platnye-uslugi/">Платные образовательные услуги</a></li>
-                        <li class="{% if page.slug == 'finansy' %}active{% endif %}"><a href="/page/finansy/">Финансово-хозяйственная деятельность</a></li>
-                        <li class="{% if page.slug == 'vakantnye-mesta' %}active{% endif %}"><a href="/page/vakantnye-mesta/">Вакантные места для приема (перевода) обучающихся</a></li>
-                        <li class="{% if page.slug == 'stipendii' %}active{% endif %}"><a href="/page/stipendii/">Стипендии и меры поддержки обучающихся</a></li>
-                        <li class="{% if page.slug == 'mezhdunarodnoe' %}active{% endif %}"><a href="/page/mezhdunarodnoe/">Международное сотрудничество</a></li>
-                        <li class="{% if page.slug == 'pitanie' %}active{% endif %}"><a href="/page/pitanie/">Организация питания в образовательной организации</a></li>
-                        <li class="{% if page.slug == 'obrazovatelnye-standarty' %}active{% endif %}"><a href="/page/obrazovatelnye-standarty/">Образовательные стандарты и требования</a></li>
-                    </ul>
-                </aside>
-
-            {% elif page.slug == 'student' or page.parent and page.parent.slug == 'student' %}
-            {# Жёстко прописанное меню для раздела "Студентам" #}
+            {% if sidebar_menu %}
             <aside class="page-sidebar">
                 <ul class="sidebar-nav">
-                        <li class="{% if page.slug == 'student' %}active{% endif %}"><a href="/page/student/">Студентам</a></li>
-                        <li class="{% if page.slug == 'raspisanie-zanyatij' %}active{% endif %}"><a href="/page/raspisanie-zanyatij">Расписание занятий</a></li>
-                        <li class="{% if page.slug == 'studencheskij-sovet' %}active{% endif %}"><a href="/page/studencheskij-sovet">Студенческий совет</a></li>
-                        <li class="{% if page.slug == 'kursovoe-proektirovanie' %}active{% endif %}"><a href="/page/kursovoe-proektirovanie">Курсовое проектирование</a></li>
-                        <li class="{% if page.slug == 'diplomnoe-proektirovanie' %}active{% endif %}"><a href="/page/diplomnoe-proektirovanie">Дипломное проектирование</a></li>
-                        <li class="{% if page.slug == 'sport' %}active{% endif %}"><a href="/page/sport">Спорт</a></li>
-                        <li class="{% if page.slug == 'obshezhitie' %}active{% endif %}"><a href="/page/obshezhitie">Общежитие</a></li>
-                        <li class="{% if page.slug == 'biblioteka' %}active{% endif %}"><a href="/page/biblioteka">Библиотека</a></li>
-                        <li class="{% if page.slug == 'vneklassnye-meropriyatiya' %}active{% endif %}"><a href="/page/vneklassnye-meropriyatiya">Внеклассные мероприятия</a></li>
-                        <li class="{% if page.slug == 'prodolzhenie-obucheniya-v-vuze' %}active{% endif %}"><a href="/page/prodolzhenie-obucheniya-v-vuze">Продолжение обучения в ВУЗе</a></li>
-                        <li class="{% if page.slug == 'anketirovanie' %}active{% endif %}"><a href="/page/anketirovanie">Анкетирование</a></li>
-                        <li class="{% if page.slug == 'vnutrennyaya-sistema-ocenki-kachestva-obrazovaniya' %}active{% endif %}"><a href="/page/vnutrennyaya-sistema-ocenki-kachestva-obrazovaniya">Внутренняя система оценки качества образования</a></li>
-                        <li class="{% if page.slug == 'vneshnyaya-ocenka-kachestva' %}active{% endif %}"><a href="/page/vneshnyaya-ocenka-kachestva">Внешняя оценка качества</a></li>
-                        <li class="{% if page.slug == 'gosudarstvennaya-itogovaya-attestaciya' %}active{% endif %}"><a href="/page/gosudarstvennaya-itogovaya-attestaciya/">Государственная итоговая аттестация</a></li>
+                    {% for item in sidebar_menu %}
+                    <li class="{% if item.page_id == page.id or item.id == page.id or item.slug == page.slug %}active{% endif %}">
+                        {% if item.page %}
+                        <a href="{{ item.page.get_absolute_url }}">{{ item.title }}</a>
+                        {% else %}
+                        <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
                 </ul>
             </aside>
-
-            {% elif page.slug == 'abiturient' or page.parent and page.parent.slug == 'abiturient' %}
-            {# Жёстко прописанное меню для раздела "Поступающим" #}
-            <aside class="page-sidebar">
-                <ul class="sidebar-nav">
-                        <li class="{% if page.slug == 'abiturient' %}active{% endif %}"><a href="/page/abiturient">Поступающим</a></li>
-                        <li class="{% if page.slug == 'usloviya-priyoma' %}active{% endif %}"><a href="/page/usloviya-priyoma">Условия приёма</a></li>
-                        <li class="{% if page.slug == 'socialnaya-zashishennost' %}active{% endif %}"><a href="/page/socialnaya-zashishennost">Социальная защищенность</a></li>
-                        <li class="{% if page.slug == 'spiski-postupayushih' %}active{% endif %}"><a href="/page/spiski-postupayushih">Списки поступающих</a></li>
-                        <li class="{% if page.slug == 'prikazy-o-zachislenii' %}active{% endif %}"><a href="/page/prikazy-o-zachislenii">Приказы о зачислении</a></li>
-                        <li class="{% if page.slug == 'vakantnye-mesta-dlya-priema-perevoda-obuchayushihsya' %}active{% endif %}"><a href="/page/vakantnye-mesta-dlya-priema-perevoda-obuchayushihsya">Вакантные места для приема (перевода) обучающихся</a></li>
-                        <li class="{% if page.slug == 'professions' %}active{% endif %}"><a href="/page/professions/">Специальности</a></li>
-                </ul>
-            </aside>
-
-            {% elif page.parent %}
-                {% with siblings=siblings %}
-                {% if siblings %}
-                    <aside class="page-sidebar">
-                    <ul class="sidebar-nav">
-                        {% for sub in siblings %}
-                        {% if sub.is_published %}
-                        <li class="{% if sub.slug == page.slug %}active{% endif %}">
-                            <a href="{% url 'cms:page_detail' sub.slug %}">{{ sub.title }}</a>
-                        </li>
-                        {% endif %}
-                        {% endfor %}
-                    </ul>
-                </aside>
-                {% endif %}
-                {% endwith %}
-            {% elif children %}
-                <aside class="page-sidebar">
-                    <ul class="sidebar-nav">
-                        {% for sub in page.subpages.all %}
-                        {% if sub.is_published %}
-                        <li><a href="{% url 'cms:page_detail' sub.slug %}">{{ sub.title }}</a></li>
-                        {% endif %}
-                        {% endfor %}
-                    </ul>
-                </aside>
             {% endif %}
 
             <div class="page-content">
@@ -109,14 +40,14 @@
                 {% endif %}
 
                 {% if page.content %}
-                <div class="content-block">{{ page.content|safe }}</div>
+                <div class="content-block">{{ page.content|resolve_cms_embeds }}</div>
                 {% endif %}
 
                 {% for block in content_blocks %}
                 <div class="content-block">
                     {% if block.title %}<h2>{{ block.title }}</h2>{% endif %}
                     {% if block.block_type == 'text' or block.block_type == 'html' %}
-                        {{ block.content|safe }}
+                        {{ block.content|resolve_cms_embeds }}
                 {% elif block.block_type == 'image' %}
                     <img src="{{ block.content|striptags }}" 
                         alt="{{ block.title }}" 
@@ -143,8 +74,12 @@
                                     {% if doc.file_size %}<p>{{ doc.file_size }}</p>{% endif %}
                                 </div>
                                 {% if doc.file and doc.file.name %}
-                                <a href="{{ doc.file.url }}" class="download-btn">
-                                    Открыть
+                                <a href="{{ doc.file.url }}" class="download-btn" target="_blank" rel="noopener">
+                                    <i class="fas fa-download"></i> Открыть
+                                </a>
+                                {% elif doc.external_url %}
+                                <a href="{{ doc.external_url }}" class="download-btn" target="_blank" rel="noopener">
+                                    <i class="fas fa-external-link-alt"></i> Открыть
                                 </a>
                                 {% else %}
                                 <span class="download-btn" style="background:#9e9e9e;cursor:default;">
@@ -219,7 +154,7 @@
                                                 <td><span class="edu-doc-type">{{ doc.get_doc_type_display }}</span></td>
                                                 <td>
                                                     {% if doc.file and doc.file.name %}
-                                                    <a href="{{ doc.file.url }}" class="edu-download-btn" title="Скачать">
+                                                    <a href="{{ doc.file.url }}" class="edu-download-btn" title="Открыть">
                                                         <i class="fas fa-external-link-alt"></i>
                                                     </a>
                                                     {% else %}
@@ -252,6 +187,25 @@
                     chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
                 }
                 </script>
+                {% endif %}
+
+                {% if galleries %}
+                <section class="galleries-section" style="margin-top:30px;">
+                    {% for gallery in galleries %}
+                    <div class="gallery-block" style="margin-bottom:30px;">
+                        <h2>{{ gallery.title }}</h2>
+                        {% if gallery.description %}<p>{{ gallery.description }}</p>{% endif %}
+                        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-top:16px;">
+                            {% for img in gallery.images.all %}
+                            <figure style="margin:0;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.1);">
+                                <img src="{{ img.image.url }}" alt="{{ img.title }}" style="width:100%;height:140px;object-fit:cover;display:block;">
+                                {% if img.title %}<figcaption style="padding:8px;font-size:13px;">{{ img.title }}</figcaption>{% endif %}
+                            </figure>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </section>
                 {% endif %}
             </div>
         </div>

@@ -1,0 +1,48 @@
+{% extends 'panel/base.html' %}
+
+{% block topbar_actions %}
+<a href="{{ back_url }}" class="btn btn-secondary">← Назад</a>
+{% endblock %}
+
+{% block content %}
+{% if section_pages %}
+<div class="wp-card" style="margin-bottom:16px;">
+    <div class="wp-card-header"><h2>Страницы в этом разделе</h2></div>
+    <div class="wp-card-body">
+        <table class="wp-table">
+            <thead><tr><th>Название</th><th>URL</th><th></th></tr></thead>
+            <tbody>
+                {% for p in section_pages %}
+                <tr>
+                    <td>{{ p.title }}</td>
+                    <td>{{ p.get_absolute_url }}</td>
+                    <td>
+                        {% if p.page %}
+                        <a href="{% url 'panel:page_edit' p.page.pk %}" class="btn btn-sm btn-primary">Редактировать страницу</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    <div class="wp-card">
+        <div class="wp-card-body">
+            {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}<div class="form-help">{{ field.help_text }}</div>{% endif %}
+                {% if field.errors %}<div class="form-errors">{{ field.errors }}</div>{% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Сохранить</button>
+        </div>
+    </div>
+</form>
+{% endblock %}

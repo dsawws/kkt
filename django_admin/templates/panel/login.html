@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход — Техникум CMS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'panel/admin.css' %}">
+</head>
+<body>
+<div class="login-page">
+    <div class="login-box">
+        <div class="login-header">
+            <i class="fas fa-graduation-cap" style="font-size:36px;margin-bottom:12px;"></i>
+            <h1>Техникум CMS</h1>
+            <p>Панель управления сайтом</p>
+        </div>
+        <form class="login-form" method="post">
+            {% csrf_token %}
+            {% if error %}
+            <div class="form-errors">{{ error }}</div>
+            {% endif %}
+            <div class="form-group">
+                <label for="username">Логин</label>
+                <input type="text" id="username" name="username" class="form-control" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Войти</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

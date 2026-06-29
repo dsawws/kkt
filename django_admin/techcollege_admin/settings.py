@@ -49,6 +49,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cms.context_processors.site_context',
             ],
         },
     },
@@ -101,6 +102,9 @@ UPLOADS_ROOT = BASE_DIR.parent / 'uploads'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_URL = '/panel/login/'
+LOGIN_REDIRECT_URL = '/panel/'
+
 # CKEditor Settings
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_IMAGE_BACKEND = "pillow"
@@ -111,10 +115,18 @@ CKEDITOR_CONFIGS = {
         'toolbar': 'full',
         'height': 300,
         'width': '100%',
-
+        'versionCheck': False,
         'allowedContent': True,
-
         'extraAllowedContent': 'div(*)[*]{*}; span(*)[*]{*}; p(*)[*]{*}; a[*]; img[*]; h1 h2 h3 h4 h5 h6[*]',
+        'protectedSource': [
+            r'<div[^>]*cms-embed-table[^>]*>[\s\S]*?</div>',
+            r'\[\[cms-table:[^\]]+\]\]',
+        ],
     },
 }
+
+# CKEditor 4.25 LTS — платный, django-ckeditor его не включает.
+# versionCheck: False убирает жёлтое предупреждение в редакторе.
+# Для реальных патчей безопасности нужна лицензия LTS или миграция на CKEditor 5.
+SILENCED_SYSTEM_CHECKS = ['ckeditor.W001']
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 20000

@@ -2,7 +2,31 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.static import serve
-from .models import Page, MenuItem, HomePage, Document, DocumentSection, Banner, News, EducationalProgram, AdmissionYear
+from .models import (
+    Page, MenuItem, HomePage, HomeQuickLink, HomeBlock,
+    Document, DocumentSection, Banner, News, Gallery,
+    EducationalProgram, AdmissionYear,
+)
+
+
+def _get_sidebar_menu(page):
+    """Боковое меню из CMS (MenuItem), без захардкоженных ссылок."""
+    mi = MenuItem.objects.filter(page=page, is_active=True).select_related('parent').first()
+    if mi and mi.parent_id:
+        return mi.parent.get_children().filter(is_active=True).order_by('order', 'title')
+    if mi:
+        children = mi.get_children().filter(is_active=True).order_by('order', 'title')
+        if children.exists():
+            return children
+    if page.parent_id:
+        parent_mi = MenuItem.objects.filter(page=page.parent, is_active=True).first()
+        if parent_mi:
+            return parent_mi.get_children().filter(is_active=True).order_by('order', 'title')
+        return page.parent.subpages.filter(is_published=True).order_by('order', 'title')
+    children_pages = page.subpages.filter(is_published=True).order_by('order', 'title')
+    if children_pages.exists():
+        return children_pages
+    return None
 import os
 
 
@@ -30,18 +54,18 @@ def _group_edu_by_year(page):
 def index(request):
     """Главная страница"""
     homepage = HomePage.load()
-    menu_items = MenuItem.objects.filter(
-    parent=None,
-    is_active=True
-).order_by('order', 'title')
     banners = Banner.objects.filter(is_active=True).order_by('order')
     latest_news = News.objects.filter(is_published=True)[:3]
+    quick_links = HomeQuickLink.objects.filter(is_active=True).order_by('order')
+    home_blocks = HomeBlock.objects.filter(is_active=True).order_by('order')
 
     context = {
         'homepage': homepage,
-        'menu_items': menu_items,
         'banners': banners,
         'latest_news': latest_news,
+        'quick_links': quick_links,
+        'home_blocks': home_blocks,
+        'specialties_items': homepage.get_specialties_items(),
     }
     return render(request, 'cms/index.html', context)
 
@@ -85,20 +109,27 @@ def page_detail(request, slug):
             # Используем display-название из первого документа
             documents_by_category[cat] = {'title': docs[0].get_category_display(), 'docs': docs}
     
-    context = {
-    'page': page,
-    'menu_items': menu_items,
-    'content_blocks': content_blocks,
-    'documents_by_category': documents_by_category,
-    'siblings': siblings,
-    'children': children,
-    'edu_programs': EducationalProgram.objects.filter(
+    sidebar_menu = _get_sidebar_menu(page)
+    galleries = Gallery.objects.filter(
         page=page, is_active=True
-    ).prefetch_related(
-        'years__documents'
-    ).order_by('order', 'code'),
-    'edu_by_year': _group_edu_by_year(page),
-}
+    ).prefetch_related('images').order_by('-created_at')
+
+    context = {
+        'page': page,
+        'menu_items': menu_items,
+        'sidebar_menu': sidebar_menu,
+        'content_blocks': content_blocks,
+        'documents_by_category': documents_by_category,
+        'siblings': siblings,
+        'children': children,
+        'galleries': galleries,
+        'edu_programs': EducationalProgram.objects.filter(
+            page=page, is_active=True
+        ).prefetch_related(
+            'years__documents'
+        ).order_by('order', 'code'),
+        'edu_by_year': _group_edu_by_year(page),
+    }
     return render(request, 'cms/page_detail.html', context)
 
 
@@ -173,6 +204,7 @@ def api_homepage(request):
 @csrf_exempt
 def api_page(request, slug):
     """API для получения данных страницы"""
+    from .embed_utils import expand_content_embeds
     page = get_object_or_404(Page, slug=slug, is_published=True)
     
     blocks = []
@@ -181,7 +213,7 @@ def api_page(request, slug):
             'id': block.id,
             'type': block.block_type,
             'title': block.title,
-            'content': block.content,
+            'content': expand_content_embeds(block.content),
             'order': block.order,
         })
     
@@ -202,7 +234,7 @@ def api_page(request, slug):
         'title': page.title,
         'slug': page.slug,
         'description': page.description,
-        'content': page.content,
+        'content': expand_content_embeds(page.content),
         'blocks': blocks,
         'documents': documents,
     }
@@ -211,46 +243,27 @@ def api_page(request, slug):
 
 def search(request):
     """Поиск по сайту"""
-    from django.db.models import Q
+    from .search_utils import search_pages, search_documents, search_news
+
     query = request.GET.get('q', '').strip()
     menu_items = MenuItem.objects.filter(
-    parent=None,
-    is_active=True
-).order_by('order', 'title')
+        parent=None, is_active=True
+    ).order_by('order', 'title')
 
     pages = []
     documents = []
     news_results = []
 
     if query:
-        # Поиск по страницам
-        pages = Page.objects.filter(
-            is_published=True
-        ).filter(
-            Q(title__icontains=query) |
-            Q(description__icontains=query) |
-            Q(content__icontains=query)
-        ).distinct()
-
-        # Поиск по документам
-        documents = Document.objects.filter(
-            is_active=True
-        ).filter(
-            Q(title__icontains=query) |
-            Q(description__icontains=query)
-        ).select_related('page').distinct()
-
-        # Поиск по новостям
-        try:
-            from .models import News
-            news_results = News.objects.filter(
-                is_published=True
-            ).filter(
-                Q(title__icontains=query) |
-                Q(content__icontains=query)
-            ).distinct()
-        except Exception:
-            pass
+        pages = search_pages(
+            Page.objects.filter(is_published=True), query
+        )
+        documents = search_documents(
+            Document.objects.filter(is_active=True).select_related('page'), query
+        )
+        news_results = search_news(
+            News.objects.filter(is_published=True), query
+        )
 
     context = {
         'query': query,

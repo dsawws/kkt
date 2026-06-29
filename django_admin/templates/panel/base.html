@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ title|default:"Панель управления" }}{% endblock %} — Техникум</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'panel/admin.css' %}">
+    {{ form.media }}
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+<div class="wp-admin">
+    <aside class="wp-sidebar">
+        <div class="wp-sidebar-logo">
+            <a href="{% url 'panel:dashboard' %}"><i class="fas fa-graduation-cap"></i> <span>Техникум CMS</span></a>
+        </div>
+        <ul class="wp-menu">
+            <li class="wp-menu-item {% if active_menu == 'menu' %}active{% endif %}">
+                <a href="{% url 'panel:menu_list' %}"><i class="fas fa-bars"></i> <span>Навигационное меню</span></a>
+            </li>
+            <li class="wp-menu-item {% if active_menu == 'footer' %}active{% endif %}">
+                <a href="{% url 'panel:footer' %}"><i class="fas fa-shoe-prints"></i> <span>Подвал</span></a>
+            </li>
+            <li class="wp-menu-item {% if active_menu == 'pages' %}active{% endif %}">
+                <a href="{% url 'panel:page_list' %}"><i class="fas fa-file-lines"></i> <span>Страницы</span></a>
+            </li>
+            <li class="wp-menu-item {% if active_menu == 'tables' %}active{% endif %}">
+                <a href="{% url 'panel:table_list' %}"><i class="fas fa-table"></i> <span>Таблицы</span></a>
+            </li>
+            <li class="wp-menu-item {% if active_menu == 'quicklinks' %}active{% endif %}">
+                <a href="{% url 'panel:quicklink_list' %}"><i class="fas fa-th-large"></i> <span>Плитки главной</span></a>
+            </li>
+            <li class="wp-menu-item {% if active_menu == 'media' %}active{% endif %}">
+                <a href="{% url 'panel:media' %}"><i class="fas fa-photo-film"></i> <span>Медиафайлы</span></a>
+            </li>
+            <li class="wp-menu-separator"></li>
+            <li class="wp-menu-item {% if active_menu == 'documents' %}active{% endif %}">
+                <a href="{% url 'panel:document_list' %}"><i class="fas fa-file-pdf"></i> <span>Документы</span></a>
+            </li>
+            <li class="wp-menu-item {% if active_menu == 'banners' %}active{% endif %}">
+                <a href="{% url 'panel:banner_list' %}"><i class="fas fa-images"></i> <span>Баннеры</span></a>
+            </li>
+            <li class="wp-menu-item {% if active_menu == 'programs' %}active{% endif %}">
+                <a href="{% url 'panel:program_list' %}"><i class="fas fa-graduation-cap"></i> <span>Образовательные программы</span></a>
+            </li>
+            <li class="wp-menu-item {% if active_menu == 'admission_years' %}active{% endif %}">
+                <a href="{% url 'panel:admission_year_list' %}"><i class="fas fa-calendar-alt"></i> <span>Годы поступления</span></a>
+            </li>
+            {% if request.user.is_superuser %}
+            <li class="wp-menu-item {% if active_menu == 'users' %}active{% endif %}">
+                <a href="{% url 'panel:user_list' %}"><i class="fas fa-users"></i> <span>Пользователи</span></a>
+            </li>
+            {% endif %}
+            <li class="wp-menu-separator"></li>
+            <li class="wp-menu-item">
+                <a href="/" target="_blank"><i class="fas fa-external-link-alt"></i> <span>Открыть сайт</span></a>
+            </li>
+            <li class="wp-menu-item">
+                <a href="{% url 'panel:logout' %}"><i class="fas fa-right-from-bracket"></i> <span>Выйти</span></a>
+            </li>
+        </ul>
+    </aside>
+
+    <div class="wp-main">
+        <header class="wp-topbar">
+            <h1>{{ title|default:"Панель управления" }}</h1>
+            <div class="wp-topbar-actions">
+                <span>{{ request.user.get_full_name|default:request.user.username }}</span>
+                {% block topbar_actions %}{% endblock %}
+            </div>
+        </header>
+
+        <div class="wp-content">
+            {% if messages %}
+            <div class="wp-messages">
+                {% for message in messages %}
+                <div class="wp-message wp-message-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

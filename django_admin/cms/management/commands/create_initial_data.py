@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from cms.models import MenuItem, Page, HomePage
+from cms.models import MenuItem, Page, HomePage, HomeQuickLink, HomeBlock
 
 
 class Command(BaseCommand):
@@ -27,8 +27,54 @@ class Command(BaseCommand):
         homepage.director_position = 'Директор техникума'
         homepage.slider_title = 'Добро пожаловать в наш техникум!'
         homepage.slider_text = 'Мы готовим специалистов с 1944 года'
+        homepage.bento_title = 'Быстрые ссылки'
+        homepage.specialties_list = '\n'.join([
+            'fa-plane|Туризм и гостеприимство|43.02.16',
+            'fa-truck|Операционная деятельность в логистике|38.02.03',
+            'fa-store|Торговое дело|38.02.08',
+            'fa-calculator|Экономика и бухгалтерский учёт|38.02.01',
+            'fa-balance-scale|Юриспруденция|40.02.04',
+            'fa-code|Разработка и управление ПО|09.02.11',
+            'fa-map-marked-alt|Землеустройство|21.02.19',
+        ])
+        homepage.contacts_address = 'Краснодарский край, 352630, г. Белореченск, ул. Кирова, д. 4'
+        homepage.contacts_phone = '8(86155)2-27-83'
+        homepage.contacts_phone2 = '8-988-480-06-92 (приёмная комиссия)'
+        homepage.contacts_email = 'kktbel@mail.ru'
+        homepage.contacts_hours = 'Ежедневно с 8:00 - 17:00'
+        homepage.contacts_map_url = (
+            'https://yandex.ru/map-widget/v1/?ll=39.881309%2C44.752871&mode=search&ol=geo'
+            '&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgoxNTAyODkzNjE3EmXQoNC-0YHRgdC40Y8sINCa0YDQsNGB0L3QvtC00LDRgNGB0LrQuNC5INC60YDQsNC5LCDQkdC10LvQvtGA0LXRh9C10L3RgdC6LCDRg9C70LjRhtCwINCa0LjRgNC-0LLQsCwgNCIKDXWGH0IV8QIzQg%2C%2C&z=17.13'
+        )
+        homepage.hotline_text = (
+            'Единый телефон доверия для детей и подростков 8-800-2000-122\n'
+            'Звонок бесплатный и круглосуточный.'
+        )
         homepage.save()
         self.stdout.write(self.style.SUCCESS('✓ Главная страница обновлена'))
+
+        if not HomeQuickLink.objects.exists():
+            quick_links = [
+                {'label': 'Раздел', 'title': 'Поступающим', 'description': 'Условия приёма, документы, приказы о зачислении', 'url': '/page/abiturient/', 'icon': 'fas fa-user-graduate', 'style': 'bento-g1', 'is_large': True, 'stat_num': '2026', 'stat_label': 'учебный год', 'order': 1},
+                {'label': 'Платформа', 'title': 'Moodle', 'description': 'Дистанционное обучение', 'url': 'http://e-learn.kktbel.ru/login/index.php', 'icon': 'fas fa-laptop', 'style': 'bento-g2', 'open_in_new_tab': True, 'order': 2},
+                {'label': 'Мобильное', 'title': 'Приложение', 'description': 'Расписание, оценки, объявления', 'url': '#', 'icon': 'fas fa-mobile-alt', 'style': 'bento-g3', 'order': 3},
+                {'label': 'Оплата', 'title': 'Оплата обучения', 'description': 'Онлайн-оплата и реквизиты', 'url': '/page/platnye-uslugi/', 'icon': 'fas fa-credit-card', 'style': 'bento-g4', 'order': 4},
+                {'label': 'Связь', 'title': 'Написать нам', 'description': 'Онлайн-консультация ВКонтакте', 'url': 'https://vk.com/im?sel=-belkkt', 'icon': 'fab fa-vk', 'style': 'bento-g5', 'open_in_new_tab': True, 'order': 5},
+                {'label': 'Студентам', 'title': 'Общежитие', 'description': 'Условия проживания', 'url': '/page/student/', 'icon': 'fas fa-building', 'style': 'bento-g6', 'order': 6},
+                {'label': 'Контакты', 'title': 'Как нас найти', 'description': '', 'url': '', 'icon': 'fas fa-map-marker-alt', 'style': 'bento-contacts', 'is_contacts': True, 'order': 7,
+                 'contacts_list': 'fa-map-marker-alt|352630, Краснодарский край, г. Белореченск, ул. Кирова, д. 4|\nfa-phone|8 (86155) 2-27-83|tel:+78615522783\nfa-phone|8-988-480-06-92|tel:+79884800692\nfa-envelope|kktbel@mail.ru|mailto:kktbel@mail.ru'},
+            ]
+            for ql in quick_links:
+                HomeQuickLink.objects.create(**ql)
+            self.stdout.write(self.style.SUCCESS('✓ Быстрые ссылки созданы'))
+
+        if not HomeBlock.objects.exists():
+            HomeBlock.objects.create(
+                block_type='welcome', title='Уважаемые посетители!',
+                content=homepage.welcome_text.replace('\n', '<br>'),
+                order=1,
+            )
+            self.stdout.write(self.style.SUCCESS('✓ Блоки главной созданы'))
 
         # Основные страницы навбара
         top_pages = [
