@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{% static 'media-styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     <style>
+html { scroll-behavior: smooth; }
 /* Версия для слабовидящих */
 body.accessibility-mode {
     background: #000 !important;
@@ -376,6 +377,100 @@ body.accessibility-mode button {
         .specs-split__img-wrap img { height: 280px; }
         .specs-split__title { font-size: 1.5rem; }
         .specs-split__list { grid-template-columns: 1fr; }
+    }
+
+    /* ── Страница специальностей (карточки) ── */
+    .professions-section { padding: 40px 0 80px; background: linear-gradient(180deg, #f8f8f8 0%, #fff 100%); }
+    .professions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+    }
+    .profession-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 28px 22px;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0,0,0,.08);
+        transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+        cursor: pointer;
+        border: 2px solid transparent;
+    }
+    .profession-card:hover, .profession-card:focus {
+        transform: translateY(-6px);
+        box-shadow: 0 14px 32px rgba(46,125,50,.18);
+        border-color: var(--primary-color);
+        outline: none;
+    }
+    .profession-card i { font-size: 2.8rem; color: var(--primary-color); margin-bottom: 1rem; display: block; }
+    .profession-card h3 { color: var(--primary-dark); font-size: 1.25rem; margin-bottom: .75rem; line-height: 1.35; }
+    .profession-card p { font-size: .92rem; color: #666; margin-bottom: .35rem; }
+    .professions-empty {
+        text-align: center;
+        padding: 48px 24px;
+        background: #fff;
+        border-radius: 16px;
+        border: 2px dashed #c8e6c9;
+        color: #666;
+    }
+    .professions-empty i { font-size: 3rem; color: var(--primary-color); margin-bottom: 16px; display: block; }
+    .profession-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    .profession-modal.open { display: flex; }
+    .profession-modal__backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.55); }
+    .profession-modal__content {
+        position: relative;
+        background: #fff;
+        border-radius: 16px;
+        max-width: 720px;
+        width: 100%;
+        max-height: 85vh;
+        overflow-y: auto;
+        padding: 28px;
+        box-shadow: 0 20px 60px rgba(0,0,0,.25);
+        animation: fadeInUp .25s ease;
+    }
+    .profession-modal__close {
+        position: absolute;
+        right: 16px;
+        top: 12px;
+        border: none;
+        background: none;
+        font-size: 2rem;
+        line-height: 1;
+        cursor: pointer;
+        color: #888;
+    }
+    .profession-modal__image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 16px;
+    }
+    .profession-modal__title {
+        color: var(--primary-dark);
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--primary-light);
+        padding-right: 36px;
+    }
+    .profession-modal__text { line-height: 1.7; color: #444; }
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(16px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 768px) {
+        .professions-grid { grid-template-columns: 1fr; }
+        .profession-modal__content { padding: 20px; margin: 0 8px; }
     }
 
     /* ── Страница с боковым меню ── */

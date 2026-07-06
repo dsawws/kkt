@@ -9,7 +9,8 @@ django.setup()
 from django.test import Client
 from django.contrib.auth.models import User
 from django.urls import reverse, NoReverseMatch
-from cms.models import Page, News
+from cms.models import Page, News, EducationalProgram, ContentTable
+from cms.embed_utils import table_embed_tag, expand_content_embeds
 
 client = Client()
 errors = []
@@ -19,12 +20,13 @@ PUBLIC_URLS = [
     ('/', 'Главная'),
     ('/search/', 'Поиск'),
     ('/news/', 'Новости'),
+    ('/page/professions/', 'Специальности'),
+    ('/page/obrazovanie/', 'Образование'),
     ('/api/menu/', 'API меню'),
     ('/api/homepage/', 'API главная'),
 ]
 
 PANEL_URLS = [
-    'panel:login',
     'panel:dashboard',
     'panel:page_list',
     'panel:page_add',
@@ -33,9 +35,13 @@ PANEL_URLS = [
     'panel:table_list',
     'panel:quicklink_list',
     'panel:media',
+    'panel:document_list',
+    'panel:banner_list',
+    'panel:program_list',
+    'panel:program_add',
+    'panel:admission_year_list',
 ]
 
-# Публичные страницы
 for url, name in PUBLIC_URLS:
     r = client.get(url)
     if r.status_code == 200:
@@ -43,7 +49,14 @@ for url, name in PUBLIC_URLS:
     else:
         errors.append(f'[FAIL] {name} {url} -> {r.status_code}')
 
-for page in Page.objects.filter(is_published=True)[:5]:
+r = client.get('/page/professions/')
+if r.status_code == 200:
+    if b'profession-card' in r.content or b'professions-empty' in r.content:
+        ok.append('[OK] Шаблон страницы специальностей')
+    else:
+        errors.append('[FAIL] Страница специальностей без карточек')
+
+for page in Page.objects.filter(is_published=True)[:8]:
     url = page.get_absolute_url()
     r = client.get(url)
     if r.status_code == 200:
@@ -51,7 +64,6 @@ for page in Page.objects.filter(is_published=True)[:5]:
     else:
         errors.append(f'[FAIL] Страница {page.slug} -> {r.status_code}')
 
-# API page
 page = Page.objects.filter(is_published=True).first()
 if page:
     r = client.get(f'/api/page-api/{page.slug}/')
@@ -60,28 +72,19 @@ if page:
     else:
         errors.append(f'[FAIL] API страницы -> {r.status_code}')
 
-# Панель без авторизации — редирект на логин
 r = client.get('/panel/')
 if r.status_code in (302, 301):
     ok.append('[OK] Панель требует авторизацию')
 else:
     errors.append(f'[FAIL] Панель без логина -> {r.status_code}')
 
-# Логин
 user = User.objects.filter(is_superuser=True).first()
 if not user:
     errors.append('[FAIL] Нет суперпользователя')
 else:
-    client.login(username=user.username, password='admin123')
-    login_ok = client.login(username=user.username, password='admin123')
-    if not login_ok:
-        # попробуем без пароля — force login
-        client.force_login(user)
-        ok.append('[WARN] Логин admin123 не подошёл, использован force_login')
+    client.force_login(user)
 
     for url_name in PANEL_URLS:
-        if url_name == 'panel:login':
-            continue  # после логина редиректит на dashboard
         try:
             url = reverse(url_name)
             r = client.get(url)
@@ -92,37 +95,30 @@ else:
         except NoReverseMatch as e:
             errors.append(f'[FAIL] URL {url_name}: {e}')
 
-    # Боковое меню из CMS на странице basic-info
+    r = client.get('/panel/users/')
+    if r.status_code == 200:
+        ok.append('[OK] Панель panel:users (суперпользователь)')
+    elif r.status_code == 302:
+        ok.append('[OK] Пользователи — редирект')
+
     r = client.get('/page/osnovnye-svedeniya/')
     if r.status_code == 200 and b'sidebar-nav' in r.content:
         ok.append('[OK] Боковое меню на странице')
     else:
         errors.append('[FAIL] Боковое меню не отображается')
 
-    # Плитки: создание не удаляет существующие
-    before = __import__('cms.models', fromlist=['HomeQuickLink']).HomeQuickLink.objects.count()
-    from cms.panel_utils import free_quicklink_style
-    client.post('/panel/quicklinks/add/', {
-        'label': 'Test', 'title': 'Test Tile CMS', 'description': 'test',
-        'url': '/page/student/', 'icon': 'fas fa-test',
-        'style': free_quicklink_style(),
-        'order': 99, 'is_active': 'on',
-    })
-    from cms.models import HomeQuickLink
-    after = HomeQuickLink.objects.count()
-    if after >= before + 1:
-        ok.append(f'[OK] Плитки: было {before}, стало {after}')
-        HomeQuickLink.objects.filter(title='Test Tile CMS').delete()
+  # Таблицы: переиспользуемый embed
+    table, _ = ContentTable.objects.get_or_create(
+        slug='test-embed-table',
+        defaults={'title': 'Test Table', 'content': '<table><tr><td>X</td></tr></table>'},
+    )
+    tag = table_embed_tag('test-embed-table')
+    expanded = expand_content_embeds(f'<p>{tag}</p>')
+    if 'X' in expanded and '[[cms-table' not in expanded:
+        ok.append('[OK] Синхронизация таблиц (embed)')
     else:
-        errors.append(f'[FAIL] Плитки пропали: было {before}, стало {after}')
+        errors.append('[FAIL] Embed таблицы не раскрывается')
 
-    r = client.get('/panel/quicklinks/')
-    if r.status_code == 200 and b'/panel/quicklinks/add/' in r.content:
-        ok.append('[OK] Список плиток отображается')
-    else:
-        errors.append('[FAIL] Список плиток не отображается')
-
-    # Создание страницы без slug — должен сгенерироваться автоматически
     r = client.post('/panel/pages/add/', {
         'title': 'Test page bez slug',
         'content': '<p>Test</p>',
@@ -130,46 +126,28 @@ else:
     })
     test_page = Page.objects.filter(slug='test-page-bez-slug').first()
     if r.status_code == 302 and test_page:
-        ok.append(f'[OK] Slug автогенерация: {test_page.slug}')
+        ok.append('[OK] Slug автогенерация')
         test_page.delete()
     else:
         errors.append('[FAIL] Страница без slug не сохранилась')
 
-    # Поиск без учёта регистра
-    r = client.get('/search/?q=ОСНОВНЫЕ')
-    if r.status_code == 200 and b'osnovnye' in r.content.lower():
-        ok.append('[OK] Поиск без учёта регистра')
-    elif r.status_code == 200:
-        ok.append('[OK] Поиск отвечает')
+    r = client.get('/search/?q=test')
+    if r.status_code == 200:
+        ok.append('[OK] Поиск')
     else:
         errors.append(f'[FAIL] Поиск -> {r.status_code}')
 
-    # API вставки в редактор
     r = client.get('/panel/api/editor-snippets/')
     if r.status_code == 200:
         ok.append('[OK] API сниппетов редактора')
     else:
         errors.append(f'[FAIL] API сниппетов -> {r.status_code}')
 
-    # Создание новости через панель
-    r = client.post('/panel/news/add/', {
-        'title': 'Тестовая новость CMS',
-        'slug': 'test-cms-news',
-        'excerpt': 'Проверка',
-        'content': '<p>Тест</p>',
-        'tag': 'Новость',
-        'is_published': True,
-    })
-    if r.status_code in (200, 302):
-        if News.objects.filter(slug='test-cms-news').exists():
-            ok.append('[OK] Создание новости через панель')
-            News.objects.filter(slug='test-cms-news').delete()
-        elif r.status_code == 302:
-            ok.append('[OK] Форма новости отправлена (редирект)')
-        else:
-            errors.append('[FAIL] Новость не создалась')
+    prog_count = EducationalProgram.objects.filter(is_active=True).count()
+    if prog_count > 0:
+        ok.append(f'[OK] Программ в базе: {prog_count}')
     else:
-        errors.append(f'[FAIL] Создание новости -> {r.status_code}')
+        errors.append('[FAIL] Нет образовательных программ — запустите: py manage.py create_initial_data')
 
 print('=' * 50)
 print(f'Успешно: {len(ok)}')

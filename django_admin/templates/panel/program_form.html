@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
     <div class="meta-boxes">
@@ -13,6 +13,7 @@
             <div class="wp-card">
                 <div class="wp-card-header"><h2>Специальность</h2></div>
                 <div class="wp-card-body">
+                    <p class="form-help">Карточки отображаются на странице <strong>/page/professions/</strong>. Документы ОПОП — на странице «Образование».</p>
                     {% for field in form %}
                     <div class="form-group">
                         <label>{{ field.label }}</label>

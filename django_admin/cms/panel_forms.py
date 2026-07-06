@@ -267,9 +267,20 @@ class EducationalProgramForm(StyledModelForm):
     class Meta:
         model = EducationalProgram
         fields = [
-            'page', 'code', 'title', 'qualification',
-            'duration', 'form', 'order', 'is_active',
+            'page', 'code', 'title', 'qualification', 'duration', 'form',
+            'icon', 'description', 'image', 'show_on_homepage',
+            'order', 'is_active',
         ]
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 5}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['page'].required = False
+        self.fields['order'].required = False
+        if not self.instance.pk:
+            self.fields['order'].initial = 0
 
 
 class AdmissionYearForm(StyledModelForm):

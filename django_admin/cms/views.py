@@ -35,9 +35,12 @@ def _group_edu_by_year(page):
     from collections import defaultdict
     result = defaultdict(list)
 
-    programs = EducationalProgram.objects.filter(
-        page=page, is_active=True
-    ).prefetch_related('years__documents').order_by('order', 'code')
+    if page.slug == 'obrazovanie':
+        programs = EducationalProgram.objects.filter(is_active=True)
+    else:
+        programs = EducationalProgram.objects.filter(page=page, is_active=True)
+
+    programs = programs.prefetch_related('years__documents').order_by('order', 'code')
 
     for prog in programs:
         for yr in prog.years.filter(is_active=True).order_by('-year'):
@@ -47,7 +50,6 @@ def _group_edu_by_year(page):
                 'docs': yr.documents.filter(is_active=True).order_by('order'),
             })
 
-    # Сортируем по году убыванию
     return dict(sorted(result.items(), reverse=True))
 
 
@@ -59,13 +61,27 @@ def index(request):
     quick_links = HomeQuickLink.objects.filter(is_active=True).order_by('order')
     home_blocks = HomeBlock.objects.filter(is_active=True).order_by('order')
 
+    specialty_programs = EducationalProgram.objects.filter(
+        is_active=True, show_on_homepage=True
+    ).order_by('order', 'code')
+    if specialty_programs.exists():
+        specialties_items = [
+            {'icon': p.icon or 'fas fa-graduation-cap', 'title': p.title, 'code': p.code}
+            for p in specialty_programs
+        ]
+        specialties_count = str(specialty_programs.count())
+    else:
+        specialties_items = homepage.get_specialties_items()
+        specialties_count = homepage.specialties_count
+
     context = {
         'homepage': homepage,
         'banners': banners,
         'latest_news': latest_news,
         'quick_links': quick_links,
         'home_blocks': home_blocks,
-        'specialties_items': homepage.get_specialties_items(),
+        'specialties_items': specialties_items,
+        'specialties_count': specialties_count,
     }
     return render(request, 'cms/index.html', context)
 
@@ -114,6 +130,17 @@ def page_detail(request, slug):
         page=page, is_active=True
     ).prefetch_related('images').order_by('-created_at')
 
+    edu_by_year = _group_edu_by_year(page)
+
+    if page.slug == 'professions':
+        programs = EducationalProgram.objects.filter(is_active=True).order_by('order', 'code')
+        context = {
+            'page': page,
+            'menu_items': menu_items,
+            'programs': programs,
+        }
+        return render(request, 'cms/page_professions.html', context)
+
     context = {
         'page': page,
         'menu_items': menu_items,
@@ -128,7 +155,7 @@ def page_detail(request, slug):
         ).prefetch_related(
             'years__documents'
         ).order_by('order', 'code'),
-        'edu_by_year': _group_edu_by_year(page),
+        'edu_by_year': edu_by_year,
     }
     return render(request, 'cms/page_detail.html', context)
 

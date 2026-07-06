@@ -568,6 +568,16 @@ class EducationalProgram(models.Model):
     qualification = models.CharField('Квалификация', max_length=200, blank=True)
     duration = models.CharField('Срок обучения', max_length=100, blank=True)
     form = models.CharField('Форма обучения', max_length=100, blank=True, default='Очная')
+    icon = models.CharField(
+        'Иконка FontAwesome',
+        max_length=100,
+        default='fas fa-graduation-cap',
+        blank=True,
+        help_text='Например: fas fa-calculator',
+    )
+    description = models.TextField('Описание (для карточки)', blank=True)
+    image = models.ImageField('Изображение', upload_to='programs/', blank=True)
+    show_on_homepage = models.BooleanField('Показывать на главной', default=True)
     order = models.IntegerField('Порядок', default=0)
     is_active = models.BooleanField('Активна', default=True)
 
@@ -578,6 +588,15 @@ class EducationalProgram(models.Model):
 
     def __str__(self):
         return f'{self.code} {self.title}' if self.code else self.title
+
+    @property
+    def display_title(self):
+        return f'{self.code} {self.title}'.strip() if self.code else self.title
+
+    def get_image_url(self):
+        if self.image and self.image.name:
+            return self.image.url
+        return ''
 
 
 class AdmissionYear(models.Model):

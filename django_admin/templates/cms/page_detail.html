@@ -119,7 +119,9 @@
                                         <span class="edu-spec-name">{{ item.program.title }}</span>
                                     </span>
                                     <span class="edu-spec-meta">
+                                        {% if item.program.qualification %}<span>{{ item.program.qualification }}</span>{% endif %}
                                         {% if item.program.duration %}<span>{{ item.program.duration }}</span>{% endif %}
+                                        {% if item.program.form %}<span>{{ item.program.form }}</span>{% endif %}
                                         <i class="fas fa-chevron-down edu-chevron"></i>
                                     </span>
                                 </button>

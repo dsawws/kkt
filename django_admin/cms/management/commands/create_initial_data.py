@@ -1,5 +1,8 @@
 from django.core.management.base import BaseCommand
-from cms.models import MenuItem, Page, HomePage, HomeQuickLink, HomeBlock
+from cms.models import (
+    MenuItem, Page, HomePage, HomeQuickLink, HomeBlock,
+    EducationalProgram, AdmissionYear,
+)
 
 
 class Command(BaseCommand):
@@ -51,7 +54,7 @@ class Command(BaseCommand):
             'Звонок бесплатный и круглосуточный.'
         )
         homepage.save()
-        self.stdout.write(self.style.SUCCESS('✓ Главная страница обновлена'))
+        self.stdout.write(self.style.SUCCESS('[OK] Главная страница обновлена'))
 
         if not HomeQuickLink.objects.exists():
             quick_links = [
@@ -66,7 +69,7 @@ class Command(BaseCommand):
             ]
             for ql in quick_links:
                 HomeQuickLink.objects.create(**ql)
-            self.stdout.write(self.style.SUCCESS('✓ Быстрые ссылки созданы'))
+            self.stdout.write(self.style.SUCCESS('[OK] Быстрые ссылки созданы'))
 
         if not HomeBlock.objects.exists():
             HomeBlock.objects.create(
@@ -74,7 +77,7 @@ class Command(BaseCommand):
                 content=homepage.welcome_text.replace('\n', '<br>'),
                 order=1,
             )
-            self.stdout.write(self.style.SUCCESS('✓ Блоки главной созданы'))
+            self.stdout.write(self.style.SUCCESS('[OK] Блоки главной созданы'))
 
         # Основные страницы навбара
         top_pages = [
@@ -102,7 +105,7 @@ class Command(BaseCommand):
                 slug=pd['slug'],
                 defaults={'title': pd['title'], 'page': page, 'is_active': True, 'order': pd['order']}
             )
-            self.stdout.write(self.style.SUCCESS(f'✓ {pd["title"]}'))
+            self.stdout.write(self.style.SUCCESS(f'[OK] {pd["title"]}'))
 
         # Подстраницы "Сведения об организации"
         basic_info_page = created_pages['basic-info']
@@ -140,7 +143,7 @@ class Command(BaseCommand):
                     'order': sp['order'],
                 }
             )
-            self.stdout.write(self.style.SUCCESS(f'  ↳ {sp["title"]}'))
+            self.stdout.write(self.style.SUCCESS(f'  [->] {sp["title"]}'))
 
         # Контент страницы "Основные сведения"
         osnovnye, _ = Page.objects.get_or_create(slug='osnovnye-svedeniya', defaults={'title': 'Основные сведения'})
@@ -209,4 +212,85 @@ class Command(BaseCommand):
 """
             platnye.save()
 
-        self.stdout.write(self.style.SUCCESS('\n✓ Готово! Запустите сервер: py manage.py runserver 0.0.0.0:8000'))
+        self._seed_educational_programs(created_pages.get('professions'))
+
+        self.stdout.write(self.style.SUCCESS('\n[OK] Готово! Запустите сервер: py manage.py runserver 0.0.0.0:8000'))
+
+    def _seed_educational_programs(self, professions_page):
+        if EducationalProgram.objects.exists():
+            self.stdout.write('  — программы уже есть, пропуск')
+            return
+
+        programs = [
+            {
+                'code': '43.02.16', 'title': 'Туризм и гостеприимство',
+                'icon': 'fas fa-plane', 'duration': '2 года 10 месяцев',
+                'qualification': 'специалист по туризму и гостеприимству',
+                'description': 'Подготовка специалистов для гостиничного и туристического бизнеса.',
+                'order': 1,
+            },
+            {
+                'code': '38.02.03', 'title': 'Операционная деятельность в логистике',
+                'icon': 'fas fa-truck', 'duration': '2 года 10 месяцев',
+                'qualification': 'операционный логист',
+                'description': 'Организация перевозок, складирования и управления цепями поставок.',
+                'order': 2,
+            },
+            {
+                'code': '38.02.08', 'title': 'Торговое дело',
+                'icon': 'fas fa-store', 'duration': '2 года 10 месяцев',
+                'qualification': 'специалист торгового дела',
+                'description': 'Коммерческая деятельность, маркетинг и товароведение.',
+                'order': 3,
+            },
+            {
+                'code': '38.02.01', 'title': 'Экономика и бухгалтерский учёт',
+                'icon': 'fas fa-calculator', 'duration': '2 года 10 месяцев',
+                'qualification': 'бухгалтер',
+                'description': 'Бухгалтерский учёт, налогообложение и финансовый анализ.',
+                'order': 4,
+            },
+            {
+                'code': '40.02.04', 'title': 'Юриспруденция',
+                'icon': 'fas fa-balance-scale', 'duration': '2 года 10 месяцев',
+                'qualification': 'юрист',
+                'description': 'Правовое сопровождение и работа с документами правового характера.',
+                'order': 5,
+            },
+            {
+                'code': '09.02.11', 'title': 'Разработка и управление ПО',
+                'icon': 'fas fa-code', 'duration': '3 года 10 месяцев',
+                'qualification': 'разработчик программного обеспечения',
+                'description': 'Разработка, тестирование и сопровождение программных продуктов.',
+                'order': 6,
+            },
+            {
+                'code': '21.02.19', 'title': 'Землеустройство',
+                'icon': 'fas fa-map-marked-alt', 'duration': '3 года 10 месяцев',
+                'qualification': 'специалист по землеустройству',
+                'description': 'Кадастровый учёт, геодезия и земельно-имущественные отношения.',
+                'order': 7,
+            },
+        ]
+
+        for data in programs:
+            prog = EducationalProgram.objects.create(
+                page=professions_page,
+                show_on_homepage=True,
+                is_active=True,
+                form='Очная',
+                **data,
+            )
+            AdmissionYear.objects.get_or_create(
+                program=prog, year=2025,
+                defaults={'is_active': True, 'order': 1},
+            )
+            self.stdout.write(self.style.SUCCESS(f'  [OK] Программа: {prog.code} {prog.title}'))
+
+        if professions_page:
+            professions_page.content = ''
+            professions_page.description = (
+                'Выберите интересующую вас специальность, чтобы узнать подробности обучения'
+            )
+            professions_page.save(update_fields=['content', 'description'])
+            self.stdout.write(self.style.SUCCESS('  [OK] Страница «Специальности» переведена на программы из админки'))

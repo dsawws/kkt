@@ -589,13 +589,17 @@ def program_edit(request, pk=None):
     program = get_object_or_404(EducationalProgram, pk=pk) if pk else None
 
     if request.method == 'POST':
-        form = EducationalProgramForm(request.POST, instance=program)
+        form = EducationalProgramForm(request.POST, request.FILES, instance=program)
         formset = AdmissionYearFormSet(request.POST, instance=program) if program else None
 
         if form.is_valid():
+            is_new = program is None
             program = form.save()
-            if not pk:
-                formset = AdmissionYearFormSet(request.POST, instance=program)
+
+            if is_new:
+                messages.success(request, 'Программа создана')
+                return redirect('panel:program_edit', pk=program.pk)
+
             if formset and _handle_formset(formset, request):
                 messages.success(request, 'Программа сохранена')
                 return redirect('panel:program_edit', pk=program.pk)
@@ -616,7 +620,6 @@ def program_edit(request, pk=None):
         'title': 'Редактировать программу' if program else 'Добавить программу',
         'back_url': reverse('panel:program_list'),
     })
-
 
 @staff_required
 @require_POST
