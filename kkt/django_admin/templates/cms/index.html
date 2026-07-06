@@ -1,0 +1,272 @@
+{% extends 'cms/base.html' %}
+{% load static %}
+
+{% block title %}{{ homepage.slider_title }} - ККТ Белореченск{% endblock %}
+
+{% block content %}
+<section class="slider">
+    <div class="slide active">
+        {% if homepage.slider_image %}
+        <img src="{{ homepage.slider_image.url }}" alt="{{ homepage.slider_title }}" class="slider-bg" style="position: absolute; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
+        {% endif %}
+        <div class="slide-content">
+            <h2 id="slider-title">{{ homepage.slider_title }}</h2>
+            <p id="slider-text">{{ homepage.slider_text }}</p>
+        </div>
+    </div>
+</section>
+
+{% for block in home_blocks %}
+{% if block.block_type == 'welcome' and block.is_active %}
+<section class="welcome-section" style="padding:50px 0;background:#fff;">
+    <div class="container">
+        {% if block.title %}<h2 class="section-title">{{ block.title }}</h2>{% endif %}
+        <div class="content-block">{{ block.content|safe }}</div>
+    </div>
+</section>
+{% elif block.block_type == 'director' and block.is_active %}
+<section class="director-welcome" style="padding:50px 0;background:#f8f9fa;">
+    <div class="container" style="display:flex;gap:30px;align-items:flex-start;flex-wrap:wrap;">
+        {% if homepage.director_image %}
+        <img src="{{ homepage.director_image.url }}" alt="{{ homepage.director_name }}" style="width:200px;border-radius:12px;flex-shrink:0;">
+        {% endif %}
+        <div>
+            {% if homepage.director_name %}<h3>{{ homepage.director_name }}</h3>{% endif %}
+            {% if homepage.director_position %}<p style="color:#666;margin-bottom:12px;">{{ homepage.director_position }}</p>{% endif %}
+            {% if block.title %}<h2>{{ block.title }}</h2>{% endif %}
+            <div>{{ block.content|safe }}</div>
+            {% if homepage.director_message %}<div style="margin-top:12px;">{{ homepage.director_message|linebreaks }}</div>{% endif %}
+        </div>
+    </div>
+</section>
+{% elif block.is_active %}
+<section class="home-custom-block" style="padding:40px 0;">
+    <div class="container">
+        {% if block.title %}<h2 class="section-title">{{ block.title }}</h2>{% endif %}
+        <div class="content-block">{{ block.content|safe }}</div>
+    </div>
+</section>
+{% endif %}
+{% endfor %}
+
+{% if homepage.welcome_text and not home_blocks %}
+<section class="welcome-section" style="padding:50px 0;background:#fff;">
+    <div class="container">
+        <h2 class="section-title">{{ homepage.welcome_title }}</h2>
+        <div>{{ homepage.welcome_text|linebreaks }}</div>
+    </div>
+</section>
+{% endif %}
+
+{% if quick_links %}
+<section class="bento-section">
+    <div class="container">
+        <h2 class="section-title">{{ homepage.bento_title }}</h2>
+        <div class="bento-grid">
+            {% for link in quick_links %}
+            {% if link.is_contacts %}
+            <div class="bento-card bento-contacts" style="cursor:default">
+                <div class="bento-bg-icon"><i class="{{ link.icon }}"></i></div>
+                <div class="bento-content">
+                    {% if link.label %}<span class="bento-label">{{ link.label }}</span>{% endif %}
+                    <h2>{{ link.title }}</h2>
+                    {% if link.description %}<p>{{ link.description }}</p>{% endif %}
+                </div>
+                {% if link.get_contacts_items %}
+                <ul class="bento-list">
+                    {% for c in link.get_contacts_items %}
+                    <li>
+                        <i class="fas {{ c.icon }}"></i>
+                        {% if c.url %}<a href="{{ c.url }}">{{ c.text }}</a>{% else %}<span>{{ c.text }}</span>{% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            {% else %}
+            <a href="{{ link.url|default:'#' }}" class="bento-card {% if not link.is_contacts %}{% cycle 'bento-g1' 'bento-g2' 'bento-g3' 'bento-g4' 'bento-g5' 'bento-g6' 'bento-g7' 'bento-g8' %}{% endif %}{% if link.is_large %} bento-large{% endif %}{% if link.is_contacts %} bento-contacts{% endif %}"
+               {% if link.open_in_new_tab %}target="_blank" rel="noopener"{% endif %}>
+                <div class="bento-bg-icon"><i class="{{ link.icon }}"></i></div>
+                <div class="bento-content">
+                    {% if link.label %}<span class="bento-label">{{ link.label }}</span>{% endif %}
+                    <h2>{{ link.title }}</h2>
+                    {% if link.description %}<p>{{ link.description }}</p>{% endif %}
+                </div>
+                {% if link.stat_num %}
+                <div class="bento-stat">
+                    <span class="bento-stat-num">{{ link.stat_num }}</span>
+                    {% if link.stat_label %}<span class="bento-stat-label">{{ link.stat_label }}</span>{% endif %}
+                </div>
+                {% endif %}
+            </a>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="specialties">
+    <div class="container">
+        <div class="specs-split">
+            <div class="specs-split__left">
+                <div class="specs-split__img-wrap">
+                    {% if homepage.specialties_image %}
+                    <img src="{{ homepage.specialties_image.url }}" alt="Техникум">
+                    {% else %}
+                    <img src="https://placehold.co/560x420/2E7D32/FFFFFF?text=ККТ+Белореченск" alt="Техникум">
+                    {% endif %}
+                    <div class="specs-split__badge">
+                        <span class="specs-split__badge-num">{{ specialties_count }}</span>
+                        <span class="specs-split__badge-text">специальностей<br>СПО</span>
+                    </div>
+                </div>
+            </div>
+            <div class="specs-split__right">
+                {% if homepage.specialties_label %}<p class="specs-split__label">{{ homepage.specialties_label }}</p>{% endif %}
+                <h2 class="specs-split__title">{{ homepage.specialties_title }}</h2>
+                {% if homepage.specialties_text %}<p class="specs-split__desc">{{ homepage.specialties_text }}</p>{% endif %}
+                {% if specialties_items %}
+                <ul class="specs-split__list">
+                    {% for s in specialties_items %}
+                    <li><i class="fas {{ s.icon }}"></i> {{ s.title }} <span>{{ s.code }}</span></li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;">
+                    <a href="{% url 'cms:page_detail' 'professions' %}" class="btn">Все специальности</a>
+                    <a href="{% url 'cms:page_detail' 'abiturient' %}" class="btn-outline">Как поступить</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="news">
+    <div class="container">
+        <h2 class="section-title">Новости и объявления</h2>
+        <div class="vk-full-wrapper">
+            <div id="vk_groups"></div>
+        </div>
+        {% if latest_news %}
+        <div class="news-feed-bottom">
+            <h3 class="news-feed-title">Новости техникума</h3>
+            <div class="news-feed-grid">
+                {% for item in latest_news %}
+                <a href="{% url 'cms:news_detail' item.slug %}" class="news-post">
+                    <div class="news-post__date">
+                        <span class="news-post__date-day">{{ item.created_at|date:"d" }}</span>
+                        <span class="news-post__date-mon">{{ item.created_at|date:"M" }}</span>
+                    </div>
+                    <div class="news-post__body">
+                        <span class="news-post__tag">{{ item.tag }}</span>
+                        <div class="news-post__title">{{ item.title }}</div>
+                        {% if item.excerpt %}<div class="news-post__excerpt">{{ item.excerpt|truncatechars:120 }}</div>{% endif %}
+                    </div>
+                    <div class="news-post__arrow"><i class="fas fa-chevron-right"></i></div>
+                </a>
+                {% endfor %}
+            </div>
+            <div style="text-align:center; margin-top:24px;">
+                <a href="{% url 'cms:news_list' %}" class="btn-outline">Все новости</a>
+            </div>
+        </div>
+        {% else %}
+        <div style="text-align:center; margin-top:24px;">
+            <a href="{% url 'cms:news_list' %}" class="btn-outline">Все новости</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{% if homepage.hotline_text %}
+<section class="director">
+    <div class="container">
+        <div>{{ homepage.hotline_text|linebreaks }}</div>
+    </div>
+</section>
+{% endif %}
+
+{% if homepage.vov_text %}
+<section class="vov">
+    <div class="vov_container">
+        <div class="vov-image">
+            {% if homepage.vov_image %}
+            <img src="{{ homepage.vov_image.url }}" alt="ВОВ">
+            {% else %}
+            <img src="{% static 'uploads/VOV.jpg' %}" alt="ВОВ">
+            {% endif %}
+        </div>
+        <p style="text-align: center; color: var(--primary-dark); font-weight: 500;"><u>{{ homepage.vov_text }}</u></p>
+    </div>
+</section>
+{% endif %}
+
+<section class="banners">
+    <div class="container">
+        {% if banners %}
+        <div class="banners-grid">
+            {% for banner in banners %}
+            {% if banner.url %}
+            <a href="{{ banner.url }}" class="banner-item" target="_blank" rel="noopener">
+                <img src="{{ banner.image.url }}" alt="{{ banner.title }}">
+            </a>
+            {% else %}
+            <div class="banner-item">
+                <img src="{{ banner.image.url }}" alt="{{ banner.title }}">
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="contacts">
+    <div class="container">
+        <h2 class="section-title">{{ homepage.contacts_title }}</h2>
+        <div class="contacts-inner">
+            <div class="contact-info">
+                {% if homepage.contacts_address %}
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="contact-details"><h3>Адрес</h3><p>{{ homepage.contacts_address }}</p></div>
+                </div>
+                {% endif %}
+                {% if homepage.contacts_phone or homepage.contacts_phone2 %}
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                    <div class="contact-details">
+                        <h3>Телефон</h3>
+                        {% if homepage.contacts_phone %}<p>{{ homepage.contacts_phone }}</p>{% endif %}
+                        {% if homepage.contacts_phone2 %}<p>{{ homepage.contacts_phone2 }}</p>{% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                {% if homepage.contacts_email %}
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                    <div class="contact-details"><h3>Email</h3><p>{{ homepage.contacts_email }}</p></div>
+                </div>
+                {% endif %}
+                {% if homepage.contacts_hours %}
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                    <div class="contact-details"><h3>Режим работы</h3><p>{{ homepage.contacts_hours }}</p></div>
+                </div>
+                {% endif %}
+            </div>
+            {% if homepage.contacts_map_url %}
+            <div class="map">
+                <div class="map-container">
+                    <iframe src="{{ homepage.contacts_map_url }}" width="100%" height="100%" frameborder="0" allowfullscreen="true" style="position:relative;border:none;"></iframe>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript" src="https://vk.com/js/api/openapi.js?168"></script>
+<script src="{% static 'vk-widget.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends 'panel/base.html' %}
+
+{% block content %}
+<div class="wp-stats">
+    <div class="wp-stat">
+        <div class="wp-stat-value">{{ stats.pages }}</div>
+        <div class="wp-stat-label">Страниц</div>
+    </div>
+    <div class="wp-stat">
+        <div class="wp-stat-value">{{ stats.news }}</div>
+        <div class="wp-stat-label">Новостей</div>
+    </div>
+    <div class="wp-stat">
+        <div class="wp-stat-value">{{ stats.documents }}</div>
+        <div class="wp-stat-label">Документов</div>
+    </div>
+    <div class="wp-stat">
+        <div class="wp-stat-value">{{ stats.menu_items }}</div>
+        <div class="wp-stat-label">Пунктов меню</div>
+    </div>
+    <div class="wp-stat">
+        <div class="wp-stat-value">{{ stats.banners }}</div>
+        <div class="wp-stat-label">Баннеров</div>
+    </div>
+    <div class="wp-stat">
+        <div class="wp-stat-value">{{ stats.programs }}</div>
+        <div class="wp-stat-label">Специальностей</div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+    <div class="wp-card">
+        <div class="wp-card-header">
+            <h2>Быстрые действия</h2>
+        </div>
+        <div class="wp-card-body" style="display:flex;flex-wrap:wrap;gap:10px;">
+            <a href="{% url 'panel:page_add' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Новая страница</a>
+            <a href="{% url 'panel:news_add' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Новая новость</a>
+            <a href="{% url 'panel:document_add' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Новый документ</a>
+            <a href="{% url 'panel:homepage' %}" class="btn btn-secondary"><i class="fas fa-house"></i> Главная</a>
+            <a href="{% url 'panel:media' %}" class="btn btn-secondary"><i class="fas fa-upload"></i> Загрузить файл</a>
+        </div>
+    </div>
+
+    <div class="wp-card">
+        <div class="wp-card-header">
+            <h2>Последние новости</h2>
+            <a href="{% url 'panel:news_list' %}" class="btn btn-sm btn-secondary">Все</a>
+        </div>
+        <div class="wp-card-body">
+            {% if recent_news %}
+            <table class="wp-table">
+                {% for item in recent_news %}
+                <tr>
+                    <td><a href="{% url 'panel:news_edit' item.pk %}">{{ item.title|truncatechars:40 }}</a></td>
+                    <td>{{ item.created_at|date:"d.m.Y" }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <p style="color:#646970;">Новостей пока нет. <a href="{% url 'panel:news_add' %}">Добавить</a></p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="wp-card" style="grid-column:1/-1;">
+        <div class="wp-card-header">
+            <h2>Недавно изменённые страницы</h2>
+            <a href="{% url 'panel:page_list' %}" class="btn btn-sm btn-secondary">Все</a>
+        </div>
+        <div class="wp-card-body">
+            {% if recent_pages %}
+            <table class="wp-table">
+                <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>URL</th>
+                        <th>Обновлено</th>
+                        <th>Статус</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for page in recent_pages %}
+                    <tr>
+                        <td>{{ page.title }}</td>
+                        <td>/page/{{ page.slug }}/</td>
+                        <td>{{ page.updated_at|date:"d.m.Y H:i" }}</td>
+                        <td>
+                            {% if page.is_published %}
+                            <span class="badge badge-success">Опубликовано</span>
+                            {% else %}
+                            <span class="badge badge-draft">Черновик</span>
+                            {% endif %}
+                        </td>
+                        <td class="actions">
+                            <a href="{% url 'panel:page_edit' page.pk %}" class="btn btn-sm btn-primary">Изменить</a>
+                            <a href="{{ page.get_absolute_url }}" target="_blank" class="btn btn-sm btn-secondary">Просмотр</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="color:#646970;">Страниц пока нет.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

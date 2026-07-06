@@ -1,0 +1,49 @@
+{% extends 'panel/base.html' %}
+
+{% block topbar_actions %}
+<a href="{% url 'panel:user_add' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Добавить</a>
+{% endblock %}
+
+{% block content %}
+<div class="wp-card">
+    <div class="wp-card-body">
+        <p class="form-help">Управление учётными записями панели. Доступ в панель имеют пользователи с отметкой «Персонал».</p>
+        {% if users %}
+        <table class="wp-table">
+            <thead>
+                <tr>
+                    <th>Логин</th>
+                    <th>Имя</th>
+                    <th>Email</th>
+                    <th>Персонал</th>
+                    <th>Активен</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in users %}
+                <tr>
+                    <td><strong>{{ u.username }}</strong>{% if u.is_superuser %} <span style="color:#2271b1;">(админ)</span>{% endif %}</td>
+                    <td>{{ u.get_full_name|default:"—" }}</td>
+                    <td>{{ u.email|default:"—" }}</td>
+                    <td>{% if u.is_staff %}Да{% else %}Нет{% endif %}</td>
+                    <td>{% if u.is_active %}Да{% else %}Нет{% endif %}</td>
+                    <td class="actions">
+                        <a href="{% url 'panel:user_edit' u.pk %}" class="btn btn-sm btn-primary">Изменить</a>
+                        {% if u.pk != request.user.pk %}
+                        <form method="post" action="{% url 'panel:user_delete' u.pk %}" style="display:inline;" onsubmit="return confirm('Удалить пользователя?');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>Нет пользователей.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

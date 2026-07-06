@@ -1,0 +1,45 @@
+{% extends 'panel/base.html' %}
+
+{% block topbar_actions %}
+<a href="{% url 'panel:program_list' %}" class="btn btn-secondary">← К программам</a>
+{% endblock %}
+
+{% block content %}
+<div class="wp-card">
+    <div class="wp-card-header">
+        <h2>Годы поступления</h2>
+        <a href="{% url 'panel:program_add' %}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Новая программа</a>
+    </div>
+    <div class="wp-card-body">
+        <p class="form-help">Годы добавляются внутри образовательной программы. Здесь — сводный список со ссылками на документы ОПОП.</p>
+        {% if items %}
+        <table class="wp-table">
+            <thead>
+                <tr>
+                    <th>Программа</th>
+                    <th>Код</th>
+                    <th>Год</th>
+                    <th>Активен</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for year in items %}
+                <tr>
+                    <td><a href="{% url 'panel:program_edit' year.program.pk %}">{{ year.program.title }}</a></td>
+                    <td>{{ year.program.code }}</td>
+                    <td>{{ year.year }}</td>
+                    <td>{% if year.is_active %}Да{% else %}Нет{% endif %}</td>
+                    <td class="actions">
+                        <a href="{% url 'panel:program_docs' year.pk %}" class="btn btn-sm btn-primary">Документы ОПОП</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p style="color:#646970;">Годов пока нет. <a href="{% url 'panel:program_add' %}">Создайте программу</a> и добавьте годы поступления.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

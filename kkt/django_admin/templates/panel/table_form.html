@@ -1,0 +1,27 @@
+{% extends 'panel/object_form.html' %}
+
+{% block content %}
+{% if usage_pages %}
+<div class="wp-card" style="margin-bottom:16px;">
+    <div class="wp-card-header"><h2>Используется на страницах</h2></div>
+    <div class="wp-card-body">
+        <p class="form-help">Изменения этой таблицы автоматически появятся на всех перечисленных страницах.</p>
+        <ul>
+            {% for p in usage_pages %}
+            <li>
+                <a href="{% url 'panel:page_edit' p.pk %}">{{ p.title }}</a>
+                <a href="{{ p.get_absolute_url }}" target="_blank" class="btn btn-sm btn-secondary">Просмотр</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% elif object %}
+<div class="wp-card" style="margin-bottom:16px;">
+    <div class="wp-card-body">
+        <p class="form-help" style="margin:0;">Таблица пока не вставлена ни на одну страницу. Вставьте её через кнопку «Таблица» в редакторе страницы.</p>
+    </div>
+</div>
+{% endif %}
+{{ block.super }}
+{% endblock %}

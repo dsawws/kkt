@@ -1,0 +1,154 @@
+{% extends 'cms/base.html' %}
+{% load static %}
+
+{% block title %}Поиск{% if query %}: {{ query }}{% endif %} — ККТ Белореченск{% endblock %}
+
+{% block content %}
+<main>
+<div class="container">
+  <nav class="breadcrumbs">
+    <a href="{% url 'cms:index' %}">Главная</a>
+    <i class="fas fa-chevron-right"></i>
+    <span>Поиск</span>
+  </nav>
+
+  <div class="search-page">
+    <h1 class="page-title">Поиск по сайту</h1>
+
+    <form class="search-page__form" action="{% url 'cms:search' %}" method="get">
+      <input type="text" name="q" value="{{ query }}" placeholder="Введите запрос..." autofocus>
+      <button type="submit"><i class="fas fa-search"></i> Найти</button>
+    </form>
+
+    {% if query %}
+      <p class="search-page__count">
+        {% if total %}
+          Найдено результатов: <strong>{{ total }}</strong> по запросу «{{ query }}»
+        {% else %}
+          По запросу «<strong>{{ query }}</strong>» ничего не найдено.
+        {% endif %}
+      </p>
+
+      {% if pages %}
+      <section class="search-section">
+        <h2><i class="fas fa-file-alt"></i> Страницы ({{ pages|length }})</h2>
+        <ul class="search-results">
+          {% for page in pages %}
+          <li class="search-result">
+            <a href="{% url 'cms:page_detail' page.slug %}" class="search-result__title">{{ page.title }}</a>
+            {% if page.description %}
+            <p class="search-result__desc">{{ page.description }}</p>
+            {% endif %}
+            <span class="search-result__url">/page/{{ page.slug }}/</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endif %}
+
+      {% if documents %}
+      <section class="search-section">
+        <h2><i class="fas fa-file-pdf"></i> Документы ({{ documents|length }})</h2>
+        <ul class="search-results">
+          {% for doc in documents %}
+          <li class="search-result">
+            {% if doc.file and doc.file.name %}
+            <a href="{{ doc.file.url }}" class="search-result__title" download>
+              <i class="fas fa-download" style="font-size:.8em;margin-right:4px;"></i>{{ doc.title }}
+            </a>
+            {% else %}
+            <span class="search-result__title">{{ doc.title }}</span>
+            {% endif %}
+            {% if doc.page %}
+            <p class="search-result__desc">Раздел: <a href="{% url 'cms:page_detail' doc.page.slug %}">{{ doc.page.title }}</a></p>
+            {% endif %}
+            {% if doc.file_size %}<span class="search-result__url">{{ doc.file_size }}</span>{% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endif %}
+
+      {% if news_results %}
+      <section class="search-section">
+        <h2><i class="fas fa-newspaper"></i> Новости ({{ news_results|length }})</h2>
+        <ul class="search-results">
+          {% for item in news_results %}
+          <li class="search-result">
+            <a href="{% url 'cms:news_detail' item.slug %}" class="search-result__title">{{ item.title }}</a>
+            {% if item.excerpt %}<p class="search-result__desc">{{ item.excerpt }}</p>{% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endif %}
+
+    {% endif %}
+  </div>
+</div>
+</main>
+
+<style>
+.search-page { padding: 32px 0 64px; max-width: 800px; }
+.search-page__form {
+  display: flex;
+  gap: 0;
+  margin-bottom: 24px;
+  border: 2px solid var(--green);
+  border-radius: 50px;
+  overflow: hidden;
+}
+.search-page__form input {
+  flex: 1;
+  border: none;
+  padding: 14px 22px;
+  font-size: 1rem;
+  outline: none;
+  background: #fff;
+}
+.search-page__form button {
+  background: var(--green);
+  color: #fff;
+  border: none;
+  padding: 14px 28px;
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .2s;
+  white-space: nowrap;
+}
+.search-page__form button:hover { background: var(--green-dark); }
+.search-page__count { color: var(--text-muted); margin-bottom: 32px; font-size: .95rem; }
+.search-section { margin-bottom: 40px; }
+.search-section h2 {
+  font-size: 1.15rem;
+  color: var(--text);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--green);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.search-section h2 i { color: var(--green); }
+.search-results { display: flex; flex-direction: column; gap: 12px; }
+.search-result {
+  padding: 14px 18px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: .2s;
+}
+.search-result:hover { border-color: var(--green); background: var(--green-light); }
+.search-result__title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--green-dark);
+  display: block;
+  margin-bottom: 4px;
+}
+.search-result__title:hover { text-decoration: underline; }
+.search-result__desc { font-size: .88rem; color: var(--text-muted); margin: 4px 0; }
+.search-result__url { font-size: .78rem; color: #aaa; }
+</style>
+{% endblock %}

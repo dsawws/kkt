@@ -1,0 +1,101 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}{{ page.meta_title|default:page.title }} - ККТ Белореченск{% endblock %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <nav class="breadcrumbs">
+            <a href="{% url 'cms:index' %}">Главная</a>
+            <i class="fas fa-chevron-right"></i>
+            <span>{{ page.title }}</span>
+        </nav>
+    </div>
+
+    <section class="professions-section">
+        <div class="container">
+            <h1 class="section-title">{{ page.title }}</h1>
+            {% if page.description %}
+            <p class="section-subtitle">{{ page.description }}</p>
+            {% else %}
+            <p class="section-subtitle">Выберите специальность, чтобы узнать подробности обучения</p>
+            {% endif %}
+
+            {% if programs %}
+            <div class="professions-grid">
+                {% for program in programs %}
+                <div class="profession-card"
+                     role="button"
+                     tabindex="0"
+                     data-title="{{ program.display_title }}"
+                     data-image="{% if program.get_image_url %}{{ program.get_image_url }}{% endif %}"
+                     data-description="{{ program.description|escapejs }}">
+                    <i class="{{ program.icon|default:'fas fa-graduation-cap' }}"></i>
+                    <h3>{% if program.code %}{{ program.code }}<br>{% endif %}{{ program.title }}</h3>
+                    {% if program.duration %}<p><strong>Срок обучения:</strong> {{ program.duration }}</p>{% endif %}
+                    {% if program.qualification %}<p><strong>Квалификация:</strong> {{ program.qualification }}</p>{% endif %}
+                    {% if program.form %}<p><strong>Форма:</strong> {{ program.form }}</p>{% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="professions-empty">
+                <i class="fas fa-graduation-cap"></i>
+                <p>Специальности пока не добавлены. Заполните их в панели: <strong>Образовательные программы</strong>.</p>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+</main>
+
+<div class="profession-modal" id="professionModal" aria-hidden="true">
+    <div class="profession-modal__backdrop"></div>
+    <div class="profession-modal__content" role="dialog" aria-modal="true">
+        <button type="button" class="profession-modal__close" aria-label="Закрыть">&times;</button>
+        <img src="" alt="" class="profession-modal__image" style="display:none;">
+        <h2 class="profession-modal__title"></h2>
+        <p class="profession-modal__text"></p>
+    </div>
+</div>
+
+<script>
+(function () {
+    const modal = document.getElementById('professionModal');
+    if (!modal) return;
+    const img = modal.querySelector('.profession-modal__image');
+    const title = modal.querySelector('.profession-modal__title');
+    const text = modal.querySelector('.profession-modal__text');
+
+    function openModal(card) {
+        title.textContent = card.dataset.title || '';
+        text.textContent = card.dataset.description || 'Описание будет добавлено позже.';
+        if (card.dataset.image) {
+            img.src = card.dataset.image;
+            img.style.display = 'block';
+        } else {
+            img.style.display = 'none';
+        }
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.profession-card').forEach(function (card) {
+        card.addEventListener('click', function () { openModal(card); });
+        card.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(card); }
+        });
+    });
+
+    modal.querySelector('.profession-modal__close').addEventListener('click', closeModal);
+    modal.querySelector('.profession-modal__backdrop').addEventListener('click', closeModal);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends 'panel/base.html' %}
+
+
+
+{% block topbar_actions %}
+
+<a href="{{ back_url }}" class="btn btn-secondary">← К списку плиток</a>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="wp-card" style="margin-bottom:16px;">
+
+    <div class="wp-card-body">
+
+        <p class="form-help" style="margin:0;">
+
+            Плитки выстраиваются по полю <strong>«Порядок»</strong>. Цвет назначается автоматически.
+
+            Отметьте «Большая плитка» для крупного блока или «Блок контактов» для белой плитки со списком.
+
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<form method="post">
+
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+
+    {{ form.style }}
+
+
+
+    <div class="meta-boxes">
+
+        <div>
+
+            <div class="wp-card">
+
+                <div class="wp-card-header"><h2>Содержимое плитки</h2></div>
+
+                <div class="wp-card-body">
+
+                    {% for field in form %}
+
+                    {% if field.name != 'is_active' and field.name != 'order' and field.name != 'open_in_new_tab' and field.name != 'is_large' and field.name != 'is_contacts' and field.name != 'style' %}
+
+                    <div class="form-group">
+
+                        <label>{{ field.label }}</label>
+
+                        {{ field }}
+
+                        {% if field.help_text %}<div class="form-help">{{ field.help_text }}</div>{% endif %}
+
+                        {% if field.errors %}<div class="form-errors">{{ field.errors }}</div>{% endif %}
+
+                    </div>
+
+                    {% endif %}
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div>
+
+            <div class="meta-box">
+
+                <div class="meta-box-title">Настройки</div>
+
+                <div class="meta-box-body">
+
+                    <div class="form-group"><label>{{ form.order.label }}</label>{{ form.order }}</div>
+
+                    <div class="form-check" style="margin-bottom:8px;">{{ form.is_large }} <label>{{ form.is_large.label }}</label></div>
+
+                    <div class="form-check" style="margin-bottom:8px;">{{ form.is_contacts }} <label>{{ form.is_contacts.label }}</label></div>
+
+                    <div class="form-check" style="margin-bottom:8px;">{{ form.open_in_new_tab }} <label>{{ form.open_in_new_tab.label }}</label></div>
+
+                    <div class="form-check" style="margin-bottom:16px;">{{ form.is_active }} <label>{{ form.is_active.label }}</label></div>
+
+                    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;"><i class="fas fa-save"></i> Сохранить</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+{% endblock %}
+

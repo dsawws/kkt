@@ -1,0 +1,108 @@
+{% extends 'panel/base.html' %}
+
+{% block topbar_actions %}
+<a href="{{ preview_url }}" target="_blank" class="btn btn-secondary"><i class="fas fa-eye"></i> Просмотр сайта</a>
+<a href="{% url 'panel:quicklink_list' %}" class="btn btn-secondary">Плитки</a>
+<a href="{% url 'panel:homeblock_list' %}" class="btn btn-secondary">Блоки</a>
+{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="wp-card">
+        <div class="wp-card-header"><h2>Сайт и шапка</h2></div>
+        <div class="wp-card-body">
+            <div class="form-group"><label>{{ form.site_name.label }}</label>{{ form.site_name }}</div>
+            <div class="form-row">
+                <div class="form-group"><label>{{ form.site_tagline.label }}</label>{{ form.site_tagline }}</div>
+                <div class="form-group"><label>{{ form.site_phone.label }}</label>{{ form.site_phone }}</div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>{{ form.site_email.label }}</label>{{ form.site_email }}</div>
+                <div class="form-group"><label>{{ form.site_vk.label }}</label>{{ form.site_vk }}</div>
+            </div>
+            <div class="form-group"><label>{{ form.site_telegram.label }}</label>{{ form.site_telegram }}</div>
+        </div>
+    </div>
+
+    <div class="wp-card">
+        <div class="wp-card-header"><h2>Слайдер</h2></div>
+        <div class="wp-card-body">
+            <div class="form-group"><label>{{ form.slider_title.label }}</label>{{ form.slider_title }}</div>
+            <div class="form-group"><label>{{ form.slider_text.label }}</label>{{ form.slider_text }}</div>
+            <div class="form-group"><label>{{ form.slider_image.label }}</label>{{ form.slider_image }}
+                {% if form.instance.slider_image %}<img src="{{ form.instance.slider_image.url }}" style="max-width:300px;margin-top:8px;border-radius:4px;">{% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="wp-card">
+        <div class="wp-card-header"><h2>Приветствие и директор</h2></div>
+        <div class="wp-card-body">
+            <div class="form-group"><label>{{ form.welcome_title.label }}</label>{{ form.welcome_title }}</div>
+            <div class="form-group"><label>{{ form.welcome_text.label }}</label>{{ form.welcome_text }}</div>
+            <div class="form-row">
+                <div class="form-group"><label>{{ form.director_name.label }}</label>{{ form.director_name }}</div>
+                <div class="form-group"><label>{{ form.director_position.label }}</label>{{ form.director_position }}</div>
+            </div>
+            <div class="form-group"><label>{{ form.director_image.label }}</label>{{ form.director_image }}</div>
+            <div class="form-group"><label>{{ form.director_message.label }}</label>{{ form.director_message }}</div>
+        </div>
+    </div>
+
+    <div class="wp-card">
+        <div class="wp-card-header"><h2>Быстрые ссылки (заголовок секции)</h2></div>
+        <div class="wp-card-body">
+            <div class="form-group"><label>{{ form.bento_title.label }}</label>{{ form.bento_title }}</div>
+            <p class="form-help">Сами плитки редактируются в разделе <a href="{% url 'panel:quicklink_list' %}">Плитки главной</a></p>
+        </div>
+    </div>
+
+    <div class="wp-card">
+        <div class="wp-card-header"><h2>Специальности</h2></div>
+        <div class="wp-card-body">
+            <div class="form-row">
+                <div class="form-group"><label>{{ form.specialties_label.label }}</label>{{ form.specialties_label }}</div>
+                <div class="form-group"><label>{{ form.specialties_count.label }}</label>{{ form.specialties_count }}</div>
+            </div>
+            <div class="form-group"><label>{{ form.specialties_title.label }}</label>{{ form.specialties_title }}</div>
+            <div class="form-group"><label>{{ form.specialties_text.label }}</label>{{ form.specialties_text }}</div>
+            <div class="form-group"><label>{{ form.specialties_image.label }}</label>{{ form.specialties_image }}</div>
+            <div class="form-group">
+                <label>{{ form.specialties_list.label }}</label>
+                {{ form.specialties_list }}
+                <div class="form-help">{{ form.specialties_list.help_text }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wp-card">
+        <div class="wp-card-header"><h2>Телефон доверия и ВОВ</h2></div>
+        <div class="wp-card-body">
+            <div class="form-group"><label>{{ form.hotline_text.label }}</label>{{ form.hotline_text }}</div>
+            <div class="form-group"><label>{{ form.vov_text.label }}</label>{{ form.vov_text }}</div>
+            <div class="form-group"><label>{{ form.vov_image.label }}</label>{{ form.vov_image }}</div>
+        </div>
+    </div>
+
+    <div class="wp-card">
+        <div class="wp-card-header"><h2>Контакты внизу страницы</h2></div>
+        <div class="wp-card-body">
+            <div class="form-group"><label>{{ form.contacts_title.label }}</label>{{ form.contacts_title }}</div>
+            <div class="form-group"><label>{{ form.contacts_address.label }}</label>{{ form.contacts_address }}</div>
+            <div class="form-row">
+                <div class="form-group"><label>{{ form.contacts_phone.label }}</label>{{ form.contacts_phone }}</div>
+                <div class="form-group"><label>{{ form.contacts_phone2.label }}</label>{{ form.contacts_phone2 }}</div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>{{ form.contacts_email.label }}</label>{{ form.contacts_email }}</div>
+                <div class="form-group"><label>{{ form.contacts_hours.label }}</label>{{ form.contacts_hours }}</div>
+            </div>
+            <div class="form-group"><label>{{ form.contacts_map_url.label }}</label>{{ form.contacts_map_url }}</div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Сохранить всё</button>
+</form>
+{% endblock %}

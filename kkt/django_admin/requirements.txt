@@ -1,0 +1,5 @@
+Django==4.2.7
+Pillow>=10.3.0
+django-ckeditor==6.7.0
+django-mptt==0.15.0
+python-slugify==8.0.1
