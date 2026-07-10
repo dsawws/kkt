@@ -1,0 +1,16 @@
+[Unit]
+Description=Main KKT website via Gunicorn
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/var/www/html/django_admin
+User=www-data
+Group=www-data
+ExecStart=/var/www/html/django_admin/venv/bin/gunicorn techcollege_admin.wsgi:application --bind 0.0.0.0:8041 --workers 5
+Restart=no
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
