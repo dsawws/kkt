@@ -26,6 +26,9 @@
             <li class="wp-menu-item {% if active_menu == 'pages' %}active{% endif %}">
                 <a href="{% url 'panel:page_list' %}"><i class="fas fa-file-lines"></i> <span>Страницы</span></a>
             </li>
+            <li class="wp-menu-item {% if active_menu == 'news' %}active{% endif %}">
+                <a href="{% url 'panel:news_list' %}"><i class="fas fa-newspaper"></i> <span>Новости</span></a>
+            </li>
             <li class="wp-menu-item {% if active_menu == 'tables' %}active{% endif %}">
                 <a href="{% url 'panel:table_list' %}"><i class="fas fa-table"></i> <span>Таблицы</span></a>
             </li>

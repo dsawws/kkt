@@ -590,7 +590,7 @@ body.accessibility-mode button {
 
             <!-- Лого слева -->
             <div class="logo">
-                <img src="/uploads/logo.png" alt="Логотип техникума" class="logo-img">
+                <img src="{% static 'img/logo.png' %}" alt="Логотип техникума" class="logo-img">
                 <div class="logo-text">
                     <h1>{{ site_settings.site_name }}</h1>
                     {% if site_settings.site_tagline %}<p>{{ site_settings.site_tagline }}</p>{% endif %}

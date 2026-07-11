@@ -45,11 +45,18 @@ def panel_login(request):
         user = authenticate(request, username=username, password=password)
         if user and user.is_staff:
             login(request, user)
-            next_url = request.GET.get('next', reverse('panel:dashboard'))
+            from django.conf import settings as djsettings
+            from .security_utils import is_safe_redirect_url
+            next_url = request.POST.get('next') or request.GET.get('next') or ''
+            if not is_safe_redirect_url(next_url, allowed_hosts={request.get_host(), *djsettings.ALLOWED_HOSTS}):
+                next_url = reverse('panel:dashboard')
             return redirect(next_url)
         error = 'Неверный логин или пароль'
 
-    return render(request, 'panel/login.html', {'error': error})
+    return render(request, 'panel/login.html', {
+        'error': error,
+        'next': request.GET.get('next', ''),
+    })
 
 
 @staff_required
@@ -111,19 +118,28 @@ def page_edit(request, pk=None):
 
     if request.method == 'POST':
         form = PageForm(request.POST, instance=page)
-        block_formset = ContentBlockFormSet(request.POST, instance=page) if page else None
-        blocks_ok = block_formset.is_valid() if block_formset else True
+        has_blocks = page is not None and 'blocks-TOTAL_FORMS' in request.POST
+        if has_blocks:
+            block_formset = ContentBlockFormSet(request.POST, instance=page)
+            blocks_ok = block_formset.is_valid()
+        else:
+            blocks_ok = True
+
         if form.is_valid() and blocks_ok:
             page = form.save()
-            if block_formset:
+            if block_formset is not None:
                 block_formset.instance = page
                 block_formset.save()
-            else:
-                block_formset = ContentBlockFormSet(instance=page)
             sync_page_to_menu(page)
             messages.success(request, 'Страница сохранена')
             return redirect('panel:page_edit', pk=page.pk)
-        elif block_formset and not blocks_ok:
+        if form.is_valid() and not blocks_ok:
+            # Контент страницы важнее пустого formset — сохраняем страницу
+            page = form.save()
+            sync_page_to_menu(page)
+            messages.warning(request, 'Страница сохранена, но проверьте блоки контента')
+            return redirect('panel:page_edit', pk=page.pk)
+        if block_formset is not None and not blocks_ok:
             messages.error(request, 'Проверьте блоки контента')
     else:
         form = PageForm(instance=page)
@@ -593,13 +609,9 @@ def program_edit(request, pk=None):
         formset = AdmissionYearFormSet(request.POST, instance=program) if program else None
 
         if form.is_valid():
-            is_new = program is None
             program = form.save()
-
-            if is_new:
-                messages.success(request, 'Программа создана')
-                return redirect('panel:program_edit', pk=program.pk)
-
+            if not pk:
+                formset = AdmissionYearFormSet(request.POST, instance=program)
             if formset and _handle_formset(formset, request):
                 messages.success(request, 'Программа сохранена')
                 return redirect('panel:program_edit', pk=program.pk)
@@ -620,6 +632,7 @@ def program_edit(request, pk=None):
         'title': 'Редактировать программу' if program else 'Добавить программу',
         'back_url': reverse('panel:program_list'),
     })
+
 
 @staff_required
 @require_POST
@@ -710,35 +723,50 @@ def block_delete(request, pk):
 @staff_required
 def media_library(request):
     from django.conf import settings
+    from .security_utils import (
+        safe_join_media, sanitize_upload_subdir, sanitize_upload_filename,
+    )
 
-    uploaded = []
     media_root = settings.MEDIA_ROOT
 
     if request.method == 'POST' and request.FILES.get('file'):
         uploaded_file = request.FILES['file']
-        subdir = request.POST.get('subdir', 'uploads')
-        dest_dir = os.path.join(media_root, subdir)
-        os.makedirs(dest_dir, exist_ok=True)
-        filepath = os.path.join(dest_dir, uploaded_file.name)
-        with open(filepath, 'wb+') as f:
-            for chunk in uploaded_file.chunks():
-                f.write(chunk)
-        messages.success(request, f'Файл «{uploaded_file.name}» загружен')
+        try:
+            subdir = sanitize_upload_subdir(request.POST.get('subdir', 'uploads'))
+            safe_name = sanitize_upload_filename(uploaded_file.name)
+            dest_dir = safe_join_media(media_root, subdir)
+            os.makedirs(dest_dir, exist_ok=True)
+            filepath = safe_join_media(media_root, subdir, safe_name)
+            with open(filepath, 'wb+') as f:
+                for chunk in uploaded_file.chunks():
+                    f.write(chunk)
+            messages.success(request, f'Файл «{safe_name}» загружен')
+        except ValueError as e:
+            messages.error(request, f'Загрузка отклонена: {e}')
         return redirect('panel:media')
 
     files = []
     if os.path.exists(media_root):
         for root, dirs, filenames in os.walk(media_root):
+            # не уходим из media через symlink-атаки при листинге
+            try:
+                safe_join_media(media_root, os.path.relpath(root, media_root) if root != media_root else '.')
+            except ValueError:
+                continue
             for name in filenames:
                 full_path = os.path.join(root, name)
                 rel_path = os.path.relpath(full_path, media_root)
+                try:
+                    safe_join_media(media_root, rel_path)
+                except ValueError:
+                    continue
                 url = settings.MEDIA_URL + rel_path.replace('\\', '/')
                 ext = os.path.splitext(name)[1].lower()
                 is_image = ext in ('.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg')
                 mtime = os.path.getmtime(full_path)
                 files.append({
                     'name': name,
-                    'path': rel_path,
+                    'path': rel_path.replace('\\', '/'),
                     'url': url,
                     'is_image': is_image,
                     'size': os.path.getsize(full_path),
@@ -757,13 +785,15 @@ def media_library(request):
 @require_POST
 def media_delete(request):
     from django.conf import settings
+    from .security_utils import safe_join_media
 
-    rel_path = request.POST.get('path', '')
-    if not rel_path or '..' in rel_path:
+    rel_path = (request.POST.get('path') or '').replace('\\', '/').lstrip('/')
+    try:
+        full_path = safe_join_media(settings.MEDIA_ROOT, rel_path)
+    except ValueError:
         messages.error(request, 'Некорректный путь')
         return redirect('panel:media')
 
-    full_path = os.path.join(settings.MEDIA_ROOT, rel_path)
     if os.path.isfile(full_path):
         os.remove(full_path)
         messages.success(request, 'Файл удалён')
@@ -831,6 +861,7 @@ def footer_edit(request):
             form.save()
             messages.success(request, 'Подвал обновлён')
             return redirect('panel:footer')
+        messages.error(request, 'Проверьте поля формы (email, ссылки и т.д.)')
     else:
         form = FooterForm(instance=homepage)
     return render(request, 'panel/object_form.html', {

@@ -5,15 +5,15 @@
 ```
 ├── django_admin/          # Django бэкенд + CMS
 │   ├── cms/               # Приложение: модели, views, admin
-│   ├── templates/cms/     # HTML шаблоны
-│   ├── static/            # CSS/JS для Django шаблонов
-│   ├── media/             # Загруженные файлы (фото, документы)
-│   ├── db.sqlite3         # База данных
+│   ├── templates/         # HTML шаблоны (cms/ + panel/)
+│   ├── static/            # ИСХОДНИКИ статики (сайт + панель)
+│   ├── staticfiles/       # СОБРАННАЯ статика (collectstatic) → nginx /static/
+│   ├── media/             # Загрузки пользователей → nginx /media/
 │   ├── manage.py
-│   ├── setup.bat          # Первичная установка
-│   └── run.bat            # Запуск сервера
-├── frontend/              # Старый фронтенд (HTML/CSS/JS)
-└── uploads/               # Старые загрузки (VOV.jpg и т.д.)
+│   └── ...
+├── deploy/                # Nginx, systemd, collectstatic.sh
+├── frontend/              # Legacy HTML (не источник /static/ для nginx)
+└── uploads/               # Legacy файлы → nginx /uploads/
 ```
 
 ---
@@ -275,55 +275,85 @@ py manage.py migrate
 # Создать миграции после изменения моделей
 py manage.py makemigrations
 
-# Собрать статику для продакшена
-py manage.py collectstatic
+# Собрать статику для продакшена (обязательно после pip install / деплоя)
+py manage.py collectstatic --noinput
+py manage.py check_static
 ```
 
 ---
 
-## Настройка для продакшена
+## Настройка для продакшена (new.kktbel.ru)
 
-В `django_admin/techcollege_admin/settings.py`:
+### Статика — одна директория, не 8 alias в nginx
 
-```python
-DEBUG = False
-SECRET_KEY = 'новый-случайный-ключ'
-ALLOWED_HOSTS = ['kktbel.ru', 'www.kktbel.ru']
+Раньше `/static/` указывал на разрозненные папки (`frontend/`, `venv/.../ckeditor`, `panel/`, `uploads/` …).  
+Правильная схема Django:
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'techcollege',
-        'USER': 'postgres',
-        'PASSWORD': 'пароль',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-```
+1. Исходники: `django_admin/static/` + пакеты (ckeditor, mptt, admin)
+2. `python manage.py collectstatic` → всё в `django_admin/staticfiles/`
+3. Nginx отдаёт **только** `staticfiles/` по `/static/`
 
-Nginx конфиг:
-```nginx
-server {
-    listen 80;
-    server_name kktbel.ru;
+После каждого деплоя / `pip install`:
 
-    location /static/ { alias /path/to/django_admin/staticfiles/; }
-    location /media/  { alias /path/to/django_admin/media/; }
-
-    location / {
-        proxy_pass http://127.0.0.1:8000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
-}
-```
-
-Запуск через Gunicorn:
 ```bash
-pip install gunicorn
-gunicorn techcollege_admin.wsgi:application --bind 0.0.0.0:8000 --workers 3
+cd /var/www/html/django_admin
+source venv/bin/activate
+export DJANGO_DEBUG=0
+bash ../deploy/collectstatic.sh   # collectstatic + проверка
 ```
+
+### Nginx
+
+Готовый конфиг в репозитории:
+
+[`deploy/nginx-new.kktbel.ru.conf`](deploy/nginx-new.kktbel.ru.conf)
+
+```bash
+sudo cp deploy/nginx-new.kktbel.ru.conf /etc/nginx/sites-available/new.kktbel.ru
+sudo ln -sf /etc/nginx/sites-available/new.kktbel.ru /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+Суть конфига (пути на сервере `/var/www/html/`):
+
+| URL | Диск |
+|-----|------|
+| `/static/` | `django_admin/staticfiles/` (после collectstatic) |
+| `/media/` | `django_admin/media/` |
+| `/uploads/` | `uploads/` (legacy) |
+| всё остальное | proxy → `127.0.0.1:8041` |
+
+**Не добавляйте** отдельные `location` для ckeditor/mptt/admin/panel — они уже внутри `staticfiles/`.
+
+### Gunicorn (порт 8041)
+
+```bash
+sudo cp deploy/kktbel.service /etc/systemd/system/kktbel.service
+# задайте DJANGO_SECRET_KEY в unit-файле
+sudo systemctl daemon-reload
+sudo systemctl enable --now kktbel
+```
+
+### Переменные окружения
+
+```bash
+export DJANGO_DEBUG=0
+export DJANGO_SECRET_KEY='случайная-длинная-строка'
+export DJANGO_ALLOWED_HOSTS=new.kktbel.ru,kktbel.ru,www.kktbel.ru
+export DJANGO_CSRF_TRUSTED_ORIGINS=https://new.kktbel.ru,http://new.kktbel.ru
+```
+
+### Проверка static после деплоя
+
+```bash
+python manage.py check_static
+curl -I https://new.kktbel.ru/static/style.css
+curl -I https://new.kktbel.ru/static/ckeditor/ckeditor/ckeditor.js
+curl -I https://new.kktbel.ru/static/panel/admin.css
+curl -I https://new.kktbel.ru/static/admin/css/base.css
+```
+
+Подробности: [`deploy/README.md`](deploy/README.md)
 
 ---
 
@@ -333,11 +363,14 @@ gunicorn techcollege_admin.wsgi:application --bind 0.0.0.0:8000 --workers 3
 
 **Порт 8000 занят:**
 ```bash
-py manage.py runserver 0.0.0.0:8001
+py manage.py runserver 0.0.0.0:9000
 ```
 
-**Не видно изменений** — нажмите Ctrl+F5 для сброса кэша браузера
+**Не видно изменений** — Ctrl+F5; на проде после правок CSS/JS снова `collectstatic`
 
-**Документы не отображаются** — проверьте что документ активен и привязан к нужной странице
+**404 на /static/ckeditor/...** — не хватает `collectstatic` после установки пакетов
 
-**Ошибка при загрузке изображений** — убедитесь что папка `django_admin/media/` существует
+**Документы не отображаются** — проверьте что документ активен и привязан к странице
+
+**Ошибка при загрузке изображений** — папка `django_admin/media/` должна существовать и быть доступна www-data
+

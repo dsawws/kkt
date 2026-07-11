@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, HttpResponse
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_GET
 from django.views.static import serve
 from .models import (
     Page, MenuItem, HomePage, HomeQuickLink, HomeBlock,
@@ -190,7 +190,7 @@ def news_detail(request, slug):
     return render(request, 'cms/news_detail.html', context)
 
 
-@csrf_exempt
+@require_GET
 def api_menu(request):
     menu_items = MenuItem.objects.filter(parent=None, is_active=True).order_by('order', 'title')
 
@@ -209,7 +209,7 @@ def api_menu(request):
     return JsonResponse(data, safe=False)
 
 
-@csrf_exempt
+@require_GET
 def api_homepage(request):
     """API для получения данных главной страницы"""
     homepage = HomePage.load()
@@ -228,7 +228,7 @@ def api_homepage(request):
     return JsonResponse(data)
 
 
-@csrf_exempt
+@require_GET
 def api_page(request, slug):
     """API для получения данных страницы"""
     from .embed_utils import expand_content_embeds

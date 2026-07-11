@@ -9,6 +9,11 @@ from .models import (
     EducationalProgram, AdmissionYear, ProgramDocument,
 )
 from .embed_utils import content_for_editor, normalize_content_embeds
+from .security_utils import sanitize_html
+
+
+def _clean_rich_html(value):
+    return normalize_content_embeds(sanitize_html(value or ''))
 
 
 class SlugFormMixin:
@@ -76,7 +81,7 @@ class PageForm(SlugFormMixin, StyledModelForm):
             )
 
     def clean_content(self):
-        return normalize_content_embeds(self.cleaned_data.get('content', ''))
+        return _clean_rich_html(self.cleaned_data.get('content', ''))
 
 
 class ContentTableForm(SlugFormMixin, StyledModelForm):
@@ -91,6 +96,9 @@ class ContentTableForm(SlugFormMixin, StyledModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['slug'].required = False
+
+    def clean_content(self):
+        return _clean_rich_html(self.cleaned_data.get('content', ''))
 
 
 class FooterForm(StyledModelForm):
@@ -116,6 +124,9 @@ class NewsForm(SlugFormMixin, StyledModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['slug'].required = False
+
+    def clean_content(self):
+        return _clean_rich_html(self.cleaned_data.get('content', ''))
 
 
 class DocumentForm(StyledModelForm):
@@ -217,12 +228,31 @@ class HomeQuickLinkForm(StyledModelForm):
             'style': forms.HiddenInput(),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['style'].required = False
+        self.fields['order'].required = False
+
+    def save(self, commit=True):
+        from .panel_utils import free_quicklink_style, next_quicklink_order
+        obj = super().save(commit=False)
+        if not obj.style:
+            obj.style = free_quicklink_style()
+        if obj.order is None:
+            obj.order = next_quicklink_order()
+        if commit:
+            obj.save()
+        return obj
+
 
 class HomeBlockForm(StyledModelForm):
     class Meta:
         model = HomeBlock
         fields = ['block_type', 'title', 'content', 'order', 'is_active']
         widgets = {'content': CKEditorUploadingWidget()}
+
+    def clean_content(self):
+        return _clean_rich_html(self.cleaned_data.get('content', ''))
 
 
 class BannerForm(StyledModelForm):
@@ -260,7 +290,27 @@ class ContentBlockForm(StyledModelForm):
             self.initial.setdefault('content', content_for_editor(self.instance.content))
 
     def clean_content(self):
-        return normalize_content_embeds(self.cleaned_data.get('content', ''))
+        return _clean_rich_html(self.cleaned_data.get('content', ''))
+
+
+class ContentBlockInlineForm(StyledModelForm):
+    """Форма блока внутри страницы — без поля page (FK задаёт formset)."""
+
+    class Meta:
+        model = ContentBlock
+        fields = ['block_type', 'title', 'content', 'order', 'is_active']
+        widgets = {'content': CKEditorUploadingWidget()}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['order'].required = False
+        self.fields['title'].required = False
+        self.fields['content'].required = False
+        if not self.instance.pk:
+            self.fields['order'].initial = 0
+
+    def clean_content(self):
+        return _clean_rich_html(self.cleaned_data.get('content', ''))
 
 
 class EducationalProgramForm(StyledModelForm):
@@ -296,8 +346,8 @@ class ProgramDocumentForm(StyledModelForm):
 
 
 ContentBlockFormSet = inlineformset_factory(
-    Page, ContentBlock, form=ContentBlockForm,
-    extra=1, can_delete=True,
+    Page, ContentBlock, form=ContentBlockInlineForm,
+    extra=0, can_delete=True,
 )
 
 GalleryImageFormSet = inlineformset_factory(
