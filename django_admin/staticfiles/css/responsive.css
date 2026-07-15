@@ -1,7 +1,0 @@
-/* Адаптивные дополнения для сайта техникума */
-@media (max-width: 768px) {
-    .header-inner { flex-wrap: wrap; }
-    .page-layout { flex-direction: column; }
-    .page-sidebar { width: 100%; }
-    .sidebar-nav { position: static; }
-}
