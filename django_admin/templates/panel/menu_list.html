@@ -1,4 +1,5 @@
 {% extends 'panel/base.html' %}
+{% load static %}
 
 {% block topbar_actions %}
 <a href="{% url 'panel:menu_add' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Добавить пункт</a>
@@ -6,10 +7,21 @@
 
 {% block content %}
 <div class="wp-card">
-    <div class="wp-card-header"><h2>Структура меню (все уровни)</h2></div>
+    <div class="wp-card-header">
+        <h2>Структура меню (все уровни)</h2>
+        <span id="menu-reorder-status" class="menu-reorder-status" aria-live="polite"></span>
+    </div>
     <div class="wp-card-body">
         {% if menu_items %}
-        {% include 'panel/menu_tree.html' %}
+        <p class="form-help menu-drag-hint">
+            Тяните пункты за <i class="fas fa-grip-vertical"></i>, чтобы изменить порядок.
+            Можно перенести пункт внутрь другого раздела.
+        </p>
+        <div id="menu-sortable-root"
+             data-reorder-url="{% url 'panel:menu_reorder' %}"
+             data-csrf="{{ csrf_token }}">
+            {% include 'panel/menu_tree.html' %}
+        </div>
         {% else %}
         <p style="color:#646970;">Меню пустое. <a href="{% url 'panel:menu_add' %}">Добавить пункт</a></p>
         {% endif %}
@@ -23,4 +35,11 @@
         </p>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+{% if menu_items %}
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+<script src="{% static 'panel/menu-sortable.js' %}"></script>
+{% endif %}
 {% endblock %}

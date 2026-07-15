@@ -1,16 +1,25 @@
 [Unit]
-Description=Main KKT website via Gunicorn
+Description=KKT Belorechensk Django (Gunicorn)
 After=network.target
 
 [Service]
-Type=simple
-WorkingDirectory=/var/www/html/django_admin
 User=www-data
 Group=www-data
-ExecStart=/var/www/html/django_admin/venv/bin/gunicorn techcollege_admin.wsgi:application --bind 0.0.0.0:8041 --workers 5
-Restart=no
-StandardOutput=journal
-StandardError=journal
+WorkingDirectory=/var/www/html/django_admin
+Environment=PATH=/var/www/html/django_admin/venv/bin
+Environment=DJANGO_DEBUG=0
+Environment=DJANGO_ALLOWED_HOSTS=new.kktbel.ru,kktbel.ru,www.kktbel.ru,127.0.0.1
+Environment=DJANGO_CSRF_TRUSTED_ORIGINS=https://new.kktbel.ru,http://new.kktbel.ru
+# Environment=DJANGO_SECRET_KEY=замените-на-случайную-строку
+ExecStart=/var/www/html/django_admin/venv/bin/gunicorn \
+    techcollege_admin.wsgi:application \
+    --bind 127.0.0.1:8041 \
+    --workers 3 \
+    --timeout 120 \
+    --access-logfile - \
+    --error-logfile -
+Restart=always
+RestartSec=3
 
 [Install]
 WantedBy=multi-user.target

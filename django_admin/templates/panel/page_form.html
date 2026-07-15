@@ -1,6 +1,8 @@
 {% extends 'panel/base.html' %}
 {% load static %}
 
+{% block body_class %}panel-wide{% endblock %}
+
 {% block topbar_actions %}
 {% if object %}
 <a href="{{ object.get_absolute_url }}" target="_blank" class="btn btn-secondary"><i class="fas fa-eye"></i> Просмотр</a>
@@ -133,6 +135,7 @@
 {% block extra_js %}
 <script src="{% static 'panel/slugify.js' %}"></script>
 <script src="{% static 'panel/editor-tools.js' %}"></script>
+<script src="{% static 'panel/table-editor.js' %}"></script>
 <script>
 initSlugField('id_title', 'id_slug', 'slug-preview');
 initPageEditorTools({
@@ -140,5 +143,6 @@ initPageEditorTools({
     tableUrlTemplate: '{% url "panel:api_table_snippet" 0 %}'.replace('/0/', '/{id}/'),
     documentUrlTemplate: '{% url "panel:api_document_snippet" 0 %}'.replace('/0/', '/{id}/'),
 });
+initPanelFormDirty({ formSelector: '#page-form', editorName: 'id_content' });
 </script>
 {% endblock %}

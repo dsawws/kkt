@@ -501,11 +501,14 @@ body.accessibility-mode button {
     .page-title { font-size: 28px; color: var(--primary-dark); margin-bottom: 20px; }
     .page-description { font-size: 16px; color: #666; margin-bottom: 20px; }
     .content-block { margin-bottom: 30px; }
+    .content-block a { color: #2e7d32; text-decoration: underline; }
+    .content-block a:hover { color: #1b5e20; }
     .content-block table { width: 100%; border-collapse: collapse; margin: 12px 0; }
     .content-block table th { background: var(--primary-light); color: var(--primary-dark); padding: 10px 14px; border: 1px solid #ddd; text-align: left; }
-    .content-block table td { padding: 10px 14px; border: 1px solid #ddd; }
+    .content-block table td { padding: 10px 14px; border: 1px solid #ddd; vertical-align: top; }
     .content-block table tr:nth-child(even) td { background: #f9f9f9; }
     .content-block table tr:hover td { background: #f1f1f1; }
+    .content-block table img { max-width: 100%; height: auto; }
     @media (max-width: 768px) { .page-layout { flex-direction: column; } .page-sidebar { width: 100%; } .sidebar-nav { position: static; } .document-item { flex-wrap: wrap; } .download-btn { width: 100%; justify-content: center; } }
 
     /* ── Образовательные программы (Год → Специальности → Файлы) ── */
@@ -638,23 +641,20 @@ body.accessibility-mode button {
         </button>
         
         <ul class="nav-list" id="navList">
-            <li class="nav-item"><a href="/"class="nav-link {% if request.path == '/' %}active{% endif %}">Главная</a></li>
+            <li class="nav-item"><a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">Главная</a></li>
             {% for item in menu_items %}
-            <li class="nav-item">
+            <li class="nav-item{% if item.get_children %} dropdown{% endif %}">
                 <a href="{{ item.get_absolute_url }}"
-                class="nav-link {% if request.path == item.get_absolute_url %}active{% endif %}">
-                {{ item.title }}
+                   class="nav-link {% if request.path == item.get_absolute_url %}active{% endif %}">
+                    {{ item.title }}
+                    {% if item.get_children %}<i class="fas fa-chevron-down" aria-hidden="true"></i>{% endif %}
                 </a>
                 {% if item.get_children %}
                 <ul class="dropdown-menu">
                     {% for child in item.get_children %}
                     {% if child.is_active %}
                     <li>
-                        {% if child.page %}
-                        <a href="{% url 'cms:page_detail' child.page.slug %}">{{ child.title }}</a>
-                        {% else %}
-                        <a href="#">{{ child.title }}</a>
-                        {% endif %}
+                        <a href="{{ child.get_absolute_url }}">{{ child.title }}</a>
                     </li>
                     {% endif %}
                     {% endfor %}

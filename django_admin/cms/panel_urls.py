@@ -34,6 +34,7 @@ urlpatterns = [
 
     # Меню
     path('menu/', panel_views.menu_list, name='menu_list'),
+    path('menu/reorder/', panel_views.menu_reorder, name='menu_reorder'),
     path('menu/add/', panel_views.menu_edit, name='menu_add'),
     path('menu/<int:pk>/edit/', panel_views.menu_edit, name='menu_edit'),
     path('menu/<int:pk>/delete/', panel_views.menu_delete, name='menu_delete'),

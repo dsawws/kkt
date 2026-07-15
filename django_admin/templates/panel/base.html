@@ -7,12 +7,21 @@
     <title>{% block title %}{{ title|default:"Панель управления" }}{% endblock %} — Техникум</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'panel/admin.css' %}">
-    {{ form.media }}
+    {% if form %}{{ form.media }}{% endif %}
     {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
+<script>
+(function () {
+    try {
+        if (localStorage.getItem('panel-sidebar-collapsed') === '1') {
+            document.body.classList.add('sidebar-collapsed');
+        }
+    } catch (e) {}
+})();
+</script>
 <div class="wp-admin">
-    <aside class="wp-sidebar">
+    <aside class="wp-sidebar" id="wp-sidebar">
         <div class="wp-sidebar-logo">
             <a href="{% url 'panel:dashboard' %}"><i class="fas fa-graduation-cap"></i> <span>Техникум CMS</span></a>
         </div>
@@ -68,7 +77,12 @@
 
     <div class="wp-main">
         <header class="wp-topbar">
-            <h1>{{ title|default:"Панель управления" }}</h1>
+            <div class="wp-topbar-left">
+                <button type="button" class="btn btn-secondary btn-sidebar-toggle" id="btn-sidebar-toggle" title="Свернуть / развернуть меню" aria-label="Свернуть меню">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>{{ title|default:"Панель управления" }}</h1>
+            </div>
             <div class="wp-topbar-actions">
                 <span>{{ request.user.get_full_name|default:request.user.username }}</span>
                 {% block topbar_actions %}{% endblock %}
@@ -88,6 +102,25 @@
         </div>
     </div>
 </div>
+<script>
+(function () {
+    var KEY = 'panel-sidebar-collapsed';
+    var body = document.body;
+    function apply(collapsed) {
+        body.classList.toggle('sidebar-collapsed', collapsed);
+        try { localStorage.setItem(KEY, collapsed ? '1' : '0'); } catch (e) {}
+    }
+    try {
+        if (localStorage.getItem(KEY) === '1') apply(true);
+    } catch (e) {}
+    var btn = document.getElementById('btn-sidebar-toggle');
+    if (btn) {
+        btn.addEventListener('click', function () {
+            apply(!body.classList.contains('sidebar-collapsed'));
+        });
+    }
+})();
+</script>
 {% block extra_js %}{% endblock %}
 </body>
 </html>

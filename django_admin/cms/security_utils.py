@@ -100,10 +100,11 @@ def sanitize_html(html):
     allowed_attrs = {
         '*': ['class', 'id', 'title'],
         'a': ['href', 'target', 'rel', 'name'],
-        'img': ['src', 'alt', 'width', 'height', 'loading'],
+        'img': ['src', 'alt', 'width', 'height', 'loading', 'style'],
         'td': ['colspan', 'rowspan', 'width', 'height', 'style'],
         'th': ['colspan', 'rowspan', 'width', 'height', 'style'],
         'table': ['border', 'cellpadding', 'cellspacing', 'width', 'style'],
+        'tr': ['style', 'height'],
         'div': ['class', 'id', 'style', 'data-cms-table', 'contenteditable'],
         'span': ['class', 'id', 'style'],
         'p': ['class', 'id', 'style'],
@@ -119,8 +120,9 @@ def sanitize_html(html):
             allowed_css_properties=[
                 'color', 'background-color', 'background', 'font-size', 'font-weight',
                 'font-style', 'text-align', 'text-decoration', 'width', 'height',
-                'max-width', 'margin', 'padding', 'border', 'border-collapse',
-                'vertical-align', 'display', 'float', 'clear',
+                'max-width', 'min-width', 'min-height', 'margin', 'padding', 'border',
+                'border-collapse', 'table-layout', 'box-sizing',
+                'vertical-align', 'display', 'float', 'clear', 'object-fit',
             ]
         )
     except Exception:

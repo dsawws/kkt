@@ -1,6 +1,8 @@
 {% extends 'panel/base.html' %}
 {% load static %}
 
+{% block body_class %}{% if form.content %}panel-wide{% endif %}{% endblock %}
+
 {% block topbar_actions %}
 {% if preview_url %}
 <a href="{{ preview_url }}" target="_blank" class="btn btn-secondary"><i class="fas fa-eye"></i> Просмотр</a>
@@ -9,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" id="object-form">
     {% csrf_token %}
 
     {% if form.non_field_errors %}
@@ -52,5 +54,9 @@
 {% if form.slug %}
 <script src="{% static 'panel/slugify.js' %}"></script>
 <script>initSlugField('id_title', 'id_slug', null);</script>
+{% endif %}
+{% if form.content %}
+<script src="{% static 'panel/table-editor.js' %}"></script>
+<script>initPanelFormDirty({ formSelector: '#object-form' });</script>
 {% endif %}
 {% endblock %}

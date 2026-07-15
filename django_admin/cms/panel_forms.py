@@ -89,7 +89,7 @@ class ContentTableForm(SlugFormMixin, StyledModelForm):
         model = ContentTable
         fields = ['title', 'slug', 'content']
         widgets = {
-            'content': CKEditorUploadingWidget(),
+            'content': CKEditorUploadingWidget(config_name='contenttable'),
             'slug': forms.TextInput(attrs={'placeholder': 'создаётся из названия'}),
         }
 
@@ -186,7 +186,9 @@ class MenuItemForm(StyledModelForm):
     class Meta:
         model = MenuItem
         fields = ['title', 'slug', 'parent', 'page', 'order', 'is_active']
-
+        help_texts = {
+            'order': 'Или перетащите пункт на странице «Навигационное меню»',
+        }
 
 class HomePageForm(StyledModelForm):
     class Meta:

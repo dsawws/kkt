@@ -99,13 +99,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Обработка выпадающих меню на мобильных устройствах
+    // Выпадающие меню: на мобильных — аккордеон по клику
     const dropdowns = document.querySelectorAll('.dropdown');
-    
+
     dropdowns.forEach(dropdown => {
-        dropdown.addEventListener('click', function(e) {
+        const link = dropdown.querySelector(':scope > .nav-link');
+        if (!link) return;
+
+        link.addEventListener('click', function (e) {
             if (window.innerWidth < 992) {
-                this.classList.toggle('open');
+                e.preventDefault();
+                dropdown.classList.toggle('active');
             }
         });
     });

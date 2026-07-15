@@ -348,8 +348,10 @@ def menu_edit(request, pk=None):
     if request.method == 'POST':
         form = MenuItemForm(request.POST, instance=obj)
         if form.is_valid():
-            form.save()
+            obj = form.save()
             messages.success(request, 'Пункт меню сохранён')
+            if '_continue' in request.POST:
+                return redirect('panel:menu_edit', pk=obj.pk)
             return redirect('panel:menu_list')
     else:
         form = MenuItemForm(instance=obj)
@@ -371,6 +373,73 @@ def menu_delete(request, pk):
     obj.delete()
     messages.success(request, 'Пункт меню удалён')
     return redirect('panel:menu_list')
+
+
+@staff_required
+@require_POST
+def menu_reorder(request):
+    """Сохранить порядок/вложенность меню после drag-and-drop."""
+    import json
+    from django.db import transaction
+
+    try:
+        payload = json.loads(request.body.decode('utf-8') or '{}')
+    except json.JSONDecodeError:
+        return JsonResponse({'ok': False, 'error': 'Некорректный JSON'}, status=400)
+
+    items = payload.get('items')
+    if not isinstance(items, list) or not items:
+        return JsonResponse({'ok': False, 'error': 'Пустой список пунктов'}, status=400)
+
+    by_id = {m.pk: m for m in MenuItem.objects.all()}
+    updates = []
+    seen = set()
+
+    for entry in items:
+        if not isinstance(entry, dict):
+            return JsonResponse({'ok': False, 'error': 'Некорректный элемент'}, status=400)
+        try:
+            pk = int(entry.get('id'))
+            order = int(entry.get('order', 0))
+        except (TypeError, ValueError):
+            return JsonResponse({'ok': False, 'error': 'Некорректный id/order'}, status=400)
+
+        if pk in seen or pk not in by_id:
+            return JsonResponse({'ok': False, 'error': f'Неизвестный или дублирующийся пункт: {pk}'}, status=400)
+        seen.add(pk)
+
+        parent_raw = entry.get('parent_id')
+        parent_id = None
+        if parent_raw not in (None, '', 0, '0'):
+            try:
+                parent_id = int(parent_raw)
+            except (TypeError, ValueError):
+                return JsonResponse({'ok': False, 'error': 'Некорректный родитель'}, status=400)
+        if parent_id is not None and (parent_id == pk or parent_id not in by_id):
+            return JsonResponse({'ok': False, 'error': 'Некорректный родитель'}, status=400)
+        updates.append((pk, parent_id, order))
+
+    if len(seen) != len(by_id):
+        return JsonResponse({'ok': False, 'error': 'Неполный список пунктов'}, status=400)
+    # Запрет циклов: родитель не может быть потомком пункта
+    for pk, parent_id, _order in updates:
+        if parent_id is None:
+            continue
+        cursor = parent_id
+        guard = 0
+        parent_map = {i: p for i, p, _o in updates}
+        while cursor is not None and guard < len(updates) + 2:
+            if cursor == pk:
+                return JsonResponse({'ok': False, 'error': 'Нельзя вложить пункт в своего потомка'}, status=400)
+            cursor = parent_map.get(cursor)
+            guard += 1
+
+    with transaction.atomic():
+        for pk, parent_id, order in updates:
+            MenuItem.objects.filter(pk=pk).update(order=order, parent_id=parent_id)
+        MenuItem.objects.rebuild()
+
+    return JsonResponse({'ok': True, 'count': len(updates)})
 
 
 # ── Главная страница ──────────────────────────────────────────────────
@@ -609,9 +678,16 @@ def program_edit(request, pk=None):
         formset = AdmissionYearFormSet(request.POST, instance=program) if program else None
 
         if form.is_valid():
+            is_new = program is None
             program = form.save()
-            if not pk:
-                formset = AdmissionYearFormSet(request.POST, instance=program)
+
+            if is_new:
+                # Formset "Годы поступления" на странице создания не рендерился
+                # (object ещё не было), поэтому в POST нет его management-данных —
+                # валидировать его сейчас нельзя. Просто уходим на edit, где он появится.
+                messages.success(request, 'Программа создана')
+                return redirect('panel:program_edit', pk=program.pk)
+
             if formset and _handle_formset(formset, request):
                 messages.success(request, 'Программа сохранена')
                 return redirect('panel:program_edit', pk=program.pk)

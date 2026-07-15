@@ -1,26 +1,29 @@
 {% load mptt_tags %}
-<ul class="menu-tree">
+<ul class="menu-tree sortable-menu" data-parent="">
 {% recursetree menu_items %}
-    <li style="padding-left: calc({{ node.level }} * 24px + 12px);">
-        <div>
-            <div class="item-title">
-                {% if node.level %}↳ {% endif %}{{ node.title }}
+    <li class="menu-tree-item" data-id="{{ node.pk }}">
+        <div class="menu-tree-row">
+            <span class="drag-handle" title="Перетащить" aria-label="Перетащить">
+                <i class="fas fa-grip-vertical"></i>
+            </span>
+            <div class="menu-tree-info">
+                <div class="item-title">{{ node.title }}</div>
+                <div class="item-meta">
+                    {% if node.page %}/page/{{ node.page.slug }}/{% else %}/{{ node.slug }}/{% endif %}
+                    {% if not node.is_active %}<span class="badge badge-draft">Скрыт</span>{% endif %}
+                </div>
             </div>
-            <div class="item-meta">
-                {% if node.page %}/page/{{ node.page.slug }}/{% else %}/{{ node.slug }}/{% endif %}
-                {% if not node.is_active %}<span class="badge badge-draft">Скрыт</span>{% endif %}
+            <div class="actions">
+                <a href="{% url 'panel:menu_edit' node.pk %}" class="btn btn-sm btn-primary">Изменить</a>
+                <form method="post" action="{% url 'panel:menu_delete' node.pk %}" style="display:inline;" onsubmit="return confirm('Удалить пункт меню?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                </form>
             </div>
         </div>
-        <div class="actions">
-            <a href="{% url 'panel:menu_edit' node.pk %}" class="btn btn-sm btn-primary">Изменить</a>
-            <form method="post" action="{% url 'panel:menu_delete' node.pk %}" style="display:inline;" onsubmit="return confirm('Удалить пункт меню?');">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
-            </form>
-        </div>
+        <ul class="menu-tree sortable-menu" data-parent="{{ node.pk }}">
+            {% if not node.is_leaf_node %}{{ children }}{% endif %}
+        </ul>
     </li>
-    {% if not node.is_leaf_node %}
-        {{ children }}
-    {% endif %}
 {% endrecursetree %}
 </ul>

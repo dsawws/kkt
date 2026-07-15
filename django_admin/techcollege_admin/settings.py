@@ -142,6 +142,25 @@ CKEDITOR_CONFIGS = {
             r'\[\[cms-table:[^\]]+\]\]',
         ],
     },
+    'contenttable': {
+        'toolbar': 'full',
+        'height': 520,
+        'width': '100%',
+        'versionCheck': False,
+        'allowedContent': True,
+        'extraPlugins': 'tableresize',
+        'extraAllowedContent': (
+            'div(*)[*]{*}; span(*)[*]{*}; p(*)[*]{*}; a[*]; img[*]{*}(*); '
+            'table[*]{*}(*); thead[*]{*}(*); tbody[*]{*}(*); tfoot[*]{*}(*); '
+            'tr[*]{*}(*); th[*]{*}(*); td[*]{*}(*); '
+            'h1 h2 h3 h4 h5 h6[*]'
+        ),
+        'contentsCss': ['/static/panel/ckeditor-table-contents.css'],
+        'protectedSource': [
+            r'<div[^>]*cms-embed-table[^>]*>[\s\S]*?</div>',
+            r'\[\[cms-table:[^\]]+\]\]',
+        ],
+    },
 }
 
 SILENCED_SYSTEM_CHECKS = ['ckeditor.W001']

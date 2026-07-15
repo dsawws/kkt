@@ -1,4 +1,14 @@
 {% extends 'panel/object_form.html' %}
+{% load static %}
+
+{% block body_class %}panel-wide{% endblock %}
+
+{% block topbar_actions %}
+<button type="button" class="btn btn-secondary" id="btn-table-preview" title="Показать текущее содержимое без сохранения">
+    <i class="fas fa-eye"></i> Предпросмотр
+</button>
+<a href="{{ back_url }}" class="btn btn-secondary">← Назад</a>
+{% endblock %}
 
 {% block content %}
 {% if usage_pages %}
@@ -23,5 +33,101 @@
     </div>
 </div>
 {% endif %}
-{{ block.super }}
+
+<form method="post" enctype="multipart/form-data" id="table-form">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+    <div class="form-errors">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <div class="meta-boxes">
+        <div>
+            <div class="wp-card">
+                <div class="wp-card-header"><h2>Основное</h2></div>
+                <div class="wp-card-body">
+                    <div class="form-group">
+                        <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+                        {{ form.title }}
+                        {% if form.title.help_text %}<div class="form-help">{{ form.title.help_text }}</div>{% endif %}
+                        {% if form.title.errors %}<div class="form-errors">{{ form.title.errors }}</div>{% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.slug.id_for_label }}">{{ form.slug.label }}</label>
+                        {{ form.slug }}
+                        {% if form.slug.help_text %}<div class="form-help">{{ form.slug.help_text }}</div>{% endif %}
+                        {% if form.slug.errors %}<div class="form-errors">{{ form.slug.errors }}</div>{% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="wp-card">
+                <div class="wp-card-header"><h2>Содержимое</h2></div>
+                <div class="wp-card-body">
+                    <div class="table-editor-toolbar">
+                        <span class="toolbar-label">Таблица:</span>
+                        <button type="button" class="btn btn-sm btn-secondary" id="btn-equalize-cols" title="Задать всем столбцам равную ширину и фиксированную сетку">
+                            <i class="fas fa-arrows-left-right"></i> Выровнять столбцы
+                        </button>
+                        <button type="button" class="btn btn-sm btn-secondary" id="btn-equalize-rows" title="Задать всем строкам равную высоту">
+                            <i class="fas fa-arrows-up-down"></i> Выровнять строки
+                        </button>
+                        <button type="button" class="btn btn-sm btn-secondary" id="btn-layout-fixed" title="Ширины ячеек соблюдаются (проценты работают)">
+                            <i class="fas fa-border-all"></i> Фиксированная сетка
+                        </button>
+                        <button type="button" class="btn btn-sm btn-secondary" id="btn-layout-auto" title="Ширина подстраивается под содержимое">
+                            <i class="fas fa-expand"></i> Под содержимое
+                        </button>
+                    </div>
+                    <p class="form-help" style="margin-top:0;">
+                        Тяните границы колонок курсором. Для процентов у пустых ячеек включите «Фиксированная сетка» или «Выровнять столбцы».
+                        Новые таблицы и картинки по умолчанию на 100% ширины.
+                    </p>
+                    {{ form.content }}
+                    {% if form.content.errors %}<div class="form-errors">{{ form.content.errors }}</div>{% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="meta-box">
+                <div class="meta-box-title">Публикация</div>
+                <div class="meta-box-body">
+                    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:8px;">
+                        <i class="fas fa-save"></i> Сохранить
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="btn-table-preview-side" style="width:100%;justify-content:center;margin-bottom:8px;">
+                        <i class="fas fa-eye"></i> Предпросмотр
+                    </button>
+                    <a href="{{ back_url }}" class="btn btn-secondary" style="width:100%;justify-content:center;">Отмена</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+{% if form.slug %}
+<script src="{% static 'panel/slugify.js' %}"></script>
+<script>initSlugField('id_title', 'id_slug', null);</script>
+{% endif %}
+<script src="{% static 'panel/table-editor.js' %}"></script>
+<script>
+(function () {
+    if (typeof CKEDITOR !== 'undefined') {
+        CKEDITOR.on('instanceCreated', function (ev) {
+            ev.editor.config.contentsCss = ['{% static "panel/ckeditor-table-contents.css" %}'];
+        });
+    }
+    var side = document.getElementById('btn-table-preview-side');
+    if (side) {
+        side.addEventListener('click', function () {
+            var top = document.getElementById('btn-table-preview');
+            if (top) top.click();
+        });
+    }
+    initTableEditor({ formSelector: '#table-form', editorName: 'id_content' });
+})();
+</script>
 {% endblock %}
