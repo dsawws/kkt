@@ -5,12 +5,16 @@ After=network.target
 [Service]
 User=www-data
 Group=www-data
+
 WorkingDirectory=/var/www/html/django_admin
+
 Environment=PATH=/var/www/html/django_admin/venv/bin
 Environment=DJANGO_DEBUG=0
 Environment=DJANGO_ALLOWED_HOSTS=new.kktbel.ru,kktbel.ru,www.kktbel.ru,127.0.0.1
 Environment=DJANGO_CSRF_TRUSTED_ORIGINS=https://new.kktbel.ru,http://new.kktbel.ru
-# Environment=DJANGO_SECRET_KEY=замените-на-случайную-строку
+
+EnvironmentFile=/var/www/html/deploy/kktbel.env
+
 ExecStart=/var/www/html/django_admin/venv/bin/gunicorn \
     techcollege_admin.wsgi:application \
     --bind 127.0.0.1:8041 \
@@ -18,6 +22,7 @@ ExecStart=/var/www/html/django_admin/venv/bin/gunicorn \
     --timeout 120 \
     --access-logfile - \
     --error-logfile -
+
 Restart=always
 RestartSec=3
 
