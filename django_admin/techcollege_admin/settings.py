@@ -181,7 +181,16 @@ if not DEBUG:
         raise RuntimeError(
             'DJANGO_SECRET_KEY must be set to a strong random value when DEBUG=0'
         )
+    # Nginx → gunicorn: X-Forwarded-Proto=https (см. deploy/nginx-*.conf)
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SESSION_COOKIE_SECURE = os.environ.get('DJANGO_SESSION_COOKIE_SECURE', '1') == '1'
     CSRF_COOKIE_SECURE = os.environ.get('DJANGO_CSRF_COOKIE_SECURE', '1') == '1'
-    SECURE_SSL_REDIRECT = os.environ.get('DJANGO_SECURE_SSL_REDIRECT', '0') == '1'
+    # Сайт на HTTPS: редирект HTTP→HTTPS (nginx тоже редиректит — дублирование безопасно)
+    SECURE_SSL_REDIRECT = os.environ.get('DJANGO_SECURE_SSL_REDIRECT', '1') == '1'
+    # HSTS (включать только когда HTTPS стабильно работает)
+    SECURE_HSTS_SECONDS = int(os.environ.get('DJANGO_SECURE_HSTS_SECONDS', '31536000'))
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = (
+        os.environ.get('DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS', '0') == '1'
+    )
+    SECURE_HSTS_PRELOAD = os.environ.get('DJANGO_SECURE_HSTS_PRELOAD', '0') == '1'
+    SECURE_REFERRER_POLICY = 'same-origin'

@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_GET
 from django.views.static import serve
@@ -7,6 +7,7 @@ from .models import (
     Document, DocumentSection, Banner, News, Gallery,
     EducationalProgram, AdmissionYear,
 )
+from .context_processors import get_root_menu_items
 
 
 def _get_sidebar_menu(page):
@@ -88,11 +89,11 @@ def index(request):
 
 def page_detail(request, slug):
     """Детальная страница"""
+    # Лента новостей — отдельный view; старые/битые ссылки /page/news/ и /page/novosti-test/
+    if slug in ('news', 'novosti', 'novosti-test'):
+        return redirect('cms:news_list')
+
     page = get_object_or_404(Page, slug=slug, is_published=True)
-    menu_items = MenuItem.objects.filter(
-    parent=None,
-    is_active=True
-).order_by('order', 'title')
     
     # Получаем блоки контента
     content_blocks = page.blocks.filter(is_active=True).order_by('order')
@@ -107,7 +108,7 @@ def page_detail(request, slug):
         for s in DocumentSection.objects.filter(page=page, is_active=True).order_by('order')
     }
     
-    # Группируем документы по категориям
+    # Группируем документы по категориям (активные + привязанные к этой странице)
     raw_docs = {}
     for doc in page.documents.filter(is_active=True).order_by('category', 'order'):
         if doc.category not in raw_docs:
@@ -136,14 +137,12 @@ def page_detail(request, slug):
         programs = EducationalProgram.objects.filter(is_active=True).order_by('order', 'code')
         context = {
             'page': page,
-            'menu_items': menu_items,
             'programs': programs,
         }
         return render(request, 'cms/page_professions.html', context)
 
     context = {
         'page': page,
-        'menu_items': menu_items,
         'sidebar_menu': sidebar_menu,
         'content_blocks': content_blocks,
         'documents_by_category': documents_by_category,
@@ -162,14 +161,9 @@ def page_detail(request, slug):
 
 def news_list(request):
     """Страница новостей"""
-    menu_items = MenuItem.objects.filter(
-    parent=None,
-    is_active=True
-).order_by('order', 'title')
     news = News.objects.filter(is_published=True)
     context = {
         'news': news,
-        'menu_items': menu_items,
     }
     return render(request, 'cms/news_list.html', context)
 
@@ -177,14 +171,9 @@ def news_list(request):
 def news_detail(request, slug):
     """Детальная новость"""
     news_item = get_object_or_404(News, slug=slug, is_published=True)
-    menu_items = MenuItem.objects.filter(
-    parent=None,
-    is_active=True
-).order_by('order', 'title')
     recent = News.objects.filter(is_published=True).exclude(slug=slug)[:4]
     context = {
         'news_item': news_item,
-        'menu_items': menu_items,
         'recent': recent,
     }
     return render(request, 'cms/news_detail.html', context)
@@ -192,7 +181,7 @@ def news_detail(request, slug):
 
 @require_GET
 def api_menu(request):
-    menu_items = MenuItem.objects.filter(parent=None, is_active=True).order_by('order', 'title')
+    menu_items = get_root_menu_items()
 
     def serialize_menu_item(item):
         return {
@@ -201,7 +190,7 @@ def api_menu(request):
             'url': item.get_absolute_url(),
             'children': [
                 serialize_menu_item(child)
-                for child in item.get_children().filter(is_active=True).order_by('order', 'title')
+                for child in item.get_active_children()
             ]
         }
 
@@ -273,9 +262,6 @@ def search(request):
     from .search_utils import search_pages, search_documents, search_news
 
     query = request.GET.get('q', '').strip()
-    menu_items = MenuItem.objects.filter(
-        parent=None, is_active=True
-    ).order_by('order', 'title')
 
     pages = []
     documents = []
@@ -298,6 +284,5 @@ def search(request):
         'documents': documents,
         'news_results': news_results,
         'total': len(list(pages)) + len(list(documents)) + len(list(news_results)),
-        'menu_items': menu_items,
     }
     return render(request, 'cms/search.html', context)

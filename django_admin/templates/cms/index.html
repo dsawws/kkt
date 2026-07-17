@@ -65,7 +65,7 @@
         <div class="bento-grid">
             {% for link in quick_links %}
             {% if link.is_contacts %}
-            <div class="bento-card bento-contacts" style="cursor:default">
+            <div class="bento-card bento-contacts {{ link.style }}" style="cursor:default">
                 <div class="bento-bg-icon"><i class="{{ link.icon }}"></i></div>
                 <div class="bento-content">
                     {% if link.label %}<span class="bento-label">{{ link.label }}</span>{% endif %}
@@ -84,7 +84,7 @@
                 {% endif %}
             </div>
             {% else %}
-            <a href="{{ link.url|default:'#' }}" class="bento-card {% if not link.is_contacts %}{% cycle 'bento-g1' 'bento-g2' 'bento-g3' 'bento-g4' 'bento-g5' 'bento-g6' 'bento-g7' 'bento-g8' %}{% endif %}{% if link.is_large %} bento-large{% endif %}{% if link.is_contacts %} bento-contacts{% endif %}"
+            <a href="{{ link.url|default:'#' }}" class="bento-card {{ link.style|default:'bento-g2' }}{% if link.is_large %} bento-large{% endif %}"
                {% if link.open_in_new_tab %}target="_blank" rel="noopener"{% endif %}>
                 <div class="bento-bg-icon"><i class="{{ link.icon }}"></i></div>
                 <div class="bento-content">

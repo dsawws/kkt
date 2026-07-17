@@ -6,14 +6,14 @@
 {% block content %}
 <main>
     <div class="container">
-        <nav class="breadcrumbs">
+        <nav class="breadcrumbs" aria-label="Навигация по разделам">
             <a href="{% url 'cms:index' %}">Главная</a>
-            <i class="fas fa-chevron-right"></i>
             {% if page.parent %}
+            <span class="crumb-sep" aria-hidden="true">/</span>
             <a href="{% url 'cms:page_detail' page.parent.slug %}">{{ page.parent.title }}</a>
-            <i class="fas fa-chevron-right"></i>
             {% endif %}
-            <span>{{ page.title }}</span>
+            <span class="crumb-sep" aria-hidden="true">/</span>
+            <span class="crumb-current">{{ page.title }}</span>
         </nav>
 
         <div class="page-layout">

@@ -35,14 +35,23 @@
             <li class="wp-menu-item {% if active_menu == 'pages' %}active{% endif %}">
                 <a href="{% url 'panel:page_list' %}"><i class="fas fa-file-lines"></i> <span>Страницы</span></a>
             </li>
+            <li class="wp-menu-item {% if active_menu == 'organization' %}active{% endif %}">
+                <a href="{% url 'panel:organization_hub' %}"><i class="fas fa-building-columns"></i> <span>Сведения об организации</span></a>
+            </li>
             <li class="wp-menu-item {% if active_menu == 'news' %}active{% endif %}">
                 <a href="{% url 'panel:news_list' %}"><i class="fas fa-newspaper"></i> <span>Новости</span></a>
             </li>
-            <li class="wp-menu-item {% if active_menu == 'tables' %}active{% endif %}">
-                <a href="{% url 'panel:table_list' %}"><i class="fas fa-table"></i> <span>Таблицы</span></a>
+            <li class="wp-menu-item {% if active_menu == 'homepage' %}active{% endif %}">
+                <a href="{% url 'panel:homepage' %}"><i class="fas fa-house"></i> <span>Главная страница</span></a>
             </li>
             <li class="wp-menu-item {% if active_menu == 'quicklinks' %}active{% endif %}">
-                <a href="{% url 'panel:quicklink_list' %}"><i class="fas fa-th-large"></i> <span>Плитки главной</span></a>
+                <a href="{% url 'panel:quicklink_list' %}"><i class="fas fa-th-large"></i> <span>Бенто-плитки</span></a>
+            </li>
+            <li class="wp-menu-item {% if active_menu == 'homeblocks' %}active{% endif %}">
+                <a href="{% url 'panel:homeblock_list' %}"><i class="fas fa-puzzle-piece"></i> <span>Блоки главной</span></a>
+            </li>
+            <li class="wp-menu-item {% if active_menu == 'tables' %}active{% endif %}">
+                <a href="{% url 'panel:table_list' %}"><i class="fas fa-table"></i> <span>Таблицы</span></a>
             </li>
             <li class="wp-menu-item {% if active_menu == 'media' %}active{% endif %}">
                 <a href="{% url 'panel:media' %}"><i class="fas fa-photo-film"></i> <span>Медиафайлы</span></a>
@@ -50,6 +59,9 @@
             <li class="wp-menu-separator"></li>
             <li class="wp-menu-item {% if active_menu == 'documents' %}active{% endif %}">
                 <a href="{% url 'panel:document_list' %}"><i class="fas fa-file-pdf"></i> <span>Документы</span></a>
+            </li>
+            <li class="wp-menu-item {% if active_menu == 'docsections' %}active{% endif %}">
+                <a href="{% url 'panel:docsection_list' %}"><i class="fas fa-folder-tree"></i> <span>Разделы документов</span></a>
             </li>
             <li class="wp-menu-item {% if active_menu == 'banners' %}active{% endif %}">
                 <a href="{% url 'panel:banner_list' %}"><i class="fas fa-images"></i> <span>Баннеры</span></a>

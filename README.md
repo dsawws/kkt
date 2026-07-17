@@ -282,6 +282,21 @@ py manage.py check_static
 
 ---
 
+## CI/CD (GitHub Actions)
+
+| Workflow | Когда | Что делает |
+|----------|--------|------------|
+| [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | push / PR | check, `test cms`, collectstatic, smoke + security |
+| [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) | **вручную** (кнопка) | SSH → `deploy/remote-update.sh` на new.kktbel.ru |
+
+Секреты и первичная настройка сервера: [`deploy/README.md`](deploy/README.md) (раздел CI/CD).  
+**Подробная пошаговая инструкция:** [`deploy/CI-CD.md`](deploy/CI-CD.md).  
+Пример env: [`.env.example`](.env.example), на сервере — [`deploy/kktbel.env.example`](deploy/kktbel.env.example) → `/etc/kktbel.env`.
+
+Деплой: **Actions → Deploy → Run workflow** (ветка по умолчанию `main`).
+
+---
+
 ## Настройка для продакшена (new.kktbel.ru)
 
 ### Статика — одна директория, не 8 alias в nginx

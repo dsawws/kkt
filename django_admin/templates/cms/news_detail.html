@@ -6,12 +6,12 @@
 {% block content %}
 <main>
 <div class="container">
-    <nav class="breadcrumbs">
+    <nav class="breadcrumbs" aria-label="Навигация по разделам">
         <a href="{% url 'cms:index' %}">Главная</a>
-        <i class="fas fa-chevron-right"></i>
+        <span class="crumb-sep" aria-hidden="true">/</span>
         <a href="{% url 'cms:news_list' %}">Новости</a>
-        <i class="fas fa-chevron-right"></i>
-        <span>{{ news_item.title|truncatechars:40 }}</span>
+        <span class="crumb-sep" aria-hidden="true">/</span>
+        <span class="crumb-current">{{ news_item.title|truncatechars:40 }}</span>
     </nav>
 
     <div class="page-layout">

@@ -6,10 +6,10 @@
 {% block content %}
 <main>
 <div class="container">
-  <nav class="breadcrumbs">
+  <nav class="breadcrumbs" aria-label="Навигация по разделам">
     <a href="{% url 'cms:index' %}">Главная</a>
-    <i class="fas fa-chevron-right"></i>
-    <span>Поиск</span>
+    <span class="crumb-sep" aria-hidden="true">/</span>
+    <span class="crumb-current">Поиск</span>
   </nav>
 
   <div class="search-page">

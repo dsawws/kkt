@@ -380,31 +380,107 @@ body.accessibility-mode button {
     }
 
     /* ── Страница специальностей (карточки) ── */
-    .professions-section { padding: 40px 0 80px; background: linear-gradient(180deg, #f8f8f8 0%, #fff 100%); }
+    .professions-section {
+        padding: 48px 0 88px;
+        background:
+            radial-gradient(ellipse 80% 50% at 10% 0%, rgba(46,125,50,.08), transparent),
+            linear-gradient(180deg, #f4f7f4 0%, #fff 55%);
+    }
     .professions-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 24px;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 22px;
     }
     .profession-card {
+        display: flex;
+        flex-direction: column;
         background: #fff;
-        border-radius: 16px;
-        padding: 28px 22px;
-        text-align: center;
-        box-shadow: 0 4px 20px rgba(0,0,0,.08);
-        transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+        border-radius: 4px 4px 18px 18px;
+        overflow: hidden;
+        text-align: left;
+        box-shadow: 0 8px 28px rgba(27, 94, 32, .08);
+        transition: transform .28s ease, box-shadow .28s ease;
         cursor: pointer;
-        border: 2px solid transparent;
-    }
-    .profession-card:hover, .profession-card:focus {
-        transform: translateY(-6px);
-        box-shadow: 0 14px 32px rgba(46,125,50,.18);
-        border-color: var(--primary-color);
+        border: 1px solid #e3ece3;
+        border-top: 3px solid var(--primary-color);
         outline: none;
+        min-height: 100%;
     }
-    .profession-card i { font-size: 2.8rem; color: var(--primary-color); margin-bottom: 1rem; display: block; }
-    .profession-card h3 { color: var(--primary-dark); font-size: 1.25rem; margin-bottom: .75rem; line-height: 1.35; }
-    .profession-card p { font-size: .92rem; color: #666; margin-bottom: .35rem; }
+    .profession-card:hover, .profession-card:focus-visible {
+        transform: translateY(-5px);
+        box-shadow: 0 16px 40px rgba(46,125,50,.16);
+        border-color: #c8e6c9;
+    }
+    .profession-card__media {
+        position: relative;
+        height: 148px;
+        background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 48%, #66bb6a 100%);
+        overflow: hidden;
+    }
+    .profession-card__media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    .profession-card__media-fallback {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .profession-card__media-fallback i {
+        font-size: 2.6rem;
+        color: rgba(255,255,255,.92);
+        margin: 0;
+    }
+    .profession-card__body { padding: 18px 18px 20px; display: flex; flex-direction: column; flex: 1; gap: 10px; }
+    .profession-card__code {
+        display: inline-block;
+        align-self: flex-start;
+        font-size: .72rem;
+        font-weight: 700;
+        letter-spacing: .04em;
+        color: #1b5e20;
+        background: #e8f5e9;
+        padding: 4px 10px;
+        border-radius: 999px;
+    }
+    .profession-card h3 {
+        color: var(--primary-dark);
+        font-size: 1.12rem;
+        margin: 0;
+        line-height: 1.35;
+        font-weight: 700;
+    }
+    .profession-card__meta { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 8px; }
+    .profession-card__meta li {
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+        font-size: .86rem;
+        color: #555;
+        line-height: 1.4;
+    }
+    .profession-card__meta i {
+        color: var(--primary-color);
+        width: 16px;
+        margin-top: 2px;
+        flex-shrink: 0;
+        font-size: .85rem;
+    }
+    .profession-card__more {
+        margin-top: auto;
+        padding-top: 12px;
+        font-size: .84rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .profession-card:hover .profession-card__more { color: #1b5e20; }
     .professions-empty {
         text-align: center;
         padding: 48px 24px;
@@ -450,7 +526,7 @@ body.accessibility-mode button {
     }
     .profession-modal__image {
         width: 100%;
-        height: 200px;
+        height: 220px;
         object-fit: cover;
         border-radius: 10px;
         margin-bottom: 16px;
@@ -470,6 +546,7 @@ body.accessibility-mode button {
     }
     @media (max-width: 768px) {
         .professions-grid { grid-template-columns: 1fr; }
+        .profession-card__media { height: 132px; }
         .profession-modal__content { padding: 20px; margin: 0 8px; }
     }
 
@@ -495,9 +572,84 @@ body.accessibility-mode button {
     .download-btn { padding: 8px 16px; background: var(--primary-color); color: white; text-decoration: none; border-radius: 5px; font-size: 14px; white-space: nowrap; flex-shrink: 0; transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px; }
     .download-btn:hover { background: var(--primary-dark); }
     /* Хлебные крошки */
-    .breadcrumbs { padding: 20px 0 10px; font-size: 14px; }
-    .breadcrumbs a { color: var(--primary-color); text-decoration: none; }
-    .breadcrumbs i { margin: 0 8px; font-size: 11px; color: #999; }
+    .breadcrumbs {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px 4px;
+        padding: 14px 16px;
+        margin: 16px 0 8px;
+        font-size: 13px;
+        line-height: 1.4;
+        background: #f3f7f3;
+        border: 1px solid #e0ebe0;
+        border-radius: 10px;
+        color: #6b7280;
+    }
+    .breadcrumbs a {
+        color: #2e7d32;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 2px 4px;
+        border-radius: 4px;
+        transition: background .15s, color .15s;
+    }
+    .breadcrumbs a:hover {
+        color: #1b5e20;
+        background: rgba(46,125,50,.08);
+        text-decoration: none;
+    }
+    .breadcrumbs .crumb-sep {
+        color: #a7b5a7;
+        font-size: 11px;
+        user-select: none;
+        padding: 0 2px;
+    }
+    .breadcrumbs .crumb-current {
+        color: #1d2327;
+        font-weight: 600;
+        padding: 2px 4px;
+    }
+
+    /* Органы управления на странице «Структура» */
+    .management-organs {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin: 20px 0 28px;
+    }
+    .organ-card {
+        background: #fff;
+        border: 1px solid #e3ece3;
+        border-top: 3px solid var(--primary-color);
+        border-radius: 12px;
+        padding: 18px 16px;
+        box-shadow: 0 6px 18px rgba(27,94,32,.06);
+    }
+    .organ-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: #e8f5e9;
+        color: var(--primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        margin-bottom: 12px;
+    }
+    .organ-card h4 {
+        margin: 0 0 8px;
+        color: var(--primary-dark);
+        font-size: 1.05rem;
+    }
+    .organ-card p {
+        margin: 0;
+        font-size: .9rem;
+        color: #555;
+        line-height: 1.5;
+    }
+
     .page-title { font-size: 28px; color: var(--primary-dark); margin-bottom: 20px; }
     .page-description { font-size: 16px; color: #666; margin-bottom: 20px; }
     .content-block { margin-bottom: 30px; }
@@ -574,10 +726,50 @@ body.accessibility-mode button {
         .edu-spec-toggle { padding-left: 16px; }
         .edu-docs-table th:nth-child(3), .edu-docs-table td:nth-child(3) { display: none; }
     }
+
+    /* ── Мягкие переходы между страницами (без вспышки в белый) ── */
+    @view-transition { navigation: none; }
+
+    body {
+        opacity: 1;
+        animation: page-enter .28s ease-out;
+    }
+    body.page-ready { animation: none; }
+    body.page-leaving {
+        opacity: 0.94;
+        transition: opacity .15s ease-out;
+        pointer-events: none;
+    }
+    @keyframes page-enter {
+        from { opacity: 0.94; }
+        to { opacity: 1; }
+    }
+
+    #nav-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 2px;
+        width: 0;
+        z-index: 100000;
+        background: #4a8f4e;
+        opacity: 0;
+        pointer-events: none;
+        transition: width .3s ease, opacity .25s ease;
+    }
+    #nav-progress.is-active { opacity: 0.7; }
+
+    @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        body { animation: none; }
+        body.page-leaving { transition: none; opacity: 1; }
+        #nav-progress { display: none !important; }
+    }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
 <body>
+<div id="nav-progress" aria-hidden="true"></div>
 
 <div class="accessibility-bar" style="display:none;">
     <div class="container">
@@ -643,24 +835,24 @@ body.accessibility-mode button {
         <ul class="nav-list" id="navList">
             <li class="nav-item"><a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">Главная</a></li>
             {% for item in menu_items %}
-            <li class="nav-item{% if item.get_children %} dropdown{% endif %}">
+            {% with children=item.get_active_children %}
+            <li class="nav-item{% if children %} dropdown{% endif %}">
                 <a href="{{ item.get_absolute_url }}"
                    class="nav-link {% if request.path == item.get_absolute_url %}active{% endif %}">
                     {{ item.title }}
-                    {% if item.get_children %}<i class="fas fa-chevron-down" aria-hidden="true"></i>{% endif %}
+                    {% if children %}<i class="fas fa-chevron-down" aria-hidden="true"></i>{% endif %}
                 </a>
-                {% if item.get_children %}
+                {% if children %}
                 <ul class="dropdown-menu">
-                    {% for child in item.get_children %}
-                    {% if child.is_active %}
+                    {% for child in children %}
                     <li>
                         <a href="{{ child.get_absolute_url }}">{{ child.title }}</a>
                     </li>
-                    {% endif %}
                     {% endfor %}
                 </ul>
                 {% endif %}
             </li>
+            {% endwith %}
             {% endfor %}
         </ul>
     </div>

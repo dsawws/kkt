@@ -136,14 +136,39 @@ class DocumentForm(StyledModelForm):
             'page', 'category', 'title', 'description',
             'file', 'external_url', 'order', 'is_active',
         ]
-        widgets = {'description': forms.Textarea(attrs={'rows': 2})}
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 2}),
+            'file': forms.ClearableFileInput(attrs={'accept': '.pdf,.doc,.docx,.xls,.xlsx,.zip,.rar,.jpg,.jpeg,.png'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['page'].required = False
+        self.fields['page'].required = True
+        self.fields['page'].help_text = (
+            'Обязательно: документ появится на сайте только на этой странице'
+        )
+        self.fields['file'].help_text = (
+            'PDF или другой файл. Сохраняется в media/documents/… '
+            'На проде отдаётся nginx по адресу /media/…'
+        )
+        self.fields['external_url'].help_text = (
+            'Если файла нет — можно указать внешнюю ссылку (Яндекс.Диск и т.п.)'
+        )
         self.fields['order'].required = False
         if not self.instance.pk:
             self.fields['order'].initial = 0
+            self.fields['is_active'].initial = True
+
+    def clean(self):
+        cleaned = super().clean()
+        file = cleaned.get('file')
+        external = (cleaned.get('external_url') or '').strip()
+        has_existing = bool(self.instance.pk and self.instance.file)
+        if not file and not external and not has_existing:
+            raise forms.ValidationError(
+                'Загрузите файл или укажите внешнюю ссылку — иначе на сайте будет «Скоро».'
+            )
+        return cleaned
 
 
 class PanelUserForm(StyledModelForm):
@@ -227,13 +252,13 @@ class HomeQuickLinkForm(StyledModelForm):
         widgets = {
             'description': forms.Textarea(attrs={'rows': 2}),
             'contacts_list': forms.Textarea(attrs={'rows': 4}),
-            'style': forms.HiddenInput(),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['style'].required = False
         self.fields['order'].required = False
+        self.fields['style'].help_text = 'Цветовой стиль плитки на главной (bento)'
 
     def save(self, commit=True):
         from .panel_utils import free_quicklink_style, next_quicklink_order

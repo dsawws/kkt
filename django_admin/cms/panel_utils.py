@@ -14,16 +14,29 @@ def sync_page_to_menu(page):
         if not parent_item:
             parent_item = MenuItem.objects.filter(slug=page.parent.slug).first()
 
-    mi, _ = MenuItem.objects.update_or_create(
-        page=page,
-        defaults={
-            'title': page.title,
-            'slug': page.slug,
-            'parent': parent_item,
-            'order': page.order,
-            'is_active': page.is_published,
-        },
-    )
+    # Не плодить дубликаты: сначала по page, иначе по slug без page
+    mi = MenuItem.objects.filter(page=page).first()
+    if not mi:
+        mi = MenuItem.objects.filter(page__isnull=True, slug=page.slug).first()
+    if not mi:
+        mi = MenuItem(page=page)
+
+    mi.page = page
+    mi.title = page.title
+    mi.slug = page.slug
+    mi.parent = parent_item
+    mi.order = page.order
+    mi.is_active = page.is_published
+    mi.save()
+
+    # Деактивируем «сиротские» корни с тем же названием без привязки к page
+    if parent_item is None:
+        MenuItem.objects.filter(
+            parent=None,
+            title=page.title,
+            is_active=True,
+        ).exclude(pk=mi.pk).update(is_active=False)
+
     return mi
 
 

@@ -123,6 +123,52 @@
     <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Сохранить страницу</button>
 </form>
 
+{% if object %}
+<div class="wp-card" style="margin-top:20px;">
+    <div class="wp-card-header">
+        <h2>Документы этой страницы</h2>
+        <a href="{% url 'panel:document_add' %}?page={{ object.pk }}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Добавить файл</a>
+    </div>
+    <div class="wp-card-body">
+        <p style="margin-top:0;color:#555;">Файлы с привязкой к этой странице автоматически показываются внизу на сайте. Можно также вставить ссылку кнопкой «Документ» в редакторе.</p>
+        {% if page_docs %}
+        <table class="wp-table">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Файл / ссылка</th>
+                    <th>Статус</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doc in page_docs %}
+                <tr>
+                    <td>{{ doc.title }}</td>
+                    <td>
+                        {% if doc.file %}
+                        <code>{{ doc.file.name }}</code>
+                        {% elif doc.external_url %}
+                        <a href="{{ doc.external_url }}" target="_blank" rel="noopener">Внешняя ссылка</a>
+                        {% else %}
+                        —
+                        {% endif %}
+                    </td>
+                    <td>{% if doc.is_active %}<span class="badge badge-success">Активен</span>{% else %}<span class="badge badge-draft">Скрыт</span>{% endif %}</td>
+                    <td class="actions">
+                        <a href="{% url 'panel:document_edit' doc.pk %}" class="btn btn-sm btn-secondary">Изменить</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>Пока нет документов. Добавьте PDF или другой файл — он появится на странице сайта.</p>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
 <div id="insert-modal" class="modal-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center;">
     <div style="background:#fff;padding:24px;border-radius:8px;max-width:480px;width:90%;max-height:80vh;overflow:auto;">
         <h3 id="insert-modal-title" style="margin-bottom:16px;"></h3>

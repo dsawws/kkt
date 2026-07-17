@@ -129,10 +129,20 @@ class Command(BaseCommand):
         ]
 
         for sp in sub_pages:
-            page, _ = Page.objects.get_or_create(
+            page, created = Page.objects.get_or_create(
                 slug=sp['slug'],
-                defaults={'title': sp['title'], 'is_published': True}
+                defaults={
+                    'title': sp['title'],
+                    'is_published': True,
+                    'parent': basic_info_page,
+                    'order': sp['order'],
+                }
             )
+            # Подстраницы всегда под «Сведениями» — для крошек и сайдбара
+            if page.parent_id != basic_info_page.id:
+                page.parent = basic_info_page
+                page.order = sp['order']
+                page.save(update_fields=['parent', 'order'])
             mi, _ = MenuItem.objects.get_or_create(
                 slug=sp['slug'],
                 defaults={
@@ -143,6 +153,12 @@ class Command(BaseCommand):
                     'order': sp['order'],
                 }
             )
+            if mi.parent_id != basic_info_menu.id or mi.page_id != page.id:
+                mi.parent = basic_info_menu
+                mi.page = page
+                mi.order = sp['order']
+                mi.is_active = True
+                mi.save()
             self.stdout.write(self.style.SUCCESS(f'  [->] {sp["title"]}'))
 
         # Контент страницы "Основные сведения"
@@ -177,6 +193,104 @@ class Command(BaseCommand):
 </table>
 """
             osnovnye.save()
+
+        # Контент «Структура и органы управления»
+        struktura, _ = Page.objects.get_or_create(
+            slug='struktura',
+            defaults={'title': 'Структура и органы управления', 'parent': basic_info_page},
+        )
+        if not (struktura.content or '').strip():
+            struktura.parent = basic_info_page
+            struktura.content = """
+<h2>Организационная структура техникума</h2>
+<p>Краснодарский кооперативный техникум крайпотребсоюза имеет линейно-функциональную структуру управления, обеспечивающую эффективное взаимодействие всех подразделений и сотрудников.</p>
+
+<h3>Органы управления</h3>
+<p>В соответствии с Уставом управление техникумом осуществляется на основе сочетания принципов единоначалия и коллегиальности. Основными органами управления являются:</p>
+
+<div class="management-organs">
+  <div class="organ-card">
+    <div class="organ-icon"><i class="fas fa-user-tie"></i></div>
+    <h4>Директор</h4>
+    <p>Осуществляет общее руководство деятельностью техникума, представляет его интересы, обеспечивает выполнение образовательных программ и развитие материально-технической базы.</p>
+  </div>
+  <div class="organ-card">
+    <div class="organ-icon"><i class="fas fa-users"></i></div>
+    <h4>Педагогический совет</h4>
+    <p>Коллегиальный орган, объединяющий педагогических работников. Рассматривает вопросы образовательного процесса, методической работы и качества подготовки специалистов.</p>
+  </div>
+  <div class="organ-card">
+    <div class="organ-icon"><i class="fas fa-book"></i></div>
+    <h4>Методический совет</h4>
+    <p>Координирует методическую работу, обеспечивает совершенствование содержания образования и внедрение инновационных педагогических технологий.</p>
+  </div>
+</div>
+
+<h2>Руководящий состав</h2>
+<p>Контактная информация руководящего состава техникума:</p>
+<table class="content-table" style="width:100%; border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th>Должность</th>
+      <th>ФИО</th>
+      <th>Контактный телефон</th>
+      <th>Электронная почта</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Директор техникума</td>
+      <td>Нанаев Валерий Владимирович</td>
+      <td>8-918-975-15-63<br>(приёмная директора)</td>
+      <td><a href="mailto:kktbel@mail.ru">kktbel@mail.ru</a></td>
+    </tr>
+    <tr>
+      <td>Заместитель директора по учебной работе</td>
+      <td>Бондаренко Людмила Владимировна</td>
+      <td>—</td>
+      <td><a href="mailto:kktbel@mail.ru">kktbel@mail.ru</a></td>
+    </tr>
+    <tr>
+      <td>Заместитель директора по воспитательной работе</td>
+      <td>Рыбалко Светлана Ивановна</td>
+      <td>—</td>
+      <td><a href="mailto:kktbel@mail.ru">kktbel@mail.ru</a></td>
+    </tr>
+    <tr>
+      <td>Заместитель директора по административно-хозяйственной работе (совмещение)</td>
+      <td>Нанаев Семён Валерьевич</td>
+      <td>—</td>
+      <td><a href="mailto:kktbel@mail.ru">kktbel@mail.ru</a></td>
+    </tr>
+    <tr>
+      <td>Старший заведующий отделением</td>
+      <td>Мельник Альбина Васильевна</td>
+      <td>3-32-51</td>
+      <td><a href="mailto:kkt45.kabinet@mail.ru">kkt45.kabinet@mail.ru</a></td>
+    </tr>
+    <tr>
+      <td>Заведующий отделением</td>
+      <td>Монина Кристина Романовна</td>
+      <td>3-32-51</td>
+      <td><a href="mailto:kkt45.kabinet@mail.ru">kkt45.kabinet@mail.ru</a></td>
+    </tr>
+    <tr>
+      <td>Заведующий отделением дополнительного образования и практического обучения</td>
+      <td>Журавлёва Елена Николаевна</td>
+      <td>—</td>
+      <td><a href="mailto:kktbel@mail.ru">kktbel@mail.ru</a></td>
+    </tr>
+    <tr>
+      <td>Заведующий отделением профориентационной работы</td>
+      <td>Исмаилова Оксана Сулеймановна</td>
+      <td>—</td>
+      <td><a href="mailto:kktbel@mail.ru">kktbel@mail.ru</a></td>
+    </tr>
+  </tbody>
+</table>
+"""
+            struktura.save()
+            self.stdout.write(self.style.SUCCESS('[OK] Контент «Структура и органы управления»'))
 
         # Контент "Международное сотрудничество"
         mezh, _ = Page.objects.get_or_create(slug='mezhdunarodnoe', defaults={'title': 'Международное сотрудничество'})

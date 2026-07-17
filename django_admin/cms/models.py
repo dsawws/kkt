@@ -46,15 +46,29 @@ class MenuItem(MPTTModel):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
+        # У разделов вроде «Сведения об организации» своя страница часто пустая —
+        # контент/таблицы лежат у детей. Ведём на первого активного ребёнка.
         children = self.get_children().filter(is_active=True).order_by('order', 'title')
         for child in children:
             if child.page_id:
                 return child.page.get_absolute_url()
+            if child.slug:
+                return self._url_for_slug(child.slug)
         if self.page_id:
             return self.page.get_absolute_url()
         if self.slug:
-            return f'/page/{self.slug}/'
+            return self._url_for_slug(self.slug)
         return '#'
+
+    @staticmethod
+    def _url_for_slug(slug):
+        # Лента новостей — отдельный раздел /news/, не CMS-страница
+        if slug in ('news', 'novosti', 'novosti-test'):
+            return '/news/'
+        return f'/page/{slug}/'
+
+    def get_active_children(self):
+        return self.get_children().filter(is_active=True).order_by('order', 'title')
 
 
 class Page(models.Model):
@@ -101,6 +115,8 @@ class Page(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
+        if self.slug == 'news':
+            return '/news/'
         return f'/page/{self.slug}/'
 
 

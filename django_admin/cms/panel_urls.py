@@ -13,6 +13,7 @@ urlpatterns = [
     path('pages/add/', panel_views.page_edit, name='page_add'),
     path('pages/<int:pk>/edit/', panel_views.page_edit, name='page_edit'),
     path('pages/<int:pk>/delete/', panel_views.page_delete, name='page_delete'),
+    path('organization/', panel_views.organization_hub, name='organization_hub'),
 
     # Новости
     path('news/', panel_views.news_list, name='news_list'),

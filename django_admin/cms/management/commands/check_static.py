@@ -23,6 +23,7 @@ REQUIRED = [
     'panel/admin.css',
     'panel/slugify.js',
     'panel/editor-tools.js',
+    'panel/table-editor.js',
     # Пакеты (AppDirectoriesFinder → collectstatic)
     'ckeditor/ckeditor/ckeditor.js',
     'admin/css/base.css',

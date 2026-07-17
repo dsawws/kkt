@@ -1,0 +1,63 @@
+{% extends 'panel/base.html' %}
+{% load static %}
+
+{% block topbar_actions %}
+{% if preview_url %}
+<a href="{{ preview_url }}" target="_blank" class="btn btn-secondary"><i class="fas fa-eye"></i> На сайте</a>
+{% endif %}
+<a href="{{ back_url }}" class="btn btn-secondary">← Назад</a>
+{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data" id="document-form">
+    {% csrf_token %}
+    {% if return_page %}<input type="hidden" name="return_page" value="{{ return_page }}">{% endif %}
+
+    {% if form.non_field_errors %}
+    <div class="form-errors">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <div class="meta-boxes">
+        <div>
+            <div class="wp-card">
+                <div class="wp-card-header"><h2>Документ</h2></div>
+                <div class="wp-card-body">
+                    <p class="form-help" style="margin-top:0;">
+                        Выберите <strong>страницу</strong>, на которой документ должен отображаться.
+                        Загрузите <strong>файл</strong> (PDF и др.) или укажите внешнюю ссылку.
+                        Файл сохраняется в <code>media/documents/</code> и на проде открывается как
+                        <code>/media/documents/…</code>.
+                    </p>
+                    {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+                        {{ field }}
+                        {% if field.help_text %}<div class="form-help">{{ field.help_text }}</div>{% endif %}
+                        {% if field.errors %}<div class="form-errors">{{ field.errors }}</div>{% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="meta-box">
+                <div class="meta-box-title">Публикация</div>
+                <div class="meta-box-body">
+                    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:8px;">
+                        <i class="fas fa-save"></i> Сохранить
+                    </button>
+                    <a href="{{ back_url }}" class="btn btn-secondary" style="width:100%;justify-content:center;">Отмена</a>
+                </div>
+            </div>
+            <div class="meta-box">
+                <div class="meta-box-title">Подсказка</div>
+                <div class="meta-box-body" style="font-size:13px;color:#646970;">
+                    <p style="margin:0 0 8px;">После сохранения откройте страницу на сайте и обновите её (Ctrl+F5).</p>
+                    <p style="margin:0;">Если файла нет в списке — проверьте поле «Страница» и флаг «Активен».</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

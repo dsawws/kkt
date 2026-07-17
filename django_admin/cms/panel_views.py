@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -145,9 +145,18 @@ def page_edit(request, pk=None):
         form = PageForm(instance=page)
         if page:
             block_formset = ContentBlockFormSet(instance=page)
+        else:
+            parent_id = request.GET.get('parent')
+            if parent_id:
+                form.fields['parent'].initial = parent_id
 
     tables = ContentTable.objects.order_by('title')
     documents = Document.objects.filter(is_active=True).select_related('page').order_by('title')[:200]
+    page_docs = []
+    if page:
+        page_docs = list(
+            Document.objects.filter(page=page).order_by('category', 'order', 'title')
+        )
 
     return render(request, 'panel/page_form.html', {
         'form': form,
@@ -155,7 +164,10 @@ def page_edit(request, pk=None):
         'block_formset': block_formset,
         'tables': tables,
         'documents': documents,
-        'active_menu': 'pages',
+        'page_docs': page_docs,
+        'active_menu': 'organization' if page and (
+            page.slug == 'basic-info' or (page.parent and page.parent.slug == 'basic-info')
+        ) else 'pages',
         'title': 'Редактировать страницу' if page else 'Добавить страницу',
     })
 
@@ -167,6 +179,83 @@ def page_delete(request, pk):
     page.delete()
     messages.success(request, f'Страница «{page.title}» удалена')
     return redirect('panel:page_list')
+
+
+@staff_required
+def organization_hub(request):
+    """Единая панель раздела «Сведения об организации»: все подстраницы из админки."""
+    root = Page.objects.filter(slug='basic-info').first()
+    if not root:
+        root = Page.objects.create(
+            title='Сведения об организации',
+            slug='basic-info',
+            is_published=True,
+            show_in_menu=True,
+            order=1,
+        )
+        sync_page_to_menu(root)
+
+    # Гарантируем дерево подстраниц (контент не затираем)
+    expected = [
+        ('osnovnye-svedeniya', 'Основные сведения', 1),
+        ('struktura', 'Структура и органы управления', 2),
+        ('dokumenty', 'Документы', 3),
+        ('obrazovanie', 'Образование', 4),
+        ('obrazovatelnye-standarty', 'Образовательные стандарты', 5),
+        ('rukovodstvo', 'Руководство. Педагогический (научно-педагогический) состав', 6),
+        ('pedagogicheskiy-sostav', 'Педагогический состав', 7),
+        ('materialno-tekhnicheskoe', 'Материально-техническое обеспечение', 8),
+        ('platnye-uslugi', 'Платные образовательные услуги', 9),
+        ('finansy', 'Финансово-хозяйственная деятельность', 10),
+        ('vakantnye-mesta', 'Вакантные места для приёма', 11),
+        ('stipendii', 'Стипендии и меры поддержки', 12),
+        ('mezhdunarodnoe', 'Международное сотрудничество', 13),
+        ('pitanie', 'Организация питания', 14),
+    ]
+    for slug, title, order in expected:
+        page, created = Page.objects.get_or_create(
+            slug=slug,
+            defaults={
+                'title': title,
+                'parent': root,
+                'is_published': True,
+                'order': order,
+            },
+        )
+        changed = False
+        if page.parent_id != root.id:
+            page.parent = root
+            changed = True
+        if page.order != order:
+            page.order = order
+            changed = True
+        if changed:
+            page.save(update_fields=['parent', 'order'])
+        sync_page_to_menu(page)
+
+    sync_page_to_menu(root)
+
+    children = (
+        Page.objects.filter(parent=root)
+        .annotate(docs_count=Count('documents', filter=Q(documents__is_active=True)))
+        .order_by('order', 'title')
+    )
+    rows = []
+    for p in children:
+        has_html = bool((p.content or '').strip())
+        rows.append({
+            'page': p,
+            'has_content': has_html,
+            'docs_count': p.docs_count,
+            'status': 'ok' if has_html or p.docs_count else 'empty',
+        })
+
+    return render(request, 'panel/organization_hub.html', {
+        'root': root,
+        'rows': rows,
+        'active_menu': 'organization',
+        'title': 'Сведения об организации',
+    })
 
 
 # ── Новости ───────────────────────────────────────────────────────────
@@ -245,26 +334,33 @@ def document_list(request):
 @staff_required
 def document_edit(request, pk=None):
     obj = get_object_or_404(Document, pk=pk) if pk else None
-    page_id = request.GET.get('page') or request.POST.get('page') or request.POST.get('return_page')
+    # Только явный возврат на страницу (?page= / return_page), не поле формы page
+    return_page = request.GET.get('page') or request.POST.get('return_page')
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES, instance=obj)
         if form.is_valid():
-            doc = form.save()
+            form.save()
             messages.success(request, 'Документ сохранён')
-            if page_id:
-                return redirect('panel:page_edit', pk=page_id)
+            if return_page:
+                return redirect('panel:page_edit', pk=return_page)
             return redirect('panel:document_list')
     else:
         form = DocumentForm(instance=obj)
-        if not obj and page_id:
-            form.initial['page'] = page_id
-    back_url = reverse('panel:page_edit', kwargs={'pk': page_id}) if page_id else reverse('panel:document_list')
-    return render(request, 'panel/object_form.html', {
+        if not obj and return_page:
+            form.fields['page'].initial = return_page
+    back_url = (
+        reverse('panel:page_edit', kwargs={'pk': return_page})
+        if return_page
+        else reverse('panel:document_list')
+    )
+    return render(request, 'panel/document_form.html', {
         'form': form,
         'object': obj,
+        'return_page': return_page or '',
         'active_menu': 'documents',
         'title': 'Редактировать документ' if obj else 'Добавить документ',
         'back_url': back_url,
+        'preview_url': obj.page.get_absolute_url() if obj and obj.page_id else None,
     })
 
 
@@ -678,16 +774,9 @@ def program_edit(request, pk=None):
         formset = AdmissionYearFormSet(request.POST, instance=program) if program else None
 
         if form.is_valid():
-            is_new = program is None
             program = form.save()
-
-            if is_new:
-                # Formset "Годы поступления" на странице создания не рендерился
-                # (object ещё не было), поэтому в POST нет его management-данных —
-                # валидировать его сейчас нельзя. Просто уходим на edit, где он появится.
-                messages.success(request, 'Программа создана')
-                return redirect('panel:program_edit', pk=program.pk)
-
+            if not pk:
+                formset = AdmissionYearFormSet(request.POST, instance=program)
             if formset and _handle_formset(formset, request):
                 messages.success(request, 'Программа сохранена')
                 return redirect('panel:program_edit', pk=program.pk)
