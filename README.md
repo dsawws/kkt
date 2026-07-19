@@ -291,7 +291,7 @@ py manage.py check_static
 
 Секреты и первичная настройка сервера: [`deploy/README.md`](deploy/README.md) (раздел CI/CD).  
 **Подробная пошаговая инструкция:** [`deploy/CI-CD.md`](deploy/CI-CD.md).  
-Пример env: [`.env.example`](.env.example), на сервере — [`deploy/kktbel.env.example`](deploy/kktbel.env.example) → `/etc/kktbel.env`.
+Пример env: [`.env.example`](.env.example), на сервере — [`deploy/kktbel.env.example`](deploy/kktbel.env.example) → **`deploy/kktbel.env`** (в `.gitignore`, не `/etc`).
 
 Деплой: **Actions → Deploy → Run workflow** (ветка по умолчанию `main`).
 
@@ -317,11 +317,13 @@ export DJANGO_DEBUG=0
 bash ../deploy/collectstatic.sh   # collectstatic + проверка
 ```
 
-### Nginx
+### Nginx (порт 8042 → бэкенд 8041)
 
 Готовый конфиг в репозитории:
 
 [`deploy/nginx-new.kktbel.ru.conf`](deploy/nginx-new.kktbel.ru.conf)
+
+Слушает **HTTP :8042**, проксирует динамику на Gunicorn **:8041**. TLS обычно снаружи.
 
 ```bash
 sudo cp deploy/nginx-new.kktbel.ru.conf /etc/nginx/sites-available/new.kktbel.ru
@@ -331,8 +333,8 @@ sudo nginx -t && sudo systemctl reload nginx
 
 Суть конфига (пути на сервере `/var/www/html/`):
 
-| URL | Диск |
-|-----|------|
+| URL | Диск / куда |
+|-----|-------------|
 | `/static/` | `django_admin/staticfiles/` (после collectstatic) |
 | `/media/` | `django_admin/media/` |
 | `/uploads/` | `uploads/` (legacy) |
@@ -340,23 +342,20 @@ sudo nginx -t && sudo systemctl reload nginx
 
 **Не добавляйте** отдельные `location` для ckeditor/mptt/admin/panel — они уже внутри `staticfiles/`.
 
-### Gunicorn (порт 8041)
+### Gunicorn (порт 8041) + systemd
+
+Юнит: [`deploy/kktbel.service`](deploy/kktbel.service) — venv `/var/www/html/django_admin/venv`, env из **`/var/www/html/deploy/kktbel.env`**.
 
 ```bash
+cp deploy/kktbel.env.example deploy/kktbel.env   # один раз, задать SECRET_KEY
 sudo cp deploy/kktbel.service /etc/systemd/system/kktbel.service
-# задайте DJANGO_SECRET_KEY в unit-файле
 sudo systemctl daemon-reload
 sudo systemctl enable --now kktbel
 ```
 
 ### Переменные окружения
 
-```bash
-export DJANGO_DEBUG=0
-export DJANGO_SECRET_KEY='случайная-длинная-строка'
-export DJANGO_ALLOWED_HOSTS=new.kktbel.ru,kktbel.ru,www.kktbel.ru
-export DJANGO_CSRF_TRUSTED_ORIGINS=https://new.kktbel.ru,http://new.kktbel.ru
-```
+Файл на сервере: `deploy/kktbel.env` (шаблон `deploy/kktbel.env.example`). Не коммитить.
 
 ### Проверка static после деплоя
 

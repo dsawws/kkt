@@ -7,7 +7,7 @@
 # Требования:
 #   - каталог — git clone этого репозитория
 #   - django_admin/venv уже создан
-#   - /etc/kktbel.env с DJANGO_SECRET_KEY (для DEBUG=0)
+#   - deploy/kktbel.env с DJANGO_SECRET_KEY (для DEBUG=0; файл в .gitignore)
 #   - у пользователя есть право: sudo systemctl restart kktbel
 set -euo pipefail
 
@@ -15,6 +15,7 @@ REF="${1:-main}"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DJANGO_DIR="${DJANGO_DIR:-$ROOT/django_admin}"
 VENV="${VENV:-$DJANGO_DIR/venv}"
+ENV_FILE="${ENV_FILE:-$ROOT/deploy/kktbel.env}"
 SITE_URL="${SITE_URL:-https://new.kktbel.ru}"
 
 cd "$ROOT"
@@ -43,12 +44,14 @@ if [[ -f db.sqlite3 ]]; then
   cp -a db.sqlite3 "$BAK"
 fi
 
-# Подтянуть env с сервера, если есть (для migrate при DEBUG=0)
-if [[ -f /etc/kktbel.env ]]; then
+# Подтянуть env (для migrate при DEBUG=0)
+if [[ -f "$ENV_FILE" ]]; then
   set -a
   # shellcheck disable=SC1091
-  source /etc/kktbel.env
+  source "$ENV_FILE"
   set +a
+else
+  echo "WARN: нет $ENV_FILE — скопируйте из kktbel.env.example" >&2
 fi
 export DJANGO_DEBUG="${DJANGO_DEBUG:-0}"
 export DJANGO_SETTINGS_MODULE="${DJANGO_SETTINGS_MODULE:-techcollege_admin.settings}"

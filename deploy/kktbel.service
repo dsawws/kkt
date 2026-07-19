@@ -5,27 +5,10 @@ After=network.target
 [Service]
 User=www-data
 Group=www-data
-
 WorkingDirectory=/var/www/html/django_admin
-
+# Бэкенд из venv; все переменные окружения — в deploy/kktbel.env (не в Git)
 Environment=PATH=/var/www/html/django_admin/venv/bin
-# Секреты и хосты — в /etc/kktbel.env (см. deploy/kktbel.env.example)
-EnvironmentFile=-/etc/kktbel.env
-Environment=DJANGO_DEBUG=0
-<<<<<<< HEAD
-Environment=DJANGO_ALLOWED_HOSTS=new.kktbel.ru,kktbel.ru,www.kktbel.ru,127.0.0.1
-Environment=DJANGO_CSRF_TRUSTED_ORIGINS=https://new.kktbel.ru,http://new.kktbel.ru
-
 EnvironmentFile=/var/www/html/deploy/kktbel.env
-
-=======
-Environment=DJANGO_ALLOWED_HOSTS=new.kktbel.ru,kktbel.ru,www.kktbel.ru
-Environment=DJANGO_CSRF_TRUSTED_ORIGINS=https://new.kktbel.ru,https://kktbel.ru,https://www.kktbel.ru
-Environment=DJANGO_SECURE_SSL_REDIRECT=1
-Environment=DJANGO_SESSION_COOKIE_SECURE=1
-Environment=DJANGO_CSRF_COOKIE_SECURE=1
-Environment=DJANGO_SECURE_HSTS_SECONDS=31536000
->>>>>>> b94d61e (Update CMS, deployment and CI/CD configuration)
 ExecStart=/var/www/html/django_admin/venv/bin/gunicorn \
     techcollege_admin.wsgi:application \
     --bind 127.0.0.1:8041 \
@@ -33,7 +16,6 @@ ExecStart=/var/www/html/django_admin/venv/bin/gunicorn \
     --timeout 120 \
     --access-logfile - \
     --error-logfile -
-
 Restart=always
 RestartSec=3
 

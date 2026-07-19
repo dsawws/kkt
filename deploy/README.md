@@ -1,4 +1,16 @@
-# Деплой static + nginx для new.kktbel.ru
+# Деплой: Nginx :8042 → Gunicorn :8041 (new.kktbel.ru)
+
+## Конечная схема (TSO)
+
+| Компонент | Порт / путь | Файл |
+|-----------|-------------|------|
+| Nginx | HTTP **8042** → бэкенд | `/var/www/html/deploy/nginx-new.kktbel.ru.conf` |
+| Gunicorn (бэкенд) | HTTP **8041** | systemd `kktbel` из `/var/www/html/deploy/kktbel.service` |
+| Venv | — | `/var/www/html/django_admin/venv` |
+| Переменные окружения | — | `/var/www/html/deploy/kktbel.env` (**в .gitignore**) |
+| Шаблон env | — | `/var/www/html/deploy/kktbel.env.example` (в Git) |
+
+TLS обычно терминируется **перед** nginx; сам nginx на сервере приложения слушает HTTP :8042.
 
 ## Модель статики Django
 
@@ -12,7 +24,8 @@
 
 ## Первичная установка на сервере
 
-1. Клонировать репозиторий в `/var/www/html/` (должен быть **git clone**, не просто zip).
+1. Клонировать репозиторий в `/var/www/html/` (**git clone**, не zip).
+
 2. Venv + зависимости:
 
 ```bash
@@ -21,48 +34,54 @@ python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-3. Секреты:
+3. Секреты (файл рядом с шаблоном, не в `/etc`):
 
 ```bash
-sudo cp /var/www/html/deploy/kktbel.env.example /etc/kktbel.env
-sudo chmod 600 /etc/kktbel.env
-sudo nano /etc/kktbel.env   # задать DJANGO_SECRET_KEY
+cp /var/www/html/deploy/kktbel.env.example /var/www/html/deploy/kktbel.env
+chmod 640 /var/www/html/deploy/kktbel.env
+chown root:www-data /var/www/html/deploy/kktbel.env
+nano /var/www/html/deploy/kktbel.env   # задать DJANGO_SECRET_KEY
 ```
 
 4. Миграции и статика:
 
 ```bash
-set -a && source /etc/kktbel.env && set +a
-export DJANGO_DEBUG=0
+set -a && source /var/www/html/deploy/kktbel.env && set +a
+cd /var/www/html/django_admin
+source venv/bin/activate
 python manage.py migrate
 bash /var/www/html/deploy/collectstatic.sh
 python manage.py createsuperuser   # один раз
 ```
 
-5. Systemd:
+5. Systemd (юнит из репозитория → `/etc/systemd/system/`):
 
 ```bash
 sudo cp /var/www/html/deploy/kktbel.service /etc/systemd/system/kktbel.service
 sudo systemctl daemon-reload
 sudo systemctl enable --now kktbel
+sudo systemctl status kktbel
 ```
 
-6. Nginx:
+6. Nginx (конфиг из `deploy/`, listen **8042**):
 
 ```bash
 sudo cp /var/www/html/deploy/nginx-new.kktbel.ru.conf /etc/nginx/sites-available/new.kktbel.ru
+# или include /var/www/html/deploy/nginx-new.kktbel.ru.conf; в http {}
 sudo ln -sf /etc/nginx/sites-available/new.kktbel.ru /etc/nginx/sites-enabled/
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
-7. Права для деплоя по SSH (пример): пользователь `deploy` может писать в `/var/www/html` и перезапускать сервис:
+Проверка локально на сервере: `curl -I http://127.0.0.1:8042/` и `curl -I http://127.0.0.1:8041/` (8041 — только gunicorn).
+
+7. Права для деплоя по SSH (пример):
 
 ```bash
 # /etc/sudoers.d/kktbel-deploy
 deploy ALL=(root) NOPASSWD: /bin/systemctl restart kktbel, /bin/systemctl status kktbel
 ```
 
-Владелец кода: удобно `deploy:www-data` или ACL, чтобы gunicorn (`www-data`) читал файлы, а media писал `www-data`.
+Владелец кода: удобно `deploy:www-data`; `media/` пишет `www-data`.
 
 ---
 
@@ -72,67 +91,20 @@ deploy ALL=(root) NOPASSWD: /bin/systemctl restart kktbel, /bin/systemctl status
 bash /var/www/html/deploy/remote-update.sh main
 ```
 
-Или по шагам: `git pull` → `pip install -r requirements.txt` → backup sqlite → `migrate` → `collectstatic.sh` → `systemctl restart kktbel`.
+Скрипт читает `deploy/kktbel.env`, не трогает `media/`.
 
 ---
 
 ## CI/CD (GitHub Actions)
 
-**Полная пошаговая инструкция (рекомендуется начать с неё):**  
-[`deploy/CI-CD.md`](CI-CD.md)
+**Полная инструкция:** [`deploy/CI-CD.md`](CI-CD.md)
 
-### CI (автоматически)
-
-Файл: [`.github/workflows/ci.yml`](../.github/workflows/ci.yml)
-
-На каждый push/PR в `main` / `develop`:
-
-- `manage.py check`
-- `manage.py test cms`
-- `collectstatic` + `check_static`
-- `smoke_test.py` + `security_test.py`
-
-### Deploy (кнопка)
-
-Файл: [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml)
-
-**Actions → Deploy → Run workflow** → указать ветку/тег (по умолчанию `main`).
-
-На сервере выполняется `deploy/remote-update.sh`.
-
-#### Secrets репозитория (Settings → Secrets and variables → Actions)
-
-| Secret | Пример | Описание |
-|--------|--------|----------|
-| `DEPLOY_HOST` | `new.kktbel.ru` или IP | SSH-хост |
-| `DEPLOY_USER` | `deploy` | SSH-пользователь |
-| `DEPLOY_SSH_KEY` | `-----BEGIN OPENSSH...` | Приватный ключ (без passphrase или с ssh-agent) |
-| `DEPLOY_PORT` | `22` | Опционально |
-| `DEPLOY_PATH` | `/var/www/html` | Опционально, корень git-репозитория на сервере |
-
-#### Environment `production`
-
-В workflow указан `environment: production`. Создайте Environment в GitHub (Settings → Environments) и при желании включите required reviewers перед деплоем.
-
-#### Первый прогон
-
-1. Убедиться, что на сервере `/var/www/html` — clone того же remote, что в GitHub.
-2. Ключ `DEPLOY_SSH_KEY` добавлен в `~/.ssh/authorized_keys` пользователя `DEPLOY_USER`.
-3. Локально один раз: `bash deploy/remote-update.sh main` (проверка скрипта).
-4. В GitHub: Run workflow.
+Secrets: `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`.  
+Deploy → SSH → `remote-update.sh` (migrate, collectstatic, restart `kktbel`).
 
 ---
 
-# Проверка документов (не путать со static)
-# -----------------------------------------
-# Список документов на странице отдаёт Django (БД), не nginx и не collectstatic.
-# Файлы PDF открываются через:
-#   location /media/ → /var/www/html/django_admin/media/
-#
-# Проверки на сервере:
-#   ls /var/www/html/django_admin/media/documents/
-#   curl -I https://new.kktbel.ru/media/documents/.../файл.pdf
-#   # в панели: у документа указана нужная Страница + Активен + загружен Файл
-#
-# Если списка нет на странице — документ привязан к другой странице в панели.
-# Если список есть, а «Открыть» = 404 — нет файла в media/ или сломан location /media/.
+## Документы vs static
+
+Список документов отдаёт Django (БД). PDF открываются через `/media/` → `django_admin/media/`.  
+`collectstatic` к документам не относится.

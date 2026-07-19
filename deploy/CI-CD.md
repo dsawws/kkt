@@ -93,12 +93,15 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2.3. Секреты Django — файл `/etc/kktbel.env`
+### 2.3. Секреты Django — файл `deploy/kktbel.env`
+
+Рабочий файл **не в Git** (есть в `.gitignore`). Шаблон — `deploy/kktbel.env.example`.
 
 ```bash
-sudo cp /var/www/html/deploy/kktbel.env.example /etc/kktbel.env
-sudo chmod 600 /etc/kktbel.env
-sudo nano /etc/kktbel.env
+cp /var/www/html/deploy/kktbel.env.example /var/www/html/deploy/kktbel.env
+chmod 640 /var/www/html/deploy/kktbel.env
+chown root:www-data /var/www/html/deploy/kktbel.env
+nano /var/www/html/deploy/kktbel.env
 ```
 
 Внутри обязательно замените:
@@ -107,15 +110,19 @@ sudo nano /etc/kktbel.env
 DJANGO_SECRET_KEY=замените-на-длинную-случайную-строку
 ```
 
-на длинный случайный ключ (не коммитьте этот файл).
+на длинный случайный ключ (не коммитьте `kktbel.env`).
 
 Остальное обычно так:
 
 ```text
 DJANGO_DEBUG=0
-DJANGO_ALLOWED_HOSTS=new.kktbel.ru,kktbel.ru,www.kktbel.ru,127.0.0.1
+DJANGO_ALLOWED_HOSTS=new.kktbel.ru,kktbel.ru,www.kktbel.ru
 DJANGO_CSRF_TRUSTED_ORIGINS=https://new.kktbel.ru,https://kktbel.ru,https://www.kktbel.ru
 DJANGO_SETTINGS_MODULE=techcollege_admin.settings
+DJANGO_SECURE_SSL_REDIRECT=1
+DJANGO_SESSION_COOKIE_SECURE=1
+DJANGO_CSRF_COOKIE_SECURE=1
+DJANGO_SECURE_HSTS_SECONDS=31536000
 ```
 
 ### 2.4. Миграции, статика, админ (если ещё не делали)
@@ -123,7 +130,7 @@ DJANGO_SETTINGS_MODULE=techcollege_admin.settings
 ```bash
 cd /var/www/html/django_admin
 source venv/bin/activate
-set -a && source /etc/kktbel.env && set +a
+set -a && source /var/www/html/deploy/kktbel.env && set +a
 export DJANGO_DEBUG=0
 
 python manage.py migrate
@@ -131,7 +138,11 @@ bash /var/www/html/deploy/collectstatic.sh
 python manage.py createsuperuser   # если админа ещё нет
 ```
 
-### 2.5. systemd (gunicorn)
+### 2.5. systemd (gunicorn на :8041)
+
+Юнит в репозитории: `/var/www/html/deploy/kktbel.service`  
+Запуск из venv: `/var/www/html/django_admin/venv`  
+Все переменные — из `/var/www/html/deploy/kktbel.env`.
 
 ```bash
 sudo cp /var/www/html/deploy/kktbel.service /etc/systemd/system/kktbel.service
@@ -140,13 +151,15 @@ sudo systemctl enable --now kktbel
 sudo systemctl status kktbel
 ```
 
-В unit уже есть `EnvironmentFile=-/etc/kktbel.env`.
+В unit: `EnvironmentFile=/var/www/html/deploy/kktbel.env`, bind `127.0.0.1:8041`.
 
-### 2.6. Nginx
+### 2.6. Nginx (HTTP :8042 → бэкенд :8041)
 
-Как в `deploy/README.md`: конфиг `nginx-new.kktbel.ru.conf` → sites-available → `nginx -t` → reload.
+Конфиг: `/var/www/html/deploy/nginx-new.kktbel.ru.conf` (listen **8042**).
 
-Проверка в браузере: https://new.kktbel.ru/
+Как в `deploy/README.md`: подключить в nginx, `nginx -t`, reload.
+
+Проверка: `curl -I http://127.0.0.1:8042/` и в браузере https://new.kktbel.ru/ (через внешний TLS).
 
 ### 2.7. Пользователь для деплоя по SSH
 
@@ -281,7 +294,7 @@ CI **не меняет** сайт на сервере.
 | Deploy: Host key / ssh-keyscan | Неверный `DEPLOY_HOST` или порт; файрвол режет SSH |
 | Deploy: venv not found | На сервере нет `/var/www/html/django_admin/venv` — см. §2.2 |
 | Deploy: sudo password / denied | Нет строки в sudoers для `systemctl restart kktbel` |
-| Сайт 500 после деплоя | `DJANGO_SECRET_KEY` в `/etc/kktbel.env`; `journalctl -u kktbel -n 50` |
+| Сайт 500 после деплоя | `DJANGO_SECRET_KEY` в `deploy/kktbel.env`; `journalctl -u kktbel -n 50` |
 | Статика 404 | `bash deploy/collectstatic.sh`; nginx смотрит только на `staticfiles/` |
 | git reset на сервере «стёр» правки | На сервере нельзя править код руками без коммита — правки только через GitHub |
 
@@ -302,7 +315,7 @@ bash deploy/remote-update.sh <нужный_коммит_или_тег>
 - [ ] Код с `.github/workflows` запушен в GitHub  
 - [ ] На сервере `/var/www/html` — git clone этого репо  
 - [ ] Есть `django_admin/venv` и зависимости  
-- [ ] Есть `/etc/kktbel.env` с настоящим `DJANGO_SECRET_KEY`  
+- [ ] Есть `/var/www/html/deploy/kktbel.env` с настоящим `DJANGO_SECRET_KEY`  
 - [ ] Работают systemd `kktbel` и nginx, сайт открывается  
 - [ ] Пользователь SSH + ключ + sudo на restart  
 - [ ] Вручную один раз: `bash deploy/remote-update.sh main` по SSH  
