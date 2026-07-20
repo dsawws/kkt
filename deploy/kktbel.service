@@ -11,7 +11,7 @@ Environment=PATH=/var/www/html/django_admin/venv/bin
 EnvironmentFile=/var/www/html/deploy/kktbel.env
 ExecStart=/var/www/html/django_admin/venv/bin/gunicorn \
     techcollege_admin.wsgi:application \
-    --bind 127.0.0.1:8041 \
+    --bind 127.0.0.1:8052 \
     --workers 3 \
     --timeout 120 \
     --access-logfile - \
